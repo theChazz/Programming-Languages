@@ -1,0 +1,24 @@
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.exe.config
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.exe
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.pdb
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csprojAssemblyReference.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.frmLogin.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.frmUpdateDetails.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.Properties.Resources.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csproj.GenerateResource.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csproj.CoreCompileInputs.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.exe
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.pdb
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.btnUpdate.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.exe.config
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.exe
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\bin\Debug\INF164 Practical 5 Part 2.pdb
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csprojAssemblyReference.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.frmLogin.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.frmUpdateDetails.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.Properties.Resources.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csproj.GenerateResource.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.csproj.CoreCompileInputs.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.exe
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164 Practical 5 Part 2.pdb
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 2\INF164 Practical 5 Part 2\obj\Debug\INF164_Practical_5_Part_2.frmCellularExpress.resources
