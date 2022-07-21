@@ -14,6 +14,9 @@ namespace WebAPI1._02
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            // New code from https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

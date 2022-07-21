@@ -10,9 +10,13 @@ using WebAPI1._02.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Web.Http.Cors;
 
 namespace WebAPI1._02.Controllers
 {
+    // Source: https://docs.microsoft.com/en-us/aspnet/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     public class EmployeesController : ApiController
     {
         EmployeeModel eM = new EmployeeModel();
