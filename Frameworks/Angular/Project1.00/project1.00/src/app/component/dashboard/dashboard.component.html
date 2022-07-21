@@ -1,0 +1,122 @@
+
+<div class="container-fluid">
+
+    <!--  Nav Bar  -->
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Employee page</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              
+              
+              
+            </ul>
+            <!-- Call up Modal Add Employee-->
+            <button class="btn btn-outline-success" type="submit" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">Add Employee</button>
+            
+          </div>
+        </div>
+      </nav>
+
+    <!-- Table Get Employees -->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Employee Email</th>
+          <th scope="col">Salary (Rands)</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employeeList" > 
+          <th scope="row">{{employee.EmployeeID}}</th>
+          <td>{{employee.Email}}</td>
+          <td>{{employee.Salary}}</td>
+          <td>
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editEmployeeModal"(click)="setEmployeeDetails(employee)">Edit</button>
+            <button type="button" class="btn btn-outline-danger me-2" (click)="deleteSelectedEmployee(employee)">Delete employee</button>
+        </td>
+        </tr>
+        
+      </tbody>
+    </table>
+
+    <!-- Modal Add Employee -->
+    <div class="modal fade" tabindex="-1" id="addEmployeeModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal Add Employee</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <!-- Form Add Employee -->
+              <form [formGroup]="employeeDetails">
+
+                  <div class="mb-3">
+                    <label  class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="employeeEmail" formControlName="employeeEmail">
+                    </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Salary</label>
+                  <input type="text" class="form-control" id="employeeSalary" formControlName="employeeSalary">
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" (click)="addNewEmployee()" data-bs-dismiss="modal" >Add employee</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Employee -->
+    <div class="modal fade" tabindex="-1" id="editEmployeeModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal Edit Employee</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Form Edit Employee -->
+            <form [formGroup]="employeeDetails">
+
+              <!-- Its best practice to hide the ID when editing a db record -->
+              <div class="mb-3">
+                <label  class="form-label">Employee ID</label>
+                <input type="email" class="form-control" id="employeeID" formControlName="employeeID">
+              </div>
+
+              <div class="mb-3">
+                <label  class="form-label">Email address</label>
+                <input type="email" class="form-control" id="employeeEmail" formControlName="employeeEmail">
+                </div>
+
+              <div class="mb-3">
+                <label class="form-label">Salary</label>
+                <input type="text" class="form-control" id="employeeSalary" formControlName="employeeSalary">
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="updateSelectedEmployee()" data-bs-dismiss="modal" >Edit employee</button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+  </div>
+
+</div> 
