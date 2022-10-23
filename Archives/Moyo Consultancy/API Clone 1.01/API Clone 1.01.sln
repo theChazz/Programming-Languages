@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32510.428
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API Clone 1.01", "API Clone 1.01\API Clone 1.01.csproj", "{EE3904A5-CDEB-4256-9A91-66B9980DA252}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE3904A5-CDEB-4256-9A91-66B9980DA252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3904A5-CDEB-4256-9A91-66B9980DA252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3904A5-CDEB-4256-9A91-66B9980DA252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3904A5-CDEB-4256-9A91-66B9980DA252}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15AEBE18-7493-4864-BE63-36B314B076FC}
+	EndGlobalSection
+EndGlobal

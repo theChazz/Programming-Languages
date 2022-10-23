@@ -35,7 +35,7 @@ namespace WebAPI1._02.Controllers
             List<EmployeeModel> listOfEmployees = new List<EmployeeModel>();
 
             if (dataTable.Rows.Count > 0)
-            {
+            { 
                 for (int i = 0; i < dataTable.Rows.Count; i++)
                 {
                     EmployeeModel emp = new EmployeeModel();

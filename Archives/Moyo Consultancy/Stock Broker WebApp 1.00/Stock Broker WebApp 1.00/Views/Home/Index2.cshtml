@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h2>Johanesburg Stock Indicies</h2>
+
+<div class="card-body">
+    <div class="table-responsive">
+        <table id="table">
+        </table>    
+    </div>
+</div>
+
+<table class="table table-striped">
+    <tr class="bg-info">
+        <th>#</th>
+        <th>Name</th>
+        <th>RP</th>
+        <th>Move</th>
+        <th>%Move</th>
+    </tr>
+
+    <tbody id="myTable">
+    </tbody>
+</table>
+
+<script>
+
+    var string = "";
+
+    fetch('https://localhost:44382/api/JseIndices/GetResult').then((data) => {
+        console.log(data);
+        return data.json();
+    }).then((objData) => {
+        console.log(Object.keys(objData).length);
+
+        for (var i = 0; i < Object.keys(objData).length; i++)
+        {
+            string += `<tr> 
+                            <th> ${i} </td>
+                            <th> ${objData[i].Name} </td>
+                            <th> ${objData[i].RP} </td>
+                            <th> ${objData[i].MoveValue} </td>
+                            <th> ${objData[i].MovePercentage} </td>
+                        </tr>`;
+        }
+        document.getElementById('myTable').innerHTML = string;
+    });
+
+    
+    
+
+</script>
+

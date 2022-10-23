@@ -46,7 +46,7 @@ namespace WebAPI1._03.Controllers
 
         // Read
         [Route("api/Employee/GetEmployees")]
-        [HttpPost]
+        [HttpGet]
         public ResponseModel GetEmployees()
         {
             ResponseModel responseModel = new ResponseModel();
