@@ -5,67 +5,28 @@
 
 <h2>Johannesburg Stock Indices</h2>
 <p id="indicator"></p>
-<div class="card-body">
-    <div class="table-responsive">
-        <table id="table">
-        </table>
-    </div>
-</div>
-
-<table class="table table-striped">
-    <tr class="bg-info">
-        <th>#</th>
-        <th>Name</th>
-        <th>RP (R)</th>
-        <th>Move (R)</th>
-        <th>%Move</th>
-    </tr>
-
+<table id="example" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>RP (R)</th>
+            <th>Move (R)</th>
+            <th>%Move</th>
+        </tr>
+    </thead>
     <tbody id="myTable">
     </tbody>
+    <tfoot>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>RP (R)</th>
+            <th>Move (R)</th>
+            <th>%Move</th>
+        </tr>
+    </tfoot>
 </table>
 
-<script>
 
-    // FUNCTION: Call API & Render Results
-    function GetJseValues()
-    {
-        var string = "";
 
-        fetch('https://localhost:44382/api/JseIndices/GetResult').then((data) => {
-            console.log(data);
-            return data.json();
-        }).then((objData) => {
-            console.log(Object.keys(objData).length);
-
-            for (var i = 0; i < Object.keys(objData).length; i++) {
-                
-                string += `<tr>
-                            <th> ${i + 1} </td>
-                            <th> ${objData[i].Name} </td>
-                            <th> ${objData[i].RP} </td>
-                            <th> ${objData[i].MoveValue} </td>
-                            <th> ${objData[i].MovePercentage} </td>
-                        </tr>`;
-            }
-            document.getElementById('myTable').innerHTML = string;
-            document.getElementById("indicator").innerHTML = `<single-led-lamp led-on-color="#ff0000" led-intensity=1></single-led-lamp>`
-                + "Note : data is up-to-date";
-            document.getElementById("indicator").style.color = "Black";
-        }).catch((error) => {
-            console.error(error);
-            document.getElementById("indicator").innerHTML = "Error : data is outdated";
-            document.getElementById("indicator").style.color = "Red";
-        });
-        //alert("Data has been refreshed");
-    }
-
-    // Trigger Functions on Page Load
-    GetJseValues();
-
-    // Auto Trigger Function set to 30second at the moment
-    setInterval(GetJseValues, 3000);
-
-    
-
-</script>

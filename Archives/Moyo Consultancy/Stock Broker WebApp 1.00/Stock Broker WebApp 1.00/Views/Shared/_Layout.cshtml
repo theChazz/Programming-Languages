@@ -6,6 +6,13 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <script>
+        .green {
+            color: green;
+        }
+    </script>
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -33,8 +40,81 @@
         </footer>
     </div>
 
+
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script>
+
+        // FUNCTION: Call API & Render Results
+        function GetJseValues() {
+            var string = "";
+
+            fetch('https://localhost:44382/api/JseIndices/GetResult').then((data) => {
+                console.log(data);
+                return data.json();
+            }).then((objData) => {
+                console.log(Object.keys(objData).length);
+
+                for (var i = 0; i < Object.keys(objData).length; i++) {
+                    
+                    string += `<tr>
+                                <th> ${i + 1} </td>
+                                <th> ${objData[i].Name} </td>
+                                <th> ${objData[i].RP} </td>`;
+
+                    if (objData[i].MoveValue > 0) {
+                        string += "<th style='color:green;'>" + objData[i].MoveValue + "</td> ";
+                        string += "<th style='color:green;'>" + objData[i].MovePercentage + "</td> ";
+                    }
+                    else if (objData[i].MoveValue == 0) {
+                        string += "<th>" + objData[i].MoveValue + "</td> ";
+                        string += "<th>" + objData[i].MovePercentage + "</td> ";
+                    }
+                    else {
+                        string += "<th style='color:red;'>" + objData[i].MoveValue + "</td> ";
+                        string += "<th style='color:red;'>" + objData[i].MovePercentage + "</td> ";
+                    }
+                }
+                document.getElementById('myTable').innerHTML = string;
+                document.getElementById("indicator").innerHTML = "Note : Data is Up-To-Date";
+                document.getElementById("indicator").style.color = "Black";
+
+                // Add Data Tables and re-initialize it
+                if ($.fn.dataTable.isDataTable('#example')) {
+                    table = $('#example').DataTable();
+                }
+                else {
+                    table = $('#example').DataTable({
+                        paging: false
+                    });
+                }
+
+            }).catch((error) => {
+                console.error(error);
+                document.getElementById("indicator").innerHTML = "Error : `Data is outdated";
+                document.getElementById("indicator").style.color = "Red";
+            });
+
+        }
+
+        $(document).ready(function () {
+            // executes when HTML-Document is loaded and DOM is ready
+            console.log("document is ready");
+
+            // Trigger Functions on Page Load
+            GetJseValues();
+
+            // Auto Trigger Function set to 60second at the moment
+            setInterval(GetJseValues, 60000);
+        });
+
+    </script>
+    <script>
+
+    </script>
 </body>
 </html>

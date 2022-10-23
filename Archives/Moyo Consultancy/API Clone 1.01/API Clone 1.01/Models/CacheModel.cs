@@ -12,10 +12,8 @@ namespace API_Clone_1._01.Models
         private static Cache _cache = null;
         private static Cache cache
         {
-
             get
             {
-
                 if (_cache == null)
                     _cache = (System.Web.HttpContext.Current == null) ? System.Web.HttpRuntime.Cache : System.Web.HttpContext.Current.Cache;
 
@@ -25,8 +23,6 @@ namespace API_Clone_1._01.Models
             {
                 _cache = value;
             }
-
-
         }
 
         public static object Get(string key)
@@ -45,8 +41,5 @@ namespace API_Clone_1._01.Models
         {
             cache.Remove(key);
         }
-
-
-
     }
 }
