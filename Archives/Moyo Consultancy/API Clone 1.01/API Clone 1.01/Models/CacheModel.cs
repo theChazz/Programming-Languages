@@ -32,9 +32,9 @@ namespace API_Clone_1._01.Models
 
         public static void Add(string key, object value)
         {
-            //CacheItemPriority priority = CacheItemPriority.NotRemovable;
-            //var expiration = TimeSpan.FromMinutes(10);
-            cache.Insert(key, value);
+            CacheItemPriority priority = CacheItemPriority.NotRemovable;
+            var expiration = TimeSpan.FromMinutes(5);
+            cache.Insert(key, value, null, DateTime.MaxValue, expiration, priority, null);
         }
 
         public static void Remove(string key)

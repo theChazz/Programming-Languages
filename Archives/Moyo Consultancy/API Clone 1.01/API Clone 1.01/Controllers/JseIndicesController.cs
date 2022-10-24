@@ -1,4 +1,5 @@
 ﻿using API_Clone_1._00.Models;
+using API_Clone_1._01.Models;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using System;
@@ -23,6 +24,65 @@ namespace API_Clone_1._01.Controllers
         List<JseIndices> list = new List<JseIndices>();
         JseIndices jseIndices;
 
+        [HttpGet]
+        [Route("api/JseIndices/GetResult")]
+        public List<JseIndices> GetResult()
+        {
+            // Back End Caching Applied Set to 5min
+
+            var cacheResult = CacheModel.Get("Key001");
+
+            if (cacheResult == null)
+            {
+                var html = @"https://www.sharenet.co.za/v3/indices.php";
+
+                HtmlWeb web = new HtmlWeb();
+
+                var htmlDoc = web.Load(html);
+
+                var nodes = htmlDoc.DocumentNode.SelectNodes("//table/tbody/tr");
+
+                int rowCount = nodes.Count; // 93 rows in table NOTE: calling this API in repeated succession leads to it crushing MAYBE a try-catch would be a good idea
+
+
+                for (int i = 0; i < rowCount; i++)
+                {
+                    if (nodes[i].ChildNodes.Count == 4)
+                    {
+                        jseIndices = new JseIndices();
+                        jseIndices.Name = nodes[i].ChildNodes[0].InnerText.ToString();
+                        jseIndices.RP = Convert.ToDouble(nodes[i].ChildNodes[1].InnerText.ToString());
+                        jseIndices.MoveValue = Convert.ToDouble(nodes[i].ChildNodes[2].InnerText.ToString());
+                        jseIndices.MovePercentage = nodes[i].ChildNodes[3].InnerText.ToString();
+                        list.Add(jseIndices);
+                    }
+                    else if (nodes[i].ChildNodes.Count == 1)
+                    {
+                        jseIndices = new JseIndices();
+                        jseIndices.Name = nodes[i].ChildNodes[0].InnerText.ToString();
+                        jseIndices.RP = 0.00;
+                        jseIndices.MoveValue = 0.00;
+                        jseIndices.MovePercentage = "0.00%";
+                        list.Add(jseIndices);
+                    }
+                    else
+                    {
+                        // do nothing
+                    }
+                }
+
+                // Save list to cache
+                CacheModel.Add("Key001", list);
+                cacheResult = CacheModel.Get("Key001");
+            }
+            else
+            {
+                cacheResult = CacheModel.Get("Key001");
+            }
+            
+            return (List<JseIndices>)cacheResult;
+        }
+
         // GET: api/JseIndices
         public IEnumerable<string> Get()
         {
@@ -36,7 +96,7 @@ namespace API_Clone_1._01.Controllers
 
             string[] arr = new string[400];
 
-            int rowCount = nodes.Count; // 93 rows in table
+            int rowCount = nodes.Count; // 93 rows in table NOTE: calling this API in repeated succession leads to it crushing MAYBE a try-catch would be a good idea
             int colCount = 0;
 
             for (int i = 0; i < rowCount; i++)
@@ -63,7 +123,7 @@ namespace API_Clone_1._01.Controllers
 
             var nodes = htmlDoc.DocumentNode.SelectNodes("//table/tbody/tr");
 
-            int rowCount = nodes.Count; // 93 rows in table
+            int rowCount = nodes.Count; // 93 rows in table NOTE: calling this API in repeated succession leads to it crushing MAYBE a try-catch would be a good idea
 
 
 
@@ -94,51 +154,6 @@ namespace API_Clone_1._01.Controllers
             }
             return JsonConvert.SerializeObject(JseIndicesList);
         }
-
-        [HttpGet]
-        [Route("api/JseIndices/GetResult")]
-        public List<JseIndices> GetResult()
-        {
-            var html = @"https://www.sharenet.co.za/v3/indices.php";
-
-            HtmlWeb web = new HtmlWeb();
-
-            var htmlDoc = web.Load(html);
-
-            var nodes = htmlDoc.DocumentNode.SelectNodes("//table/tbody/tr");
-
-            int rowCount = nodes.Count; // 93 rows in table
- 
-
-            for (int i = 0; i < rowCount; i++)
-            {
-                if (nodes[i].ChildNodes.Count == 4)
-                {
-                    jseIndices = new JseIndices();
-                    jseIndices.Name = nodes[i].ChildNodes[0].InnerText.ToString();
-                    jseIndices.RP = Convert.ToDouble(nodes[i].ChildNodes[1].InnerText.ToString());
-                    jseIndices.MoveValue = Convert.ToDouble(nodes[i].ChildNodes[2].InnerText.ToString());
-                    jseIndices.MovePercentage = nodes[i].ChildNodes[3].InnerText.ToString();
-                    list.Add(jseIndices);
-                }
-                else if (nodes[i].ChildNodes.Count == 1)
-                {
-                    jseIndices = new JseIndices();
-                    jseIndices.Name = nodes[i].ChildNodes[0].InnerText.ToString();
-                    jseIndices.RP = 0.00;
-                    jseIndices.MoveValue = 0.00;
-                    jseIndices.MovePercentage = "0.00%";
-                    list.Add(jseIndices);
-                }
-                else
-                {
-                    // do nothing
-                }
-            }
-            return list;
-        }
-    
-
 
         // GET: api/JseIndices/5
         public string Get(int id)
