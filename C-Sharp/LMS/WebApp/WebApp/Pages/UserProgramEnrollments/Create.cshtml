@@ -1,0 +1,159 @@
+@page
+@model WebApp.Pages.UserProgramEnrollments.CreateModel
+@{
+    ViewData["Title"] = "Create User Program Enrollment";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Create New User Program Enrollment</h3>
+                </div>
+                <div class="card-body">
+                    <form id="createUserProgramEnrollmentForm">
+                        <div class="mb-3">
+                            <label for="userId" class="form-label">User</label>
+                            <select class="form-select" id="userId" name="userId" required>
+                                <option value="">-- Select User --</option>
+                                <!-- Users will be loaded here -->
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="programId" class="form-label">Program</label>
+                            <select class="form-select" id="programId" name="programId" required>
+                                <option value="">-- Select Program --</option>
+                                <!-- Programs will be loaded here -->
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Completed">Completed</option>
+                                <option value="Withdrawn">Withdrawn</option>
+                                <!-- Add other statuses like Pending, Deferred, etc. if needed -->
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="enrolledAt" class="form-label">Enrolled At (Current Time)</label>
+                            <input type="text" class="form-control" id="enrolledAtDisplay" name="enrolledAtDisplay" readonly>
+                            <!-- Hidden input to store the actual ISO date string -->
+                            <input type="hidden" id="enrolledAt" name="enrolledAt">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="expectedCompletionDate" class="form-label">Expected Completion Date (Optional)</label>
+                            <input type="datetime-local" class="form-control" id="expectedCompletionDate" name="expectedCompletionDate">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/UserProgramEnrollments" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Create User Program Enrollment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        // Function to populate a dropdown
+        async function populateDropdown(endpoint, dropdownId, valueField, textField, defaultOptionText) {
+            const dropdown = document.getElementById(dropdownId);
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/${endpoint}`);
+                if (!response.ok) throw new Error(`Failed to fetch ${endpoint}`);
+                
+                const data = await response.json();
+                dropdown.innerHTML = `<option value="">-- ${defaultOptionText} --</option>`; // Clear existing options and add default
+                
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item[valueField];
+                    option.textContent = item[textField];
+                    dropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error(`Error loading ${endpoint}:`, error);
+                dropdown.innerHTML = `<option value="">Error loading data</option>`;
+                showAlert(`Failed to load ${endpoint} list`, 'danger');
+            }
+        }
+
+        // Function to set the current date/time on page load
+        function setCurrentEnrollmentTime() {
+            const now = new Date();
+            // Format for display (adjust locale and options as needed)
+            const displayFormat = now.toLocaleString(); 
+            document.getElementById('enrolledAtDisplay').value = displayFormat;
+            // Store ISO format for sending to API
+            document.getElementById('enrolledAt').value = now.toISOString(); 
+        }
+
+        document.getElementById('createUserProgramEnrollmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const expectedCompletionDateValue = document.getElementById('expectedCompletionDate').value;
+            const enrolledAtValue = document.getElementById('enrolledAt').value; // Get from hidden input
+
+            const enrollmentData = {
+                userId: document.getElementById('userId').value,
+                programId: document.getElementById('programId').value,
+                status: document.getElementById('status').value,
+                enrolledAt: enrolledAtValue, // Send the ISO string set on load
+                expectedCompletionDate: expectedCompletionDateValue ? new Date(expectedCompletionDateValue).toISOString() : null
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/UserProgramEnrollment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(enrollmentData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to create enrollment');
+                }
+
+                showAlert('User Program Enrollment created successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/UserProgramEnrollments';
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to create enrollment', 'danger');
+            }
+        });
+
+        // Set the enrollment time and load dropdowns when the page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+             setCurrentEnrollmentTime();
+             populateDropdown('User', 'userId', 'id', 'fullName', 'Select User');
+             populateDropdown('Program', 'programId', 'id', 'name', 'Select Program');
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+    </script>
+}

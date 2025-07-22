@@ -1,0 +1,82 @@
+@page "{id:int}"
+@model WebApp.Pages.Programs.DetailsModel
+@{
+    ViewData["Title"] = "Program Details";
+}
+
+<div class="container mt-4">
+    <h2>Program Details</h2>
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3">Name:</div>
+                <div class="col-md-9" id="nameDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Code:</div>
+                <div class="col-md-9" id="codeDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Level:</div>
+                <div class="col-md-9" id="levelDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Department:</div>
+                <div class="col-md-9" id="departmentDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Type:</div>
+                <div class="col-md-9" id="typeDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Description:</div>
+                <div class="col-md-9" id="descriptionDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Duration (Months):</div>
+                <div class="col-md-9" id="durationMonthsDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">Status:</div>
+                <div class="col-md-9" id="statusDisplay"></div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <a href="/Programs/Edit/@Model.Id" class="btn btn-primary">Edit</a>
+        <a href="/Programs" class="btn btn-secondary">Back to List</a>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const programId = '@Model.Id';
+        
+        async function loadProgramDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Program/${programId}`);
+                if (!response.ok) throw new Error('Failed to load program details');
+                
+                const program = await response.json();
+                document.getElementById('nameDisplay').textContent = program.name;
+                document.getElementById('codeDisplay').textContent = program.code;
+                document.getElementById('levelDisplay').textContent = program.level;
+                document.getElementById('departmentDisplay').textContent = program.department;
+                document.getElementById('typeDisplay').textContent = program.type;
+                document.getElementById('descriptionDisplay').textContent = program.description;
+                document.getElementById('durationMonthsDisplay').textContent = program.durationMonths;
+                document.getElementById('statusDisplay').textContent = program.status;
+            } catch (error) {
+                console.error('Error:', error);
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger';
+                alert.textContent = 'Error loading program details';
+                alert.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProgramDetails);
+    </script>
+} 

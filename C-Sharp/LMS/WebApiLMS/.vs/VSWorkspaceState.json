@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\WebApiLMS",
+    "\\WebApiLMS\\Controllers",
+    "\\WebApiLMS\\DTOs",
+    "\\WebApiLMS\\DTOs\\ProgramCourse",
+    "\\WebApiLMS\\DTOs\\UserProgramEnrollment"
+  ],
+  "SelectedNode": "\\WebApiLMS\\Controllers\\UserProgramEnrollmentController.cs",
+  "PreviewInSolutionExplorer": false
+}

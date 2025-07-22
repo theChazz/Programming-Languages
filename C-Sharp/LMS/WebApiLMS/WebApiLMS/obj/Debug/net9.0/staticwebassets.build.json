@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "JGFo7Z5ABdtTz8/UIOVcNM+FlPVB0YVGI3fBWnah1Qg=",
+  "Source": "WebApiLMS",
+  "BasePath": "_content/WebApiLMS",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

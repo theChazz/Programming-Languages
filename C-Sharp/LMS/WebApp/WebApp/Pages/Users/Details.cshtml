@@ -1,0 +1,78 @@
+@page "{id:int}"
+@model WebApp.Pages.Users.DetailsModel
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">User Details</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Full Name</dt>
+                        <dd class="col-sm-9" id="fullName"></dd>
+
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9" id="email"></dd>
+
+                        <dt class="col-sm-3">Role</dt>
+                        <dd class="col-sm-9" id="role"></dd>
+
+                        <dt class="col-sm-3">Account Status</dt>
+                        <dd class="col-sm-9" id="accountStatus"></dd>
+
+                        <dt class="col-sm-3">Created At</dt>
+                        <dd class="col-sm-9" id="createdAt"></dd>
+
+                        <dt class="col-sm-3">Updated At</dt>
+                        <dd class="col-sm-9" id="updatedAt"></dd>
+                    </dl>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/Users" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                        <a href="#" id="editButton" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit User
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const userId = '@Model.Id';
+        
+        async function loadUserDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/${userId}`);
+                if (!response.ok) throw new Error('Failed to load user details');
+                
+                const user = await response.json();
+                document.getElementById('fullName').textContent = user.fullName;
+                document.getElementById('email').textContent = user.email;
+                document.getElementById('role').textContent = user.role;
+                document.getElementById('accountStatus').textContent = user.accountStatus || 'N/A';
+                document.getElementById('createdAt').textContent = user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A';
+                document.getElementById('updatedAt').textContent = user.updatedAt ? new Date(user.updatedAt).toLocaleString() : 'N/A';
+                document.getElementById('editButton').href = `/Users/Edit/${user.id}`;
+            } catch (error) {
+                console.error('Error:', error);
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger';
+                alert.textContent = 'Error loading user details';
+                alert.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserDetails);
+    </script>
+} 

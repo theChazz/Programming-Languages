@@ -1,0 +1,222 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\models\\users.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\webapilms.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\webapilms.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\models\\requestmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\models\\requestmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\data\\webapidbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\data\\webapidbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\controllers\\userprogramenrollmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\controllers\\userprogramenrollmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\migrations\\20250419155612_adduserstatusandtimestamps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\migrations\\20250419155612_adduserstatusandtimestamps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapilms\\webapilms\\dtos\\userprogramenrollment\\userprogramenrollmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C86F0D8F-BAFC-4832-BEB8-2D19DC0C80C7}|WebApiLMS\\WebApiLMS.csproj|solutionrelative:webapilms\\dtos\\userprogramenrollment\\userprogramenrollmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Program.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Program.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Program.cs",
+              "RelativeToolTip": "WebApiLMS\\Program.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T16:44:47.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WebApiDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Data\\WebApiDBContext.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Data\\WebApiDBContext.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Data\\WebApiDBContext.cs",
+              "RelativeToolTip": "WebApiLMS\\Data\\WebApiDBContext.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:29:16.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\appsettings.json",
+              "RelativeDocumentMoniker": "WebApiLMS\\appsettings.json",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\appsettings.json",
+              "RelativeToolTip": "WebApiLMS\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAACkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-21T18:28:26.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Users.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Models\\Users.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Models\\Users.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Models\\Users.cs",
+              "RelativeToolTip": "WebApiLMS\\Models\\Users.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAADwvycAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-07T18:06:35.676Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\CourseController.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\CourseController.cs",
+              "RelativeToolTip": "WebApiLMS\\Controllers\\CourseController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-05T16:14:36.699Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RequestModels.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Models\\RequestModels.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Models\\RequestModels.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Models\\RequestModels.cs",
+              "RelativeToolTip": "WebApiLMS\\Models\\RequestModels.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAEwC0AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-20T12:04:48.007Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Services\\UserService.cs",
+              "RelativeToolTip": "WebApiLMS\\Services\\UserService.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAqwA4AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-20T12:03:45.985Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WebApiLMS.http",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.http",
+              "RelativeDocumentMoniker": "WebApiLMS\\WebApiLMS.http",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.http",
+              "RelativeToolTip": "WebApiLMS\\WebApiLMS.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-05-28T16:44:56.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\UserController.cs",
+              "RelativeToolTip": "WebApiLMS\\Controllers\\UserController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAADgAAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-20T12:02:43.333Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20250419155612_AddUserStatusAndTimestamps.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Migrations\\20250419155612_AddUserStatusAndTimestamps.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Migrations\\20250419155612_AddUserStatusAndTimestamps.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Migrations\\20250419155612_AddUserStatusAndTimestamps.cs",
+              "RelativeToolTip": "WebApiLMS\\Migrations\\20250419155612_AddUserStatusAndTimestamps.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T15:56:13.192Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "UserProgramEnrollmentRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\DTOs\\UserProgramEnrollment\\UserProgramEnrollmentRequest.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\DTOs\\UserProgramEnrollment\\UserProgramEnrollmentRequest.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\DTOs\\UserProgramEnrollment\\UserProgramEnrollmentRequest.cs",
+              "RelativeToolTip": "WebApiLMS\\DTOs\\UserProgramEnrollment\\UserProgramEnrollmentRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-16T20:23:15.31Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "UserProgramEnrollmentController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\UserProgramEnrollmentController.cs",
+              "RelativeDocumentMoniker": "WebApiLMS\\Controllers\\UserProgramEnrollmentController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\Controllers\\UserProgramEnrollmentController.cs",
+              "RelativeToolTip": "WebApiLMS\\Controllers\\UserProgramEnrollmentController.cs",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAC4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-16T20:22:18.002Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

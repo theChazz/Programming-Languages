@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapp\\webapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapp\\webapp\\pages\\programcourses\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\pages\\programcourses\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapp\\webapp\\pages\\users\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{98212EE7-338D-4B3F-8F7D-BFC67E7C03CE}|WebApp\\WebApp.csproj|solutionrelative:webapp\\pages\\users\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\appsettings.json",
+              "RelativeDocumentMoniker": "WebApp\\appsettings.json",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\appsettings.json",
+              "RelativeToolTip": "WebApp\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-15T17:30:10.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\Pages\\ProgramCourses\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApp\\Pages\\ProgramCourses\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\Pages\\ProgramCourses\\Index.cshtml",
+              "RelativeToolTip": "WebApp\\Pages\\ProgramCourses\\Index.cshtml",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAACoAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-15T17:29:33.366Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\Pages\\Users\\Edit.cshtml",
+              "RelativeDocumentMoniker": "WebApp\\Pages\\Users\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApp\\WebApp\\Pages\\Users\\Edit.cshtml",
+              "RelativeToolTip": "WebApp\\Pages\\Users\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-20T18:54:09.599Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+@page
+@model WebApp.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Register</h3>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm">
+                        <div class="form-group mb-3">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="role">Role</label>
+                            <select class="form-control" id="role" required>
+                                <option value="">Select a role</option>
+                                <option value="learner">Learner</option>
+                                <option value="lecturer">Lecturer</option>
+                                <option value="support_staff">Support Staff</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <p>Already have an account? <a href="/Login">Login here</a></p>
+                        </div>
+                    </form>
+                    <div id="alert" class="alert mt-3" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+            const alert = document.getElementById('alert');
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fullName, email, password, role })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert.className = 'alert alert-success mt-3';
+                    alert.textContent = data.message;
+                    alert.style.display = 'block';
+                    
+                    // Redirect to login page after successful registration
+                    setTimeout(() => {
+                        window.location.href = '/Login';
+                    }, 1000);
+                } else {
+                    alert.className = 'alert alert-danger mt-3';
+                    alert.textContent = data.message;
+                    alert.style.display = 'block';
+                }
+            } catch (error) {
+                alert.className = 'alert alert-danger mt-3';
+                alert.textContent = 'An error occurred during registration';
+                alert.style.display = 'block';
+            }
+        });
+    </script>
+} 

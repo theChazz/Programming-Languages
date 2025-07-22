@@ -1,0 +1,72 @@
+@page "{id:int}"
+@model WebApp.Pages.Templates.DetailsModel // Changed model
+@{
+    ViewData["Title"] = "Item Details"; // Changed title
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Item Details</h2> <!-- Changed heading -->
+        <div>
+            <a href="/Templates/Edit/@Model.Id" class="btn btn-primary"> <!-- Changed link -->
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="/Templates" class="btn btn-secondary"> <!-- Changed link -->
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <!-- Placeholder display fields - Adjust as needed -->
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Name:</div>
+                <div class="col-md-9" id="itemNameDisplay"></div> <!-- Changed ID -->
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Description:</div>
+                <div class="col-md-9" id="descriptionDisplay"></div> <!-- Changed ID -->
+            </div>
+           
+            <!-- Add other relevant display fields for your 'Item' here -->
+
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const itemId = '@Model.Id'; // Renamed variable
+        
+        async function loadItemDetails() { // Renamed function
+            try {
+                // Adjust API endpoint as needed
+                const response = await fetch(`${apiBaseUrl}/api/Item/${itemId}`); 
+                if (!response.ok) throw new Error('Failed to load item details'); // Changed message
+                
+                const item = await response.json(); // Renamed variable
+
+                // Adjust field population based on actual Item model properties
+                document.getElementById('itemNameDisplay').textContent = item.name || 'N/A'; // Changed ID and property
+                document.getElementById('descriptionDisplay').textContent = item.description || 'N/A'; // Changed ID and property
+                // Populate other display fields here
+
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load item details', 'danger'); // Changed message
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadItemDetails); // Renamed function call
+    </script>
+} 

@@ -1,0 +1,120 @@
+@page "{id:int}"
+@model WebApp.Pages.Templates.EditModel // Changed model
+@{
+    ViewData["Title"] = "Edit Item"; // Changed title
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Edit Item</h3> <!-- Changed heading -->
+                </div>
+                <div class="card-body">
+                    <form id="editItemForm"> <!-- Changed ID -->
+                        <input type="hidden" id="itemId"> <!-- Changed ID -->
+                        
+                        <!-- Placeholder form fields - Adjust as needed -->
+                        <div class="mb-3">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" name="itemName" required maxlength="255">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- Add other relevant fields for your 'Item' here -->
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/Templates" class="btn btn-secondary"> <!-- Changed link -->
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const itemId = '@Model.Id'; // Renamed variable
+        
+        async function loadItem() { // Renamed function
+            try {
+                // Adjust API endpoint as needed
+                const response = await fetch(`${apiBaseUrl}/api/Item/${itemId}`); 
+                if (!response.ok) {
+                    throw new Error('Failed to fetch item details'); // Changed message
+                }
+                
+                const item = await response.json(); // Renamed variable
+                document.getElementById('itemId').value = item.id; // Changed ID
+                
+                // Adjust field assignments based on actual Item model properties
+                document.getElementById('itemName').value = item.name || ''; 
+                document.getElementById('description').value = item.description || '';
+                // Assign other fields here
+
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to load item details', 'danger'); // Changed message
+            }
+        }
+
+        document.getElementById('editItemForm').addEventListener('submit', async (e) => { // Changed ID
+            e.preventDefault();
+            
+             // Adjust data collection based on actual form fields
+            const itemData = { 
+                id: document.getElementById('itemId').value, // Changed ID
+                name: document.getElementById('itemName').value,
+                description: document.getElementById('description').value
+                // Add other fields here
+            };
+
+            try {
+                 // Adjust API endpoint as needed
+                const response = await fetch(`${apiBaseUrl}/api/Item/${itemId}`, { 
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(itemData) // Renamed variable
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update item'); // Changed message
+                }
+
+                showAlert('Item updated successfully!', 'success'); // Changed message
+                setTimeout(() => {
+                    window.location.href = '/Templates'; // Changed link
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to update item', 'danger'); // Changed message
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        // Load item data when the page loads
+        loadItem(); // Renamed function call
+    </script>
+} 

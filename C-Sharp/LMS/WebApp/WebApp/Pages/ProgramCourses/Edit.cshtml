@@ -1,0 +1,116 @@
+@page "{id:int}"
+@model WebApp.Pages.ProgramCourses.EditModel
+@{
+    ViewData["Title"] = "Edit Program Course";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Edit Program Course</h3>
+                </div>
+                <div class="card-body">
+                    <form id="editProgramCourseForm">
+                        <input type="hidden" id="programCourseId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Program Name</label>
+                            <input type="text" class="form-control" id="programNameDisplay" readonly /> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="courseNameDisplay" readonly /> 
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="isCompulsory" class="form-label">Is Compulsory</label>
+                            <select class="form-select" id="isCompulsory" name="isCompulsory">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/ProgramCourses" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const programCourseId = '@Model.Id';
+        
+        async function loadProgramCourse() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/ProgramCourse/${programCourseId}`); 
+                if (!response.ok) {
+                    throw new Error('Failed to fetch program course details');
+                }
+                
+                const pc = await response.json();
+                document.getElementById('programCourseId').value = pc.id;
+                document.getElementById('programNameDisplay').value = pc.programName || '';
+                document.getElementById('courseNameDisplay').value = pc.courseName || '';
+                document.getElementById('isCompulsory').value = pc.isCompulsory ? 'true' : 'false';
+
+            } catch (error) {
+                console.error('Error loading program course:', error);
+                showAlert(error.message || 'Failed to load program course details', 'danger');
+            }
+        }
+
+        document.getElementById('editProgramCourseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const programCourseData = {
+                isCompulsory: document.getElementById('isCompulsory').value === 'true'
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/ProgramCourse/${programCourseId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(programCourseData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update program course');
+                }
+
+                showAlert('Program Course updated successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/ProgramCourses';
+                }, 1500);
+            } catch (error) {
+                console.error('Error updating program course:', error);
+                showAlert(error.message || 'Failed to update program course', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProgramCourse);
+    </script>
+}

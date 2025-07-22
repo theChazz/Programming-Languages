@@ -1,0 +1,116 @@
+@page "{id:int}"
+@model WebApp.Pages.ProgramCourses.DetailsModel
+@{
+    ViewData["Title"] = "Program Course Details";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Program Course Details</h3>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-4">Program Name</dt>
+                        <dd class="col-sm-8" id="programName"></dd>
+
+                        <dt class="col-sm-4">Course Name</dt>
+                        <dd class="col-sm-8" id="courseName"></dd>
+
+                        <dt class="col-sm-4">Is Compulsory</dt>
+                        <dd class="col-sm-8" id="isCompulsory"></dd>
+
+                        <dt class="col-sm-4">Created At</dt>
+                        <dd class="col-sm-8" id="createdAt"></dd>
+                    </dl>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="/ProgramCourses" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                        <a href="#" id="editButton" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit Program Course
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        // Function to get ID from URL path
+        function getIdFromUrl() {
+            const pathSegments = window.location.pathname.split('/');
+            return pathSegments[pathSegments.length - 1]; // Get the last segment
+        }
+        
+        const programCourseId = getIdFromUrl();
+
+        async function loadProgramCourseDetails() {
+            if (!programCourseId) {
+                showAlert('Invalid Program Course ID', 'danger');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/ProgramCourse/${programCourseId}`);
+                if (!response.ok) {
+                     if (response.status === 404) {
+                        throw new Error('Program Course not found');
+                    } else {
+                        throw new Error('Failed to fetch program course details');
+                    }
+                }
+                
+                const pc = await response.json();
+                // console.log('Details pc:', pc); // Console log removed
+                document.getElementById('programName').textContent = pc.programName || 'N/A'; // Use direct property
+                document.getElementById('courseName').textContent = pc.courseName || 'N/A';   // Use direct property
+                document.getElementById('isCompulsory').innerHTML = pc.isCompulsory 
+                    ? '<span class="badge bg-success">Yes</span>' 
+                    : '<span class="badge bg-secondary">No</span>';
+                document.getElementById('createdAt').textContent = pc.createdAt ? new Date(pc.createdAt).toLocaleString() : 'N/A';
+                
+                // Set the edit button link
+                document.getElementById('editButton').href = `/ProgramCourses/Edit/${pc.id}`;
+            } catch (error) {
+                console.error('Error loading details:', error);
+                showAlert(error.message || 'Failed to load program course details', 'danger');
+                 // Optionally disable edit button on error
+                document.getElementById('editButton').classList.add('disabled');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.setAttribute('role', 'alert');
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            const container = document.querySelector('.container .col-md-8'); // Target specific container
+            if (container) {
+                 // Remove existing alerts first
+                const existingAlert = container.querySelector('.alert');
+                if(existingAlert) existingAlert.remove();
+                
+                container.appendChild(alertDiv);
+            } 
+            setTimeout(() => {
+                const bsAlert = bootstrap.Alert.getInstance(alertDiv);
+                if (bsAlert) bsAlert.close(); else alertDiv.remove();
+            }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProgramCourseDetails);
+
+
+    </script>
+}

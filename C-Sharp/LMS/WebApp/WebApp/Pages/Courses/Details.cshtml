@@ -1,0 +1,83 @@
+@page "{id:int}"
+@model WebApp.Pages.Courses.DetailsModel
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Course Details</h2>
+        <div>
+            <a href="/Courses/Edit/@Model.Id" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="/Courses" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Course Name:</div>
+                <div class="col-md-9" id="courseNameDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Description:</div>
+                <div class="col-md-9" id="descriptionDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Category:</div>
+                <div class="col-md-9" id="categoryDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Difficulty:</div>
+                <div class="col-md-9" id="difficultyDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Syllabus:</div>
+                <div class="col-md-9" id="syllabusDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Prerequisites:</div>
+                <div class="col-md-9" id="prerequisitesDisplay"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const courseId = '@Model.Id';
+        
+        async function loadCourseDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Course/${courseId}`);
+                if (!response.ok) throw new Error('Failed to load course details');
+                
+                const course = await response.json();
+                document.getElementById('courseNameDisplay').textContent = course.courseName || 'N/A';
+                document.getElementById('descriptionDisplay').textContent = course.description || 'N/A';
+                document.getElementById('categoryDisplay').textContent = course.category || 'N/A';
+                document.getElementById('difficultyDisplay').textContent = course.difficulty || 'N/A';
+                document.getElementById('syllabusDisplay').textContent = course.syllabus || 'N/A';
+                document.getElementById('prerequisitesDisplay').textContent = course.prerequisites || 'N/A';
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load course details', 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCourseDetails);
+    </script>
+} 
