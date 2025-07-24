@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj": {}
+    "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj": {
+    "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj",
+        "projectUniqueName": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj",
         "projectName": "WebApiLMS",
-        "projectPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj",
+        "projectPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebApiLMS\\WebApiLMS\\WebApiLMS.csproj",
         "packagesPath": "C:\\Users\\Chazz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebApiLMS\\WebApiLMS\\obj\\",
+        "outputPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebApiLMS\\WebApiLMS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

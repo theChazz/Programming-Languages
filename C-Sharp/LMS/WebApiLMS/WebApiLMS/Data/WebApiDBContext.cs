@@ -15,6 +15,8 @@ namespace WebApiLMS.Data
         public DbSet<ProgramModel> Programs { get; set; } // this will become the database name "Programs"
         public DbSet<ProgramCourseModel> ProgramCourses { get; set; }
         public DbSet<UserProgramEnrollmentModel> UserProgramEnrollments { get; set; } // New DbSet for UserProgramEnrollments
+        public DbSet<CourseStudentEnrollmentModel> CourseStudentEnrollments { get; set; } // New DbSet for CourseStudentEnrollments
+        public DbSet<CourseLecturerAssignmentModel> CourseLecturerAssignments { get; set; } // New DbSet for CourseLecturerAssignments
     }
 
 }

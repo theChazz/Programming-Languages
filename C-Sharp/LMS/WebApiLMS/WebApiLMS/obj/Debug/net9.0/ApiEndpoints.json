@@ -79,6 +79,164 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "WebApiLMS.Controllers.CourseLecturerAssignmentController",
+    "Method": "GetAll",
+    "RelativePath": "api/CourseLecturerAssignment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseLecturerAssignmentController",
+    "Method": "Create",
+    "RelativePath": "api/CourseLecturerAssignment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WebApiLMS.DTOs.CourseLecturerAssignment.CreateCourseLecturerAssignmentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseLecturerAssignmentController",
+    "Method": "GetById",
+    "RelativePath": "api/CourseLecturerAssignment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseLecturerAssignmentController",
+    "Method": "Update",
+    "RelativePath": "api/CourseLecturerAssignment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "WebApiLMS.DTOs.CourseLecturerAssignment.UpdateCourseLecturerAssignmentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseLecturerAssignmentController",
+    "Method": "Delete",
+    "RelativePath": "api/CourseLecturerAssignment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseStudentEnrollmentController",
+    "Method": "GetAll",
+    "RelativePath": "api/CourseStudentEnrollment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseStudentEnrollmentController",
+    "Method": "Create",
+    "RelativePath": "api/CourseStudentEnrollment",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "WebApiLMS.DTOs.CourseStudentEnrollment.CreateCourseStudentEnrollmentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseStudentEnrollmentController",
+    "Method": "GetById",
+    "RelativePath": "api/CourseStudentEnrollment/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseStudentEnrollmentController",
+    "Method": "Update",
+    "RelativePath": "api/CourseStudentEnrollment/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "request",
+        "Type": "WebApiLMS.DTOs.CourseStudentEnrollment.UpdateCourseStudentEnrollmentRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "WebApiLMS.Controllers.CourseStudentEnrollmentController",
+    "Method": "Delete",
+    "RelativePath": "api/CourseStudentEnrollment/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "WebApiLMS.Controllers.ProgramController",
     "Method": "GetAllPrograms",
     "RelativePath": "api/Program",

@@ -1,39 +1,53 @@
-Prompt: Generate Complete CRUD for a New Entity in ASP.NET Core
+## Use Sequential Thinking MCP 
 
-Context:
-I am building an ASP.NET Core Web API project. I want you to generate all the code needed for a new entity, following the structure and conventions of my existing project.
+CRUD Generation Prompt for ASP.NET Core (with EF Migration)
+
+## Step 1: Run EF Core Migration
+- After adding new models and DbSet properties, run:
+  ```sh
+  dotnet ef migrations add <MigrationName> --project <PathToYourCsproj>
+  dotnet ef database update --project <PathToYourCsproj>
+  ```
+- This ensures your database schema is up to date before implementing CRUD logic.
+
+## Step 2: Generate Complete CRUD for a New Entity in ASP.NET Core
+
+**Context:**  
+I am building an ASP.NET Core Web API project. I want you to generate all the code needed for a new entity, following the structure and conventions of my existing project.  
 Use the following files as templates for each layer:
 
-- Controllers:
-  - CourseController.cs
-  - ProgramController.cs
+- **Controllers:**  
+  - CourseController.cs  
+  - ProgramController.cs  
   - ProgramCourseController.cs
-- Models:
-  - CourseModel.cs
-  - ProgramModel.cs
+- **Models:**  
+  - CourseModel.cs  
+  - ProgramModel.cs  
   - ProgramCourseModel.cs
-- Services:
-  - CourseService.cs
-  - ProgramService.cs
+- **Services:**  
+  - CourseService.cs  
+  - ProgramService.cs  
   - ProgramCourseService.cs
-- DTOs:
+- **DTOs:**  
   - All files in /DTOs/ProgramCourse/ (e.g., ProgramCourseDto.cs, CreateProgramCourseRequest.cs, UpdateProgramCourseRequest.cs)
-- Startup/Registration:
+- **Startup/Registration:**  
   - Program.cs (for service registration, CORS, Swagger, etc.)
 
-Requirements for the Generated CRUD
-1. Model:
+---
+
+### Requirements for the Generated CRUD
+1. **Model:**
    - Use Data Annotations for validation and database mapping.
    - Follow the structure of the sample models (e.g., Id as primary key, navigation properties if needed).
-2. DTOs:
+2. **DTOs:**
    - Create DTOs for reading, creating, and updating the entity.
    - Place them in a dedicated DTOs folder for the entity.
-3. Service Layer:
+3. **Service Layer:**
    - Implement an interface and a concrete service class.
    - Use async methods for all database operations.
    - Inject the DbContext and use Entity Framework Core for data access.
    - Return appropriate types (e.g., entity, bool for success, or null for not found).
-4. Controller:
+4. **Controller:**
    - Use [ApiController] and [Route("api/[controller]")].
    - Implement endpoints for:
      - GET /api/[entity] (all)
@@ -43,20 +57,22 @@ Requirements for the Generated CRUD
      - DELETE /api/[entity]/{id} (delete)
    - Use DTOs for input/output.
    - Return appropriate HTTP status codes and error handling as in the sample controllers.
-5. Program.cs / Startup:
+5. **Program.cs / Startup:**
    - Register the new service in the DI container.
    - Ensure CORS and Swagger are enabled.
    - Add the DbSet for the new entity in the DbContext if not already present.
-6. DbContext:
+6. **DbContext:**
    - Add a DbSet<NewEntityModel> property.
-7. Validation & Error Handling:
+7. **Validation & Error Handling:**
    - Follow the try/catch and error response patterns in the sample controllers.
    - Validate input using Data Annotations and model binding.
-8. Navigation Properties:
+8. **Navigation Properties:**
    - If the entity has relationships (e.g., foreign keys), include navigation properties and configure them as in the sample models.
 
-Example Entity Name: Student
-Please generate:
+---
+
+### Example Entity Name: Student
+**Please generate:**
 - StudentModel.cs (with Data Annotations)
 - DTOs: StudentDto.cs, CreateStudentRequest.cs, UpdateStudentRequest.cs
 - IStudentService.cs and StudentService.cs
@@ -64,11 +80,13 @@ Please generate:
 - Registration in Program.cs
 - DbSet<StudentModel> in WebApiLMSDbContext.cs
 
-Follow the structure and conventions of the provided templates.
-Ensure all CRUD operations are fully functional and ready to use.
-If any additional configuration or code is needed for the CRUD to work (e.g., migrations, DI registration, DbContext changes), include that as well.
+**Follow the structure and conventions of the provided templates.**  
+**Ensure all CRUD operations are fully functional and ready to use.**  
+**If any additional configuration or code is needed for the CRUD to work (e.g., migrations, DI registration, DbContext changes), include that as well.**
 
-Additional Notes
+---
+
+### Additional Notes
 - Use async/await for all database operations.
 - Use dependency injection for services.
 - Use [FromBody] for POST/PUT requests.
@@ -77,4 +95,6 @@ Additional Notes
 - If the entity has relationships, include navigation properties and handle them as in ProgramCourseModel.
 - Ensure the new entity is included in the DbContext and registered in DI in Program.cs.
 
-End of Prompt
+---
+
+**End of Prompt**

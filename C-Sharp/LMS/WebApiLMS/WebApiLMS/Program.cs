@@ -18,6 +18,8 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IProgramService, ProgramService>();
 builder.Services.AddScoped<ProgramCourseService>();
 builder.Services.AddScoped<UserProgramEnrollmentService>();
+builder.Services.AddScoped<ICourseStudentEnrollmentService, CourseStudentEnrollmentService>();
+builder.Services.AddScoped<ICourseLecturerAssignmentService, CourseLecturerAssignmentService>();
 
 // Add CORS policy
 builder.Services.AddCors(options =>
