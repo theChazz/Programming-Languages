@@ -16,34 +16,23 @@ namespace WebApiLMS.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<CourseStudentEnrollmentDto>> GetAllAsync()
+        public async Task<List<CourseStudentEnrollmentModel>> GetAllAsync()
         {
             return await _context.CourseStudentEnrollments
-                .Select(e => new CourseStudentEnrollmentDto
-                {
-                    Id = e.Id,
-                    CourseId = e.CourseId,
-                    StudentId = e.StudentId,
-                    EnrolledAt = e.EnrolledAt,
-                    Progress = e.Progress
-                }).ToListAsync();
+                .Include(e => e.Course)
+                .Include(e => e.Student)
+                .ToListAsync();
         }
 
-        public async Task<CourseStudentEnrollmentDto> GetByIdAsync(int id)
+        public async Task<CourseStudentEnrollmentModel> GetByIdAsync(int id)
         {
-            var e = await _context.CourseStudentEnrollments.FindAsync(id);
-            if (e == null) return null;
-            return new CourseStudentEnrollmentDto
-            {
-                Id = e.Id,
-                CourseId = e.CourseId,
-                StudentId = e.StudentId,
-                EnrolledAt = e.EnrolledAt,
-                Progress = e.Progress
-            };
+            return await _context.CourseStudentEnrollments
+                .Include(enrollment => enrollment.Course)
+                .Include(enrollment => enrollment.Student)
+                .FirstOrDefaultAsync(enrollment => enrollment.Id == id);
         }
 
-        public async Task<CourseStudentEnrollmentDto> CreateAsync(CreateCourseStudentEnrollmentRequest request)
+        public async Task<CourseStudentEnrollmentModel> CreateAsync(CreateCourseStudentEnrollmentRequest request)
         {
             var entity = new CourseStudentEnrollmentModel
             {
@@ -53,14 +42,7 @@ namespace WebApiLMS.Services
             };
             _context.CourseStudentEnrollments.Add(entity);
             await _context.SaveChangesAsync();
-            return new CourseStudentEnrollmentDto
-            {
-                Id = entity.Id,
-                CourseId = entity.CourseId,
-                StudentId = entity.StudentId,
-                EnrolledAt = entity.EnrolledAt,
-                Progress = entity.Progress
-            };
+            return entity;
         }
 
         public async Task<bool> UpdateAsync(int id, UpdateCourseStudentEnrollmentRequest request)

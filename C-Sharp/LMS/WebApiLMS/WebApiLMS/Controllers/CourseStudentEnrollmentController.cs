@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApiLMS.DTOs.CourseStudentEnrollment;
 using WebApiLMS.Services;
+using WebApiLMS.Models;
 
 namespace WebApiLMS.Controllers
 {
@@ -16,25 +17,46 @@ namespace WebApiLMS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<CourseStudentEnrollmentModel>>> GetAll()
         {
             var result = await _service.GetAllAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<CourseStudentEnrollmentDto>> GetById(int id)
         {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return Ok(result);
+            var enrollment = await _service.GetByIdAsync(id);
+            if (enrollment == null)
+            {
+                return NotFound();
+            }
+            var enrollmentDto = new CourseStudentEnrollmentDto
+            {
+                Id = enrollment.Id,
+                CourseId = enrollment.CourseId,
+                StudentId = enrollment.StudentId,
+                EnrolledAt = enrollment.EnrolledAt,
+                Progress = enrollment.Progress
+            };
+            return Ok(enrollmentDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCourseStudentEnrollmentRequest request)
+        public async Task<ActionResult<CourseStudentEnrollmentDto>> Create([FromBody] CreateCourseStudentEnrollmentRequest request)
         {
-            var created = await _service.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            var createdEnrollment = await _service.CreateAsync(request);
+            
+            var createdDto = new CourseStudentEnrollmentDto 
+            { 
+                 Id = createdEnrollment.Id, 
+                 CourseId = createdEnrollment.CourseId, 
+                 StudentId = createdEnrollment.StudentId, 
+                 EnrolledAt = createdEnrollment.EnrolledAt,
+                 Progress = createdEnrollment.Progress
+            }; 
+
+            return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
         [HttpPut("{id}")]

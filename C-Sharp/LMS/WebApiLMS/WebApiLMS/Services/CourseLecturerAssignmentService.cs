@@ -16,32 +16,23 @@ namespace WebApiLMS.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<CourseLecturerAssignmentDto>> GetAllAsync()
+        public async Task<List<CourseLecturerAssignmentModel>> GetAllAsync()
         {
             return await _context.CourseLecturerAssignments
-                .Select(a => new CourseLecturerAssignmentDto
-                {
-                    Id = a.Id,
-                    CourseId = a.CourseId,
-                    LecturerId = a.LecturerId,
-                    AssignedAt = a.AssignedAt
-                }).ToListAsync();
+                .Include(a => a.Course)
+                .Include(a => a.Lecturer)
+                .ToListAsync();
         }
 
-        public async Task<CourseLecturerAssignmentDto> GetByIdAsync(int id)
+        public async Task<CourseLecturerAssignmentModel> GetByIdAsync(int id)
         {
-            var a = await _context.CourseLecturerAssignments.FindAsync(id);
-            if (a == null) return null;
-            return new CourseLecturerAssignmentDto
-            {
-                Id = a.Id,
-                CourseId = a.CourseId,
-                LecturerId = a.LecturerId,
-                AssignedAt = a.AssignedAt
-            };
+            return await _context.CourseLecturerAssignments
+                .Include(a => a.Course)
+                .Include(a => a.Lecturer)
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public async Task<CourseLecturerAssignmentDto> CreateAsync(CreateCourseLecturerAssignmentRequest request)
+        public async Task<CourseLecturerAssignmentModel> CreateAsync(CreateCourseLecturerAssignmentRequest request)
         {
             var entity = new CourseLecturerAssignmentModel
             {
@@ -50,13 +41,7 @@ namespace WebApiLMS.Services
             };
             _context.CourseLecturerAssignments.Add(entity);
             await _context.SaveChangesAsync();
-            return new CourseLecturerAssignmentDto
-            {
-                Id = entity.Id,
-                CourseId = entity.CourseId,
-                LecturerId = entity.LecturerId,
-                AssignedAt = entity.AssignedAt
-            };
+            return entity;
         }
 
         public async Task<bool> UpdateAsync(int id, UpdateCourseLecturerAssignmentRequest request)

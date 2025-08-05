@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApiLMS.DTOs.CourseLecturerAssignment;
 using WebApiLMS.Services;
+using WebApiLMS.Models;
 
 namespace WebApiLMS.Controllers
 {
@@ -16,25 +17,44 @@ namespace WebApiLMS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<CourseLecturerAssignmentModel>>> GetAll()
         {
             var result = await _service.GetAllAsync();
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<CourseLecturerAssignmentDto>> GetById(int id)
         {
-            var result = await _service.GetByIdAsync(id);
-            if (result == null) return NotFound();
-            return Ok(result);
+            var assignment = await _service.GetByIdAsync(id);
+            if (assignment == null)
+            {
+                return NotFound();
+            }
+            var assignmentDto = new CourseLecturerAssignmentDto
+            {
+                Id = assignment.Id,
+                CourseId = assignment.CourseId,
+                LecturerId = assignment.LecturerId,
+                AssignedAt = assignment.AssignedAt
+            };
+            return Ok(assignmentDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCourseLecturerAssignmentRequest request)
+        public async Task<ActionResult<CourseLecturerAssignmentDto>> Create([FromBody] CreateCourseLecturerAssignmentRequest request)
         {
-            var created = await _service.CreateAsync(request);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            var createdAssignment = await _service.CreateAsync(request);
+            
+            var createdDto = new CourseLecturerAssignmentDto 
+            { 
+                 Id = createdAssignment.Id, 
+                 CourseId = createdAssignment.CourseId, 
+                 LecturerId = createdAssignment.LecturerId, 
+                 AssignedAt = createdAssignment.AssignedAt
+            }; 
+
+            return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
         [HttpPut("{id}")]
