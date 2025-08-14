@@ -22,7 +22,14 @@ namespace WebApiLMS.Models
 
         public string Description { get; set; }
 
+        // Optional legacy textual type (keep if you want backward compatibility)
         public string Type { get; set; }
+
+        [Required]
+        public int ProgramTypeId { get; set; }
+
+        [ForeignKey("ProgramTypeId")]
+        public ProgramTypeModel ProgramType { get; set; }
 
         public int DurationMonths { get; set; }
 

@@ -17,6 +17,7 @@ namespace WebApiLMS.Models
         [StringLength(255, MinimumLength = 6)]
         public string Password { get; set; }
 
+        // Accept role code string for convenience; backend maps to UserRoleId
         [Required]
         [StringLength(50)]
         public string Role { get; set; }

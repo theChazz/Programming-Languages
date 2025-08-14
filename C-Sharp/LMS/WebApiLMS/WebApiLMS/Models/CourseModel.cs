@@ -22,6 +22,30 @@ namespace WebApiLMS.Models
 
         public string Prerequisites { get; set; }
 
+        [StringLength(2048)]
+        [Url]
+        public string PdfUrl { get; set; } = string.Empty;
+
+        [StringLength(2048)]
+        [Url]
+        public string WordUrl { get; set; } = string.Empty;
+
+        [StringLength(2048)]
+        [Url]
+        public string PowerPointUrl { get; set; } = string.Empty;
+
+        [StringLength(2048)]
+        [Url]
+        public string ExcelUrl { get; set; } = string.Empty;
+
+        [StringLength(2048)]
+        [Url]
+        public string ZipUrl { get; set; } = string.Empty;
+
+        [StringLength(2048)]
+        [Url]
+        public string TeamsJoinUrl { get; set; } = string.Empty;
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 } 

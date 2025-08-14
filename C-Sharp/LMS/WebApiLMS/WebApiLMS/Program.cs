@@ -20,6 +20,7 @@ builder.Services.AddScoped<ProgramCourseService>();
 builder.Services.AddScoped<UserProgramEnrollmentService>();
 builder.Services.AddScoped<ICourseStudentEnrollmentService, CourseStudentEnrollmentService>();
 builder.Services.AddScoped<ICourseLecturerAssignmentService, CourseLecturerAssignmentService>();
+builder.Services.AddScoped<ICourseResourceService, CourseResourceService>();
 
 // Add CORS policy
 builder.Services.AddCors(options =>
@@ -37,6 +38,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// No seeding; data will be populated via SQL scripts
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

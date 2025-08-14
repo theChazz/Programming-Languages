@@ -20,7 +20,7 @@ namespace WebApiLMS.Services
         {
             return await _context.CourseLecturerAssignments
                 .Include(a => a.Course)
-                .Include(a => a.Lecturer)
+                .Include(a => a.User)
                 .ToListAsync();
         }
 
@@ -28,7 +28,7 @@ namespace WebApiLMS.Services
         {
             return await _context.CourseLecturerAssignments
                 .Include(a => a.Course)
-                .Include(a => a.Lecturer)
+                .Include(a => a.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
         }
 
@@ -37,7 +37,7 @@ namespace WebApiLMS.Services
             var entity = new CourseLecturerAssignmentModel
             {
                 CourseId = request.CourseId,
-                LecturerId = request.LecturerId
+                UserId = request.UserId
             };
             _context.CourseLecturerAssignments.Add(entity);
             await _context.SaveChangesAsync();

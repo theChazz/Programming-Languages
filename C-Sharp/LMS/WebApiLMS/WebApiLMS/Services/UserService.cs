@@ -24,6 +24,16 @@ namespace WebApiLMS.Services
             _context = context;
         }
 
+        private async Task<int> MapRoleToId(string role)
+        {
+            var roleEntity = await _context.UserRoles.FirstOrDefaultAsync(r => r.Code == role);
+            if (roleEntity == null)
+            {
+                throw new Exception($"Unknown role: {role}");
+            }
+            return roleEntity.Id;
+        }
+
         public async Task<Users> RegisterUser(string fullName, string email, string password, string role)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -37,7 +47,7 @@ namespace WebApiLMS.Services
                 FullName = fullName,
                 Email = email,
                 PasswordHash = Users.HashPassword(password),
-                Role = role,
+                UserRoleId = await MapRoleToId(role),
                 AccountStatus = "Active",
                 CreatedAt = DateTime.UtcNow
             };
@@ -74,7 +84,7 @@ namespace WebApiLMS.Services
 
             user.FullName = fullName;
             user.Email = email;
-            user.Role = role;
+            user.UserRoleId = await MapRoleToId(role);
             user.UpdatedAt = DateTime.UtcNow;
             user.AccountStatus = accountStatus;
 

@@ -15,9 +15,11 @@ namespace WebApiLMS.Models
         public CourseModel Course { get; set; }
 
         [Required]
-        public int LecturerId { get; set; } // Same as UserId, but must have Role = "Lecturer"
-        [ForeignKey("LecturerId")]
-        public Users Lecturer { get; set; }
+        public int UserId { get; set; } // Assigned user id (Lecturer/Facilitator/Assessor/Moderator)
+        [ForeignKey("UserId")]
+        public Users User { get; set; }
+
+        // No Role field here; the user's role is determined via Users.UserRole
 
         public DateTime AssignedAt { get; set; } = DateTime.Now;
     }

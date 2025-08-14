@@ -35,7 +35,7 @@ namespace WebApiLMS.Controllers
             {
                 Id = assignment.Id,
                 CourseId = assignment.CourseId,
-                LecturerId = assignment.LecturerId,
+                UserId = assignment.UserId,
                 AssignedAt = assignment.AssignedAt
             };
             return Ok(assignmentDto);
@@ -50,7 +50,7 @@ namespace WebApiLMS.Controllers
             { 
                  Id = createdAssignment.Id, 
                  CourseId = createdAssignment.CourseId, 
-                 LecturerId = createdAssignment.LecturerId, 
+                 UserId = createdAssignment.UserId, 
                  AssignedAt = createdAssignment.AssignedAt
             }; 
 
