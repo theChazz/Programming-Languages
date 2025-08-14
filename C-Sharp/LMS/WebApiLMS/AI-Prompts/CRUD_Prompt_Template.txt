@@ -72,49 +72,101 @@ Use the following files as templates for each layer:
 
 ---
 
-### CRITICAL: Lookup Tables and Junction Entities
+### CRITICAL: Junction/Relationship Entity Pattern (ProgramCourse, CourseStudentEnrollment, etc.)
 
-- **ProgramType is a lookup table** (`ProgramTypes`) with 4 records: `Degree`, `Learnership`, `SkillsProgramme`, `Apprenticeship`.
-  - `ProgramModel` must reference `ProgramTypeId` (FK) and expose `ProgramType` navigation.
-  - Do not use enums for ProgramType.
+**IMPORTANT:** For junction/relationship entities that connect two or more entities (like ProgramCourse, CourseStudentEnrollment, CourseLecturerAssignment), follow this EXACT pattern to avoid interface mismatches:
 
-- **UserRole is a lookup table** (`UserRoles`) with reference records: `Student`, `Lecturer`, `Facilitator`, `Assessor`, `Moderator`, `Admin`.
-  - `Users` must reference `UserRoleId` (FK) and expose `UserRole` navigation.
-  - Services that accept a textual role should map role code → `UserRoleId` via the lookup.
-
-- **CourseLecturerAssignment** is role-agnostic:
-  - The model contains `CourseId` and `UserId` only; no `Role` column.
-  - Enforce uniqueness on `(CourseId, UserId)`.
-  - If needed, validate role by checking `Users.UserRole.Code` in the service (e.g., only allow Lecturer/Facilitator/Assessor/Moderator).
-
-- **No DataSeeder**
-  - Do not seed data in runtime. Use SQL scripts or dedicated migration SQL to populate lookup tables.
-
-#### Junction/Relationship Entity Pattern (ProgramCourse, CourseStudentEnrollment, etc.)
-
-Follow this exact pattern:
-
+#### Service Interface Pattern:
 ```csharp
 public interface I[EntityName]Service
 {
-    Task<List<[EntityName]Model>> GetAllAsync();
-    Task<[EntityName]Model> GetByIdAsync(int id);
-    Task<[EntityName]Model> CreateAsync(Create[EntityName]Request request);
+    Task<List<[EntityName]Model>> GetAllAsync();           // Returns full models with includes
+    Task<[EntityName]Model> GetByIdAsync(int id);          // Returns full model with includes
+    Task<[EntityName]Model> CreateAsync(Create[EntityName]Request request); // Returns created model
     Task<bool> UpdateAsync(int id, Update[EntityName]Request request);
     Task<bool> DeleteAsync(int id);
 }
 ```
 
-Service uses `.Include(...)` to return full models for GetAll/GetById.
+#### Service Implementation Pattern:
+```csharp
+public class [EntityName]Service : I[EntityName]Service
+{
+    public async Task<List<[EntityName]Model>> GetAllAsync()
+    {
+        return await _context.[EntityName]s
+            .Include(e => e.RelatedEntity1)
+            .Include(e => e.RelatedEntity2)
+            .ToListAsync();
+    }
 
-Controller returns:
-- `GetAll()`: full models (with includes)
-- `GetById()` and `Create()`: simple DTOs
+    public async Task<[EntityName]Model> GetByIdAsync(int id)
+    {
+        return await _context.[EntityName]s
+            .Include(e => e.RelatedEntity1)
+            .Include(e => e.RelatedEntity2)
+            .FirstOrDefaultAsync(e => e.Id == id);
+    }
+
+    public async Task<[EntityName]Model> CreateAsync(Create[EntityName]Request request)
+    {
+        var entity = new [EntityName]Model
+        {
+            // Map properties from request
+        };
+        _context.[EntityName]s.Add(entity);
+        await _context.SaveChangesAsync();
+        return entity; // Return the created entity (not DTO)
+    }
+}
+```
+
+#### Controller Pattern:
+```csharp
+[HttpGet]
+public async Task<ActionResult<List<[EntityName]Model>>> GetAll()
+{
+    var result = await _service.GetAllAsync();
+    return Ok(result); // Return full models with related entities
+}
+
+[HttpGet("{id}")]
+public async Task<ActionResult<[EntityName]Dto>> GetById(int id)
+{
+    var entity = await _service.GetByIdAsync(id);
+    if (entity == null) return NotFound();
+    
+    var dto = new [EntityName]Dto
+    {
+        // Map to simple DTO
+    };
+    return Ok(dto);
+}
+
+[HttpPost]
+public async Task<ActionResult<[EntityName]Dto>> Create([FromBody] Create[EntityName]Request request)
+{
+    var createdEntity = await _service.CreateAsync(request);
+    
+    var createdDto = new [EntityName]Dto 
+    { 
+        // Map to simple DTO
+    }; 
+    return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
+}
+```
+
+#### Key Points for Junction Entities:
+1. **Service methods return Model types** (not DTOs) for GetAll, GetById, and Create
+2. **Controller GetAll() returns full models** with related entities included
+3. **Controller GetById() and Create() return simple DTOs** (no nested objects)
+4. **Always use .Include()** for related entities in service queries
+5. **DTOs remain simple** (no nested DTO properties)
 
 ---
 
 ### Example Entity Name: Student
-Please generate:
+**Please generate:**
 - StudentModel.cs (with Data Annotations)
 - DTOs: StudentDto.cs, CreateStudentRequest.cs, UpdateStudentRequest.cs
 - IStudentService.cs and StudentService.cs
@@ -122,9 +174,20 @@ Please generate:
 - Registration in Program.cs
 - DbSet<StudentModel> in WebApiLMSDbContext.cs
 
-Follow the structure and conventions of the provided templates.  
-Ensure all CRUD operations are fully functional and ready to use.  
-If any additional configuration or code is needed for the CRUD to work (e.g., migrations, DI registration, DbContext changes), include that as well.
+**Follow the structure and conventions of the provided templates.**  
+**Ensure all CRUD operations are fully functional and ready to use.**  
+**If any additional configuration or code is needed for the CRUD to work (e.g., migrations, DI registration, DbContext changes), include that as well.**
+
+---
+
+### Additional Notes
+- Use async/await for all database operations.
+- Use dependency injection for services.
+- Use [FromBody] for POST/PUT requests.
+- Return NotFound, Ok, CreatedAtAction, or NoContent as appropriate.
+- Use DTOs for all API input/output, not the EF models directly.
+- If the entity has relationships, include navigation properties and handle them as in ProgramCourseModel.
+- Ensure the new entity is included in the DbContext and registered in DI in Program.cs.
 
 ---
 
