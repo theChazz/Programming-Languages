@@ -1,0 +1,437 @@
+@page
+@model WebApp.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Courses";
+}
+
+<div class="container mt-4">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-book-open text-info me-2"></i>Course Catalog
+            </h2>
+            <p class="text-muted mb-0">Browse and manage individual courses offered to students</p>
+        </div>
+        <a href="/Courses/Create" class="btn btn-info">
+            <i class="fas fa-plus"></i> Create New Course
+        </a>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-info">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Courses</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalCourses">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-book-open fa-2x text-info"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Courses</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeCourses">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Categories</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="categoriesCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Enrolled Students</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="enrolledStudents">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Search Courses</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Difficulty</label>
+                    <select class="form-select" id="difficultyFilter">
+                        <option value="">All Levels</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search & Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table View Toggle -->
+    <div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+                <i class="fas fa-th"></i> Grid View
+            </button>
+            <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+                <i class="fas fa-list"></i> List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Courses Grid (Hidden by default) -->
+    <div class="row d-none" id="coursesGrid">
+        <!-- Courses will be loaded here as cards -->
+    </div>
+
+    <!-- List View (Default view - shown first) -->
+    <div class="card" id="listView">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Category</th>
+                            <th>Difficulty</th>
+                            <th>Created Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="courseTableBody">
+                        <!-- Courses will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        let allCourses = [];
+        let filteredCourses = [];
+
+        async function loadCourses() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Course`);
+                if (!response.ok) throw new Error('Failed to fetch courses');
+
+                const data = await response.json();
+
+                // Handle different response formats
+                if (Array.isArray(data)) {
+                    allCourses = data;
+                } else if (data.data && Array.isArray(data.data)) {
+                    // Some APIs wrap data in a 'data' property
+                    allCourses = data.data;
+                } else if (data.courses && Array.isArray(data.courses)) {
+                    // Some APIs use 'courses' property
+                    allCourses = data.courses;
+                } else {
+                    allCourses = [];
+                }
+
+                filteredCourses = [...allCourses];
+
+                // Update statistics
+                updateStatistics(allCourses);
+
+                // Load categories for filter
+                loadCategories(allCourses);
+
+                // Display courses in current view
+                displayCourses(filteredCourses);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load courses', 'danger');
+            }
+        }
+
+        function updateStatistics(courses) {
+            // Total courses
+            document.getElementById('totalCourses').textContent = courses.length;
+
+            // Active courses (assuming all are active for now)
+            document.getElementById('activeCourses').textContent = courses.length;
+
+            // Categories count
+            const categories = [...new Set(courses.map(c => c.category).filter(Boolean))];
+            document.getElementById('categoriesCount').textContent = categories.length;
+
+            // Enrolled students (placeholder - would need enrollment data)
+            document.getElementById('enrolledStudents').textContent = 'N/A';
+        }
+
+        function loadCategories(courses) {
+            const categories = [...new Set(courses.map(c => c.category).filter(Boolean))];
+            const categoryFilter = document.getElementById('categoryFilter');
+
+            // Clear existing options except "All Categories"
+            categoryFilter.innerHTML = '<option value="">All Categories</option>';
+
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function displayCourses(courses) {
+            // Display grid view
+            displayGridView(courses);
+
+            // Display table view
+            displayTableView(courses);
+        }
+
+        function displayGridView(courses) {
+            const coursesGrid = document.getElementById('coursesGrid');
+            coursesGrid.innerHTML = courses.map(course => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h5 class="card-title">${escapeHtml(course.courseName)}</h5>
+                                <span class="badge bg-${getDifficultyColor(course.difficulty)}">${escapeHtml(course.difficulty || 'N/A')}</span>
+                            </div>
+                            <p class="card-text text-muted">${escapeHtml(course.description || 'No description available')}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-secondary me-2">${escapeHtml(course.category || 'Uncategorized')}</span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Created: ${new Date(course.createdAt).toLocaleDateString()}</small>
+                                <div class="btn-group" role="group">
+                                    <a href="/Courses/Details/${course.id}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/Courses/Edit/${course.id}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteCourse(${course.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayTableView(courses) {
+            const courseTableBody = document.getElementById('courseTableBody');
+            courseTableBody.innerHTML = courses.map(course => `
+                <tr>
+                    <td>${escapeHtml(course.courseName)}</td>
+                    <td>${escapeHtml(course.category || '-')}</td>
+                    <td>${escapeHtml(course.difficulty || '-')}</td>
+                    <td>${new Date(course.createdAt).toLocaleDateString()}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="/Courses/Details/${course.id}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i> View
+                            </a>
+                            <a href="/Courses/Edit/${course.id}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteCourse(${course.id})">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getDifficultyColor(difficulty) {
+            switch (difficulty?.toLowerCase()) {
+                case 'beginner': return 'success';
+                case 'intermediate': return 'warning';
+                case 'advanced': return 'danger';
+                default: return 'secondary';
+            }
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const difficultyFilter = document.getElementById('difficultyFilter').value;
+
+            filteredCourses = allCourses.filter(course => {
+                const matchesSearch = course.courseName.toLowerCase().includes(searchTerm) ||
+                                    course.description?.toLowerCase().includes(searchTerm) ||
+                                    course.category?.toLowerCase().includes(searchTerm);
+
+                const matchesCategory = !categoryFilter || course.category === categoryFilter;
+                const matchesDifficulty = !difficultyFilter || course.difficulty === difficultyFilter;
+
+                return matchesSearch && matchesCategory && matchesDifficulty;
+            });
+
+            displayCourses(filteredCourses);
+            updateStatistics(filteredCourses);
+        }
+
+        function toggleView(viewType) {
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const coursesGrid = document.getElementById('coursesGrid');
+            const listView = document.getElementById('listView');
+
+            if (viewType === 'grid') {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                coursesGrid.classList.remove('d-none');
+                listView.classList.add('d-none');
+            } else {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                coursesGrid.classList.add('d-none');
+                listView.classList.remove('d-none');
+            }
+        }
+
+        async function deleteCourse(id) {
+            if (!confirm('Are you sure you want to delete this course?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Course/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to delete course';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.title || errorMsg;
+                    } catch (e) { /* Ignore if response body is not JSON */ }
+                    throw new Error(errorMsg);
+                }
+
+                const responseText = await response.text();
+                if (response.status === 204 || !responseText) {
+                    showAlert('Course deleted successfully!', 'success');
+                } else {
+                    try {
+                        const result = JSON.parse(responseText);
+                        showAlert(result.message || 'Course deleted successfully!', 'success');
+                    } catch (e) {
+                        showAlert('Course deleted successfully! (non-JSON response)', 'success');
+                    }
+                }
+
+                loadCourses();
+            } catch (error) {
+                console.error('Error deleting course:', error);
+                showAlert(error.message || 'Failed to delete course', 'danger');
+            }
+        }
+
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+
+            // Auto-hide after 5 seconds for success/info, keep error visible
+            if (type === 'success' || type === 'info') {
+                setTimeout(() => {
+                    alert.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCourses();
+
+            // Set default view to List view
+            toggleView('list');
+
+            // Search input event
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(applyFilters, 300);
+            });
+
+            // Filter events
+            document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+            document.getElementById('difficultyFilter').addEventListener('change', applyFilters);
+
+            // View toggle events
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                toggleView('grid');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                toggleView('list');
+            });
+        });
+    </script>
+} 

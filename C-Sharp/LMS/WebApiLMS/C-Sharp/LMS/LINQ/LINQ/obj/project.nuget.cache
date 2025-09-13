@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "KDcaOyFipio=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\LINQ\\LINQ\\LINQ.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Chazz\\.nuget\\packages\\microsoft.dotnet.ilcompiler\\9.0.1\\microsoft.dotnet.ilcompiler.9.0.1.nupkg.sha512",
+    "C:\\Users\\Chazz\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.1\\microsoft.net.illink.tasks.9.0.1.nupkg.sha512",
+    "C:\\Users\\Chazz\\.nuget\\packages\\runtime.win-x64.microsoft.dotnet.ilcompiler\\9.0.1\\runtime.win-x64.microsoft.dotnet.ilcompiler.9.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

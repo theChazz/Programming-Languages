@@ -1,0 +1,71 @@
+@page "{courseId:int}"
+@model WebApp.Pages.CourseResources.DetailsModel
+@{
+    ViewData["Title"] = "Resource Details";
+}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Resource Details</h2>
+    <div>
+      <a class="btn btn-primary" href="/CourseResources/Edit/@Model.CourseId?id=@Model.Id"><i class="fas fa-edit"></i> Edit</a>
+      <a class="btn btn-secondary" href="/CourseResources"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Id:</div><div class="col-md-9" id="idDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">CourseId:</div><div class="col-md-9" id="courseIdDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Type:</div><div class="col-md-9" id="typeDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Title:</div><div class="col-md-9" id="titleDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Description:</div><div class="col-md-9" id="descriptionDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">URL:</div><div class="col-md-9" id="urlDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Provider:</div><div class="col-md-9" id="providerDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">MimeType:</div><div class="col-md-9" id="mimeTypeDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Module:</div><div class="col-md-9" id="moduleDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Published:</div><div class="col-md-9" id="publishedDisplay"></div></div>
+      <div class="row mb-3"><div class="col-md-3 fw-bold">Created:</div><div class="col-md-9" id="createdDisplay"></div></div>
+    </div>
+  </div>
+  <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+<script>
+const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+const id = new URLSearchParams(window.location.search).get('id');
+const courseId = @Model.CourseId;
+
+async function loadDetails() {
+  try {
+    const res = await fetch(`${apiBaseUrl}/api/courses/${courseId}/resources/${id}`);
+    if (!res.ok) throw new Error('Failed to load');
+    const r = await res.json();
+    document.getElementById('idDisplay').textContent = r.id;
+    document.getElementById('courseIdDisplay').textContent = r.courseId;
+    document.getElementById('typeDisplay').textContent = r.type;
+    document.getElementById('titleDisplay').textContent = r.title;
+    document.getElementById('descriptionDisplay').textContent = r.description || '';
+    document.getElementById('urlDisplay').innerHTML = r.url ? `<a href="${r.url}" target="_blank">${r.url}</a>` : '';
+    document.getElementById('providerDisplay').textContent = r.provider || '';
+    document.getElementById('mimeTypeDisplay').textContent = r.mimeType || '';
+    document.getElementById('moduleDisplay').textContent = r.module || '';
+    document.getElementById('publishedDisplay').innerHTML = `<span class="badge ${r.isPublished ? 'bg-success' : 'bg-secondary'}">${r.isPublished ? 'Yes' : 'No'}</span>`;
+    document.getElementById('createdDisplay').textContent = r.createdAt ? new Date(r.createdAt).toLocaleString() : '';
+  } catch (e) {
+    console.error(e);
+    showAlert('Failed to load details', 'danger');
+  }
+}
+
+function showAlert(message, type) {
+  const alert = document.getElementById('alert');
+  alert.className = `alert alert-${type} mt-3`;
+  alert.textContent = message;
+  alert.style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', loadDetails);
+</script>
+}

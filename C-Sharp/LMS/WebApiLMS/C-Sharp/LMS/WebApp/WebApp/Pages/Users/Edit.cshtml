@@ -1,0 +1,183 @@
+@page "{id:int}"
+@model WebApp.Pages.Users.EditModel
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Edit User</h3>
+                </div>
+                <div class="card-body">
+                    <form id="editUserForm">
+                        <input type="hidden" id="userId">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="Admin">Admin</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Learner">Learner</option>
+                                <option value="Support Staff">Support Staff</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="accountStatus" class="form-label">Account Status</label>
+                            <select class="form-select" id="accountStatus" name="accountStatus">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Created At</label>
+                            <input type="text" class="form-control" id="createdAt" readonly disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Updated At</label>
+                            <input type="text" class="form-control" id="updatedAt" readonly disabled>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/Users" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const userId = '@Model.Id';
+        
+        async function loadUserDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/${userId}`);
+                if (!response.ok) throw new Error('Failed to fetch user details');
+                
+                const user = await response.json();
+                document.getElementById('userId').value = user.id;
+                document.getElementById('fullName').value = user.fullName;
+                document.getElementById('email').value = user.email;
+                document.getElementById('role').value = user.role;
+                document.getElementById('accountStatus').value = user.accountStatus || 'Active';
+                document.getElementById('createdAt').value = user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A';
+                document.getElementById('updatedAt').value = user.updatedAt ? new Date(user.updatedAt).toLocaleString() : 'N/A';
+            } catch (error) {
+                console.error('Error loading user details:', error);
+                showAlert('Failed to load user details', 'danger');
+            }
+        }
+
+        document.getElementById('editUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const updatedUserData = {
+                id: document.getElementById('userId').value,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                role: document.getElementById('role').value,
+                accountStatus: document.getElementById('accountStatus').value
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(updatedUserData)
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to update user';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.title || errorMsg;
+                    } catch (parseError) { /* Ignore */ }
+                    throw new Error(errorMsg);
+                }
+
+                showAlert('User updated successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/Users';
+                }, 1500);
+            } catch (error) {
+                console.error('Error updating user:', error);
+                showAlert(error.message || 'Failed to update user', 'danger');
+            }
+        });
+
+        // Standard showAlert function
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show mt-3`; // Added mt-3 for spacing
+            alertDiv.setAttribute('role', 'alert');
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+
+            // Find the container where alerts should be placed
+            // (inside .col-md-8, below the card)
+            const container = document.querySelector('.container .col-md-8');
+            if (container) {
+                 // Remove existing alerts first to prevent duplicates
+                const existingAlert = container.querySelector('.alert');
+                if(existingAlert) {
+                    existingAlert.remove();
+                }
+
+                // Append the new alert inside the .col-md-8 div
+                container.appendChild(alertDiv);
+
+            } else {
+                 // Fallback: Append to body if specific container not found
+                 document.body.appendChild(alertDiv);
+            }
+
+            // Auto-dismiss
+            setTimeout(() => {
+                 if (alertDiv.parentNode) { // Check if the alert still exists
+                    try {
+                        const bsAlert = bootstrap.Alert.getInstance(alertDiv);
+                        if (bsAlert) {
+                            bsAlert.close();
+                        } else {
+                            // Fallback if bootstrap isn't loaded or instance not found
+                            alertDiv.remove();
+                        }
+                    } catch (e) {
+                        // Handle potential error if bootstrap JS isn't loaded
+                        console.warn("Bootstrap Alert JS not found, removing alert manually.");
+                        alertDiv.remove();
+                    }
+                 }
+            }, 3000); // Auto-dismiss after 3 seconds
+        }
+
+        document.addEventListener('DOMContentLoaded', loadUserDetails);
+    </script>
+}

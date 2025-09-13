@@ -1,0 +1,1 @@
+CORS has been enabled
