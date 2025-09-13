@@ -8,6 +8,7 @@ namespace WebApiLMS.Services
     {
         Task<List<CourseModel>> GetAllCoursesAsync();
         Task<CourseModel> GetCourseByIdAsync(int id);
+        Task<List<CourseModel>> SearchCoursesAsync(string query, int take = 10);
         Task<CourseModel> CreateCourseAsync(CourseModel course);
         Task<bool> UpdateCourseAsync(int id, CourseModel course);
         Task<bool> DeleteCourseAsync(int id);
@@ -32,6 +33,24 @@ namespace WebApiLMS.Services
             return await _context.Courses.FindAsync(id);
         }
 
+        public async Task<List<CourseModel>> SearchCoursesAsync(string query, int take = 10)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return await _context.Courses
+                    .OrderBy(c => c.CourseName)
+                    .Take(take)
+                    .ToListAsync();
+            }
+
+            query = query.Trim();
+            return await _context.Courses
+                .Where(c => c.CourseName.Contains(query))
+                .OrderBy(c => c.CourseName)
+                .Take(take)
+                .ToListAsync();
+        }
+
         public async Task<CourseModel> CreateCourseAsync(CourseModel course)
         {
             _context.Courses.Add(course);
@@ -51,6 +70,12 @@ namespace WebApiLMS.Services
             existingCourse.Difficulty = course.Difficulty;
             existingCourse.Syllabus = course.Syllabus;
             existingCourse.Prerequisites = course.Prerequisites;
+            existingCourse.PdfUrl = course.PdfUrl;
+            existingCourse.WordUrl = course.WordUrl;
+            existingCourse.PowerPointUrl = course.PowerPointUrl;
+            existingCourse.ExcelUrl = course.ExcelUrl;
+            existingCourse.ZipUrl = course.ZipUrl;
+            existingCourse.TeamsJoinUrl = course.TeamsJoinUrl;
 
             await _context.SaveChangesAsync();
             return true;

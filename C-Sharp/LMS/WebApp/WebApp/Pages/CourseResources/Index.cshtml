@@ -1,0 +1,163 @@
+@page
+@model WebApp.Pages.CourseResources.IndexModel
+@{
+    ViewData["Title"] = "Course Resources";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Course Resources</h2>
+        <a href="/CourseResources/Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create New Resource
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row g-3 mb-3">
+                <div class="col-md-5 position-relative">
+                    <input type="text" class="form-control" id="courseSearch" placeholder="Search course by name...">
+                    <input type="hidden" id="courseIdFilter">
+                    <div id="courseSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" id="moduleFilter" placeholder="Module (e.g., Week 1)">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-select" id="typeFilter">
+                        <option value="">All Types</option>
+                        <option value="Document">Document</option>
+                        <option value="Video">Video</option>
+                        <option value="LiveSession">Live Session</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-secondary w-100" onclick="loadResources()">Filter</button>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>CourseId</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Module</th>
+                            <th>Published</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resourcesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+<script>
+const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+
+let searchTimeout;
+
+async function loadResources() {
+  const courseId = document.getElementById('courseIdFilter').value;
+  const type = document.getElementById('typeFilter').value;
+  const module = document.getElementById('moduleFilter').value;
+  if (!courseId) {
+    showAlert('Select a course to load resources', 'warning');
+    return;
+  }
+  const params = new URLSearchParams();
+  if (type) params.append('type', type);
+  if (module) params.append('module', module);
+  let url = `${apiBaseUrl}/api/courses/${courseId}/resources`;
+  const qs = params.toString();
+  if (qs) url += `?${qs}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Failed to fetch resources');
+    const items = await res.json();
+    const body = document.getElementById('resourcesTableBody');
+    body.innerHTML = items.map(r => `
+      <tr>
+        <td>${r.id}</td>
+        <td>${r.courseId}</td>
+        <td>${r.type}</td>
+        <td>${escapeHtml(r.title)}</td>
+        <td>${escapeHtml(r.module || '')}</td>
+        <td><span class="badge ${r.isPublished ? 'bg-success' : 'bg-secondary'}">${r.isPublished ? 'Yes' : 'No'}</span></td>
+        <td>
+          <div class="btn-group" role="group">
+            <a href="/CourseResources/Details/${r.courseId}?id=${r.id}" class="btn btn-info btn-sm">View</a>
+            <a href="/CourseResources/Edit/${r.courseId}?id=${r.id}" class="btn btn-primary btn-sm">Edit</a>
+            <button class="btn btn-danger btn-sm" onclick="deleteResource(${r.courseId}, ${r.id})">Delete</button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error(err);
+    showAlert('Failed to load resources', 'danger');
+  }
+}
+
+async function deleteResource(courseId, id) {
+  if (!confirm('Are you sure you want to delete this resource?')) return;
+  try {
+    const res = await fetch(`${apiBaseUrl}/api/courses/${courseId}/resources/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to delete');
+    showAlert('Deleted successfully', 'success');
+    loadResources();
+  } catch (e) {
+    console.error(e);
+    showAlert('Failed to delete resource', 'danger');
+  }
+}
+
+function showAlert(message, type) {
+  const alert = document.getElementById('alert');
+  alert.className = `alert alert-${type} mt-3`;
+  alert.textContent = message;
+  alert.style.display = 'block';
+}
+
+function escapeHtml(unsafe) {
+  if (!unsafe) return '';
+  return unsafe.toString()
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+async function searchCourses(term) {
+  const list = document.getElementById('courseSuggestions');
+  if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+  const res = await fetch(`${apiBaseUrl}/api/Course/search?q=${encodeURIComponent(term)}`);
+  if (!res.ok) return;
+  const items = await res.json();
+  list.innerHTML = items.map(c => `<button type="button" class="list-group-item list-group-item-action" data-id="${c.id}" data-name="${c.courseName}">${c.courseName}</button>`).join('');
+  list.style.display = items.length ? 'block' : 'none';
+  [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+    document.getElementById('courseIdFilter').value = btn.getAttribute('data-id');
+    document.getElementById('courseSearch').value = btn.getAttribute('data-name');
+    list.style.display = 'none';
+    loadResources();
+  }));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('courseSearch');
+  input.addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => searchCourses(e.target.value), 300);
+  });
+});
+</script>
+}

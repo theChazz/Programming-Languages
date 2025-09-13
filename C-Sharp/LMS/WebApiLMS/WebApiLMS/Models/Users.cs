@@ -24,9 +24,12 @@ namespace WebApiLMS.Models
         [StringLength(255)]
         public string PasswordHash { get; set; }
 
+        // Link to role reference table
         [Required]
-        [StringLength(50)]
-        public string Role { get; set; }
+        public int UserRoleId { get; set; }
+
+        [ForeignKey("UserRoleId")]
+        public UserRoleModel UserRole { get; set; }
 
         [Required]
         [StringLength(50)]

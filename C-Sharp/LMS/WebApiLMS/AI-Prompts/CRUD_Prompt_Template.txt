@@ -1,0 +1,194 @@
+## Use Sequential Thinking MCP 
+
+CRUD Generation Prompt for ASP.NET Core (with EF Migration)
+
+## Step 1: Run EF Core Migration
+- After adding new models and DbSet properties, run:
+  ```sh
+  dotnet ef migrations add <MigrationName> --project <PathToYourCsproj>
+  dotnet ef database update --project <PathToYourCsproj>
+  ```
+- This ensures your database schema is up to date before implementing CRUD logic.
+- Do not seed via code. Populate lookups via SQL scripts or dedicated migrations only.
+
+## Step 2: Generate Complete CRUD for a New Entity in ASP.NET Core
+
+**Context:**  
+I am building an ASP.NET Core Web API project. I want you to generate all the code needed for a new entity, following the structure and conventions of my existing project.  
+Use the following files as templates for each layer:
+
+- **Controllers:**  
+  - CourseController.cs  
+  - ProgramController.cs  
+  - ProgramCourseController.cs
+- **Models:**  
+  - CourseModel.cs  
+  - ProgramModel.cs  
+  - ProgramCourseModel.cs
+- **Services:**  
+  - CourseService.cs  
+  - ProgramService.cs  
+  - ProgramCourseService.cs
+- **DTOs:**  
+  - All files in /DTOs/ProgramCourse/ (e.g., ProgramCourseDto.cs, CreateProgramCourseRequest.cs, UpdateProgramCourseRequest.cs)
+- **Startup/Registration:**  
+  - Program.cs (for service registration, CORS, Swagger, etc.)
+
+---
+
+### Requirements for the Generated CRUD
+1. **Model:**
+   - Use Data Annotations for validation and database mapping.
+   - Follow the structure of the sample models (e.g., Id as primary key, navigation properties if needed).
+2. **DTOs:**
+   - Create DTOs for reading, creating, and updating the entity.
+   - Place them in a dedicated DTOs folder for the entity.
+3. **Service Layer:**
+   - Implement an interface and a concrete service class.
+   - Use async methods for all database operations.
+   - Inject the DbContext and use Entity Framework Core for data access.
+   - Return appropriate types (e.g., entity, bool for success, or null for not found).
+4. **Controller:**
+   - Use [ApiController] and [Route("api/[controller]")].
+   - Implement endpoints for:
+     - GET /api/[entity] (all)
+     - GET /api/[entity]/{id} (by id)
+     - POST /api/[entity] (create)
+     - PUT /api/[entity]/{id} (update)
+     - DELETE /api/[entity]/{id} (delete)
+   - Use DTOs for input/output.
+   - Return appropriate HTTP status codes and error handling as in the sample controllers.
+5. **Program.cs / Startup:**
+   - Register the new service in the DI container.
+   - Ensure CORS and Swagger are enabled.
+   - Add the DbSet for the new entity in the DbContext if not already present.
+6. **DbContext:**
+   - Add a DbSet<NewEntityModel> property.
+7. **Validation & Error Handling:**
+   - Follow the try/catch and error response patterns in the sample controllers.
+   - Validate input using Data Annotations and model binding.
+8. **Navigation Properties:**
+   - If the entity has relationships (e.g., foreign keys), include navigation properties and configure them as in the sample models.
+
+---
+
+### CRITICAL: Junction/Relationship Entity Pattern (ProgramCourse, CourseStudentEnrollment, etc.)
+
+**IMPORTANT:** For junction/relationship entities that connect two or more entities (like ProgramCourse, CourseStudentEnrollment, CourseLecturerAssignment), follow this EXACT pattern to avoid interface mismatches:
+
+#### Service Interface Pattern:
+```csharp
+public interface I[EntityName]Service
+{
+    Task<List<[EntityName]Model>> GetAllAsync();           // Returns full models with includes
+    Task<[EntityName]Model> GetByIdAsync(int id);          // Returns full model with includes
+    Task<[EntityName]Model> CreateAsync(Create[EntityName]Request request); // Returns created model
+    Task<bool> UpdateAsync(int id, Update[EntityName]Request request);
+    Task<bool> DeleteAsync(int id);
+}
+```
+
+#### Service Implementation Pattern:
+```csharp
+public class [EntityName]Service : I[EntityName]Service
+{
+    public async Task<List<[EntityName]Model>> GetAllAsync()
+    {
+        return await _context.[EntityName]s
+            .Include(e => e.RelatedEntity1)
+            .Include(e => e.RelatedEntity2)
+            .ToListAsync();
+    }
+
+    public async Task<[EntityName]Model> GetByIdAsync(int id)
+    {
+        return await _context.[EntityName]s
+            .Include(e => e.RelatedEntity1)
+            .Include(e => e.RelatedEntity2)
+            .FirstOrDefaultAsync(e => e.Id == id);
+    }
+
+    public async Task<[EntityName]Model> CreateAsync(Create[EntityName]Request request)
+    {
+        var entity = new [EntityName]Model
+        {
+            // Map properties from request
+        };
+        _context.[EntityName]s.Add(entity);
+        await _context.SaveChangesAsync();
+        return entity; // Return the created entity (not DTO)
+    }
+}
+```
+
+#### Controller Pattern:
+```csharp
+[HttpGet]
+public async Task<ActionResult<List<[EntityName]Model>>> GetAll()
+{
+    var result = await _service.GetAllAsync();
+    return Ok(result); // Return full models with related entities
+}
+
+[HttpGet("{id}")]
+public async Task<ActionResult<[EntityName]Dto>> GetById(int id)
+{
+    var entity = await _service.GetByIdAsync(id);
+    if (entity == null) return NotFound();
+    
+    var dto = new [EntityName]Dto
+    {
+        // Map to simple DTO
+    };
+    return Ok(dto);
+}
+
+[HttpPost]
+public async Task<ActionResult<[EntityName]Dto>> Create([FromBody] Create[EntityName]Request request)
+{
+    var createdEntity = await _service.CreateAsync(request);
+    
+    var createdDto = new [EntityName]Dto 
+    { 
+        // Map to simple DTO
+    }; 
+    return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
+}
+```
+
+#### Key Points for Junction Entities:
+1. **Service methods return Model types** (not DTOs) for GetAll, GetById, and Create
+2. **Controller GetAll() returns full models** with related entities included
+3. **Controller GetById() and Create() return simple DTOs** (no nested objects)
+4. **Always use .Include()** for related entities in service queries
+5. **DTOs remain simple** (no nested DTO properties)
+
+---
+
+### Example Entity Name: Student
+**Please generate:**
+- StudentModel.cs (with Data Annotations)
+- DTOs: StudentDto.cs, CreateStudentRequest.cs, UpdateStudentRequest.cs
+- IStudentService.cs and StudentService.cs
+- StudentController.cs
+- Registration in Program.cs
+- DbSet<StudentModel> in WebApiLMSDbContext.cs
+
+**Follow the structure and conventions of the provided templates.**  
+**Ensure all CRUD operations are fully functional and ready to use.**  
+**If any additional configuration or code is needed for the CRUD to work (e.g., migrations, DI registration, DbContext changes), include that as well.**
+
+---
+
+### Additional Notes
+- Use async/await for all database operations.
+- Use dependency injection for services.
+- Use [FromBody] for POST/PUT requests.
+- Return NotFound, Ok, CreatedAtAction, or NoContent as appropriate.
+- Use DTOs for all API input/output, not the EF models directly.
+- If the entity has relationships, include navigation properties and handle them as in ProgramCourseModel.
+- Ensure the new entity is included in the DbContext and registered in DI in Program.cs.
+
+---
+
+**End of Prompt**

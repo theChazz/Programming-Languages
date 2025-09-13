@@ -19,29 +19,74 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        <!-- Dashboard -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">Dashboard</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Index">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+                        </li>
+
+                        <!-- Academic Management Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-graduation-cap"></i> Academic
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Programs/Index">
+                                    <i class="fas fa-book-open"></i> Programs
+                                </a></li>
+                                <li><a class="dropdown-item" asp-page="/ProgramCourses/Index">
+                                    <i class="fas fa-list"></i> Program Courses
+                                </a></li>
+                                <li><a class="dropdown-item" asp-page="/Courses/Index">
+                                    <i class="fas fa-chalkboard"></i> Courses
+                                </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Course Management Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-tasks"></i> Course Management
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/CourseLecturerAssignments/Index">
+                                    <i class="fas fa-user-graduate"></i> Lecturer Assignments
+                                </a></li>
+                                <li><a class="dropdown-item" asp-page="/CourseStudentEnrollments/Index">
+                                    <i class="fas fa-users"></i> Student Enrollments
+                                </a></li>
+                                <li><a class="dropdown-item" asp-page="/CourseResources/Index">
+                                    <i class="fas fa-file-alt"></i> Course Resources
+                                </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- User Management Dropdown -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-users-cog"></i> Users
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/Users/Index">
+                                    <i class="fas fa-user-friends"></i> All Users
+                                </a></li>
+                                <li><a class="dropdown-item" asp-page="/UserProgramEnrollments/Index">
+                                    <i class="fas fa-user-check"></i> Program Enrollments
+                                </a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Reports & Settings -->
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Reports/Index">
+                                <i class="fas fa-chart-bar"></i> Reports
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">Users</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/UserProgramEnrollments/Index">Users Program Enrollments</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Programs/Index">Programs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/ProgramCourses/Index">Program Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Courses/Index">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Reports/Index">Reports</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Settings/Index">Settings</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Admin/Settings/Index">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">

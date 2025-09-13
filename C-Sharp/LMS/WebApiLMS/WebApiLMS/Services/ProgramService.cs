@@ -52,6 +52,7 @@ namespace WebApiLMS.Services
             existingProgram.Status = program.Status;
             existingProgram.Description = program.Description;
             existingProgram.Type = program.Type;
+            existingProgram.ProgramTypeId = program.ProgramTypeId;
             existingProgram.DurationMonths = program.DurationMonths;
 
             await _context.SaveChangesAsync();

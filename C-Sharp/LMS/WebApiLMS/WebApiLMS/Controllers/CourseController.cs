@@ -29,6 +29,21 @@ namespace WebApiLMS.Controllers
             }
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string q, [FromQuery] int take = 10)
+        {
+            try
+            {
+                var results = await _courseService.SearchCoursesAsync(q ?? string.Empty, take);
+                var shaped = results.Select(c => new { id = c.Id, courseName = c.CourseName });
+                return Ok(shaped);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while searching courses");
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourse(int id)
         {
