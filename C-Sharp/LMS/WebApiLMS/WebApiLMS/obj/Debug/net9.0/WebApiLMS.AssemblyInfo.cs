@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebApiLMS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c6ee32e7011b336062dbd6e1af6aef1c0e4f954c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+48191b86ad358557435fb1f66517d46cc4b3f286")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebApiLMS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebApiLMS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

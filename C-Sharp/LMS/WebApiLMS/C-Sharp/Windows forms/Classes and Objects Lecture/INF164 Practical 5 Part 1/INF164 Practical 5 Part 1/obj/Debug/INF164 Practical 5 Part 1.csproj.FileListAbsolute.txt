@@ -1,0 +1,24 @@
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.exe.config
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.exe
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.pdb
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csprojAssemblyReference.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmAddProduct.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmDemoInventoryManagement.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmEditProduct.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.Properties.Resources.resources
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csproj.GenerateResource.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csproj.CoreCompileInputs.cache
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.exe
+C:\Users\Chazz\source\repos\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.pdb
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.exe.config
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.exe
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\bin\Debug\INF164 Practical 5 Part 1.pdb
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csprojAssemblyReference.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmAddProduct.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmDemoInventoryManagement.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.frmEditProduct.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164_Practical_5_Part_1.Properties.Resources.resources
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csproj.GenerateResource.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.csproj.CoreCompileInputs.cache
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.exe
+C:\Users\Chazz\OneDrive\5th Year Assitant Lecturer Documents\INF 164 2021\Practical Lectures\Practical 5\INF164 Practical 5 Part 1\INF164 Practical 5 Part 1\obj\Debug\INF164 Practical 5 Part 1.pdb

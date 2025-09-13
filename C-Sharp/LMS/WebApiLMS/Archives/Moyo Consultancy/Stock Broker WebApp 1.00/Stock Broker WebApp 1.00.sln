@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32510.428
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stock Broker WebApp 1.00", "Stock Broker WebApp 1.00\Stock Broker WebApp 1.00.csproj", "{25201E5E-30A3-4D2D-B503-394133C847A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25201E5E-30A3-4D2D-B503-394133C847A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25201E5E-30A3-4D2D-B503-394133C847A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25201E5E-30A3-4D2D-B503-394133C847A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25201E5E-30A3-4D2D-B503-394133C847A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A54A635-B56B-46C5-BCEC-3C93C9124EC1}
+	EndGlobalSection
+EndGlobal

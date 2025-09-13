@@ -1,0 +1,235 @@
+@page
+@model WebApp.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <h2 id="totalUsers">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Admins</h5>
+                    <h2 id="admins">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Learners</h5>
+                    <h2 id="learners">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Lecturers</h5>
+                    <h2 id="lecturers">-</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Support Staff</h5>
+                    <h2 id="supportStaff">-</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Management -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>User Management</h2>
+        <a href="/Admin/Users/Create" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New User
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Add New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="userForm">
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select class="form-control" id="role" required>
+                            <option value="">Select Role</option>
+                            <option value="admin">Admin</option>
+                            <option value="lecturer">Lecturer</option>
+                            <option value="learner">Learner</option>
+                            <option value="support_staff">Support Staff</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveUser()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        async function loadDashboardData() {
+            try {
+                // Fetch all users
+                const usersResponse = await fetch(`${apiBaseUrl}/api/User`);
+                if (!usersResponse.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const users = await usersResponse.json();
+
+                // Calculate counts
+                const totalUsers = users.length;
+                const admins = users.filter(u => u.role === 'Admin').length;
+                const learners = users.filter(u => u.role === 'Learner').length;
+                const lecturers = users.filter(u => u.role === 'Lecturer').length;
+                const supportStaff = users.filter(u => u.role === 'Support Staff').length;
+
+                // Update stat cards
+                document.getElementById('totalUsers').textContent = totalUsers;
+                document.getElementById('admins').textContent = admins;
+                document.getElementById('learners').textContent = learners;
+                document.getElementById('lecturers').textContent = lecturers;
+                document.getElementById('supportStaff').textContent = supportStaff;
+
+                // (Optional) Update user table with first few users
+                const userTableBody = document.getElementById('userTableBody');
+                userTableBody.innerHTML = ''; // Clear existing
+                const usersToShow = users.slice(0, 10); // Show first 10 users
+
+                usersToShow.forEach(user => {
+                    userTableBody.innerHTML += `
+                        <tr>
+                            <td>${escapeHtml(user.fullName)}</td>
+                            <td>${escapeHtml(user.email)}</td>
+                            <td>${escapeHtml(user.role)}</td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="/Users/Details/${user.id}" class="btn btn-info btn-sm">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                    <a href="/Users/Edit/${user.id}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                // Display an error message on the page if needed
+                showAlert('Failed to load dashboard data.', 'danger');
+            }
+        }
+        
+        // Simple escape function (consider a more robust library if needed)
+        function escapeHtml(unsafe) {
+            if (unsafe === null || typeof unsafe === 'undefined') return '';
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+        // Function to handle user deletion (if keeping the table)
+        async function deleteUser(id) {
+            if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                return;
+            }
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/${id}`, { method: 'DELETE' });
+                if (!response.ok) {
+                    let errorMsg = 'Failed to delete user';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.title || errorMsg;
+                    } catch (e) { /* Ignore */ }
+                    throw new Error(errorMsg);
+                }
+                showAlert('User deleted successfully.', 'success');
+                loadDashboardData(); // Reload data
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                showAlert(error.message || 'Failed to delete user', 'danger');
+            }
+        }
+
+        // Load dashboard when page loads
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+    </script>
+} 

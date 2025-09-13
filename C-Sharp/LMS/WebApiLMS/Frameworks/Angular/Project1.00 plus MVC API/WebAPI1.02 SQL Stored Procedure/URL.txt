@@ -1,0 +1,6 @@
+
+//C# API's CRUD using stored procedures
+https://www.youtube.com/watch?v=DboyInxNgXc&ab_channel=ManojDeshwal
+
+//Windows form CRUD using stored procedures
+https://youtu.be/C7ukAjQtsxE

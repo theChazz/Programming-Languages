@@ -1,0 +1,68 @@
+@page "{id:int}"
+@model WebApp.Pages.CourseLecturerAssignments.DetailsModel
+@{
+    ViewData["Title"] = "Course Lecturer Assignment Details";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Course Lecturer Assignment Details</h2>
+        <div>
+            <a href="/CourseLecturerAssignments/Edit/@Model.Id" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="/CourseLecturerAssignments" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Course:</div>
+                <div class="col-md-9" id="courseDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Lecturer:</div>
+                <div class="col-md-9" id="lecturerDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Assigned At:</div>
+                <div class="col-md-9" id="assignedAtDisplay"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const assignmentId = '@Model.Id';
+        
+        async function loadAssignmentDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseLecturerAssignment/${assignmentId}`);
+                if (!response.ok) throw new Error('Failed to load assignment details');
+                
+                const assignment = await response.json();
+                document.getElementById('courseDisplay').textContent = assignment.course?.courseName || 'N/A';
+                document.getElementById('lecturerDisplay').textContent = assignment.lecturer?.fullName || 'N/A';
+                document.getElementById('assignedAtDisplay').textContent = new Date(assignment.assignedAt).toLocaleString();
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load assignment details', 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAssignmentDetails);
+    </script>
+} 

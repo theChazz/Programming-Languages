@@ -1,0 +1,91 @@
+@page
+@model WebApp.Pages.Templates.CreateModel // Changed model
+@{
+    ViewData["Title"] = "Create Item"; // Changed title
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Create New Item</h3> <!-- Changed heading -->
+                </div>
+                <div class="card-body">
+                    <form id="createItemForm"> <!-- Changed ID -->
+                        <!-- Placeholder form fields - Adjust as needed -->
+                        <div class="mb-3">
+                            <label for="itemName" class="form-label">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" name="itemName" required maxlength="255">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <!-- Add other relevant fields for your 'Item' here -->
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/Templates" class="btn btn-secondary"> <!-- Changed link -->
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Create Item <!-- Changed text -->
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        document.getElementById('createItemForm').addEventListener('submit', async (e) => { // Changed ID
+            e.preventDefault();
+            
+            // Adjust data collection based on actual form fields
+            const itemData = { 
+                name: document.getElementById('itemName').value, 
+                description: document.getElementById('description').value
+                // Add other fields here
+            };
+
+            try {
+                // Adjust API endpoint as needed
+                const response = await fetch(`${apiBaseUrl}/api/Item`, { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(itemData) // Renamed variable
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to create item'); // Changed message
+                }
+
+                showAlert('Item created successfully!', 'success'); // Changed message
+                setTimeout(() => {
+                    window.location.href = '/Templates'; // Changed link
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to create item', 'danger'); // Changed message
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+    </script>
+} 

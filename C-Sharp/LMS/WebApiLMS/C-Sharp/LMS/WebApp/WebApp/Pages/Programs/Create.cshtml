@@ -1,0 +1,99 @@
+@page
+@model WebApp.Pages.Programs.CreateModel
+@{
+    ViewData["Title"] = "Create Program";
+}
+
+<div class="container mt-4">
+    <h2>Create New Program</h2>
+    <form id="createProgramForm" class="mt-4">
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="code" class="form-label">Code</label>
+            <input type="text" class="form-control" id="code" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="level" class="form-label">Level</label>
+            <input type="text" class="form-control" id="level" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="department" class="form-label">Department</label>
+            <input type="text" class="form-control" id="department" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <input type="text" class="form-control" id="type" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" rows="3" required></textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="durationMonths" class="form-label">Duration (Months)</label>
+            <input type="number" class="form-control" id="durationMonths" required min="1">
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Create Program</button>
+            <a href="/Programs" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        document.getElementById('createProgramForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const programData = {
+                name: document.getElementById('name').value,
+                code: document.getElementById('code').value,
+                level: document.getElementById('level').value,
+                department: document.getElementById('department').value,
+                type: document.getElementById('type').value,
+                description: document.getElementById('description').value,
+                durationMonths: parseInt(document.getElementById('durationMonths').value),
+                status: 'Active' // Default value
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Program`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(programData)
+                });
+
+                if (!response.ok) throw new Error('Failed to create program');
+                
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-success mt-3';
+                alert.textContent = 'Program created successfully';
+                alert.style.display = 'block';
+                
+                setTimeout(() => {
+                    window.location.href = '/Programs';
+                }, 1000);
+            } catch (error) {
+                console.error('Error:', error);
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger mt-3';
+                alert.textContent = `Error: ${error.message}`;
+                alert.style.display = 'block';
+            }
+        });
+    </script>
+} 

@@ -551,3 +551,4 @@ C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebA
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.build.json.cache
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

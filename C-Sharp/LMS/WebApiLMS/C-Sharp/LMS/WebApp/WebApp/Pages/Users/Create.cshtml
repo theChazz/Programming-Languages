@@ -1,0 +1,111 @@
+@page
+@model WebApp.Pages.Users.CreateModel
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Create New User</h3>
+                </div>
+                <div class="card-body">
+                    <form id="createUserForm">
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="Admin">Admin</option>
+                                <option value="Lecturer">Lecturer</option>
+                                <option value="Learner">Learner</option>
+                                <option value="Support Staff">Support Staff</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="accountStatus" class="form-label">Account Status</label>
+                            <select class="form-select" id="accountStatus" name="accountStatus">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="/Users" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Create User
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+
+        document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const userData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                role: document.getElementById('role').value,
+                accountStatus: document.getElementById('accountStatus').value
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(userData)
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to create user';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.title || errorMsg;
+                    } catch (parseError) { /* Ignore if response body is not JSON */ }
+                    throw new Error(errorMsg);
+                }
+
+                showAlert('User created successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/Users'; // Redirect to the index page
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to create user', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+    </script>
+} 
