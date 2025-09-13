@@ -1,0 +1,170 @@
+@page "{id:int}"
+@model WebApp.Pages.CourseStudentEnrollments.EditModel
+@{
+    ViewData["Title"] = "Edit Course Student Enrollment";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Edit Course Student Enrollment</h3>
+                </div>
+                <div class="card-body">
+                    <form id="editCourseStudentEnrollmentForm">
+                        <input type="hidden" id="enrollmentId">
+                        
+                        <div class="mb-3">
+                            <label for="courseId" class="form-label">Course</label>
+                            <select class="form-select" id="courseId" name="courseId" required>
+                                <option value="">Select a course...</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="studentId" class="form-label">Student</label>
+                            <select class="form-select" id="studentId" name="studentId" required>
+                                <option value="">Select a student...</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="progress" class="form-label">Progress (%)</label>
+                            <input type="number" class="form-control" id="progress" name="progress" 
+                                   min="0" max="100" step="0.1" placeholder="Enter progress percentage (optional)">
+                            <div class="form-text">Enter a value between 0 and 100. Leave empty if not set.</div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/CourseStudentEnrollments" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const enrollmentId = '@Model.Id';
+        
+        async function loadEnrollment() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseStudentEnrollment/${enrollmentId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch enrollment details');
+                }
+                
+                const enrollment = await response.json();
+                document.getElementById('enrollmentId').value = enrollment.id;
+                document.getElementById('courseId').value = enrollment.courseId || '';
+                document.getElementById('studentId').value = enrollment.studentId || '';
+                document.getElementById('progress').value = enrollment.progress || '';
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to load enrollment details', 'danger');
+            }
+        }
+
+        async function loadCourses() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Course`);
+                if (!response.ok) throw new Error('Failed to fetch courses');
+                
+                const courses = await response.json();
+                const courseSelect = document.getElementById('courseId');
+                
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.courseName;
+                    courseSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load courses', 'danger');
+            }
+        }
+
+        async function loadStudents() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User`);
+                if (!response.ok) throw new Error('Failed to fetch users');
+                
+                const users = await response.json();
+                const studentSelect = document.getElementById('studentId');
+                
+                // Filter users with role "Student"
+                const students = users.filter(user => user.role === 'Student');
+                
+                students.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.id;
+                    option.textContent = student.fullName;
+                    studentSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load students', 'danger');
+            }
+        }
+
+        document.getElementById('editCourseStudentEnrollmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const progressValue = document.getElementById('progress').value;
+            const enrollmentData = {
+                id: parseInt(document.getElementById('enrollmentId').value),
+                courseId: parseInt(document.getElementById('courseId').value),
+                studentId: parseInt(document.getElementById('studentId').value),
+                progress: progressValue ? parseFloat(progressValue) : null
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseStudentEnrollment/${enrollmentId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(enrollmentData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update enrollment');
+                }
+
+                showAlert('Course Student Enrollment updated successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/CourseStudentEnrollments';
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to update enrollment', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        // Load enrollment data and dropdowns when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadEnrollment();
+            loadCourses();
+            loadStudents();
+        });
+    </script>
+} 

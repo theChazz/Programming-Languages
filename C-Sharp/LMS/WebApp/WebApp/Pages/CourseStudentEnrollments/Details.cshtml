@@ -1,0 +1,86 @@
+@page "{id:int}"
+@model WebApp.Pages.CourseStudentEnrollments.DetailsModel
+@{
+    ViewData["Title"] = "Course Student Enrollment Details";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Course Student Enrollment Details</h2>
+        <div>
+            <a href="/CourseStudentEnrollments/Edit/@Model.Id" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="/CourseStudentEnrollments" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Course:</div>
+                <div class="col-md-9" id="courseDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Student:</div>
+                <div class="col-md-9" id="studentDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Enrolled At:</div>
+                <div class="col-md-9" id="enrolledAtDisplay"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3 fw-bold">Progress:</div>
+                <div class="col-md-9" id="progressDisplay"></div>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        const enrollmentId = '@Model.Id';
+        
+        async function loadEnrollmentDetails() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseStudentEnrollment/${enrollmentId}`);
+                if (!response.ok) throw new Error('Failed to load enrollment details');
+                
+                const enrollment = await response.json();
+                document.getElementById('courseDisplay').textContent = enrollment.course?.courseName || 'N/A';
+                document.getElementById('studentDisplay').textContent = enrollment.student?.fullName || 'N/A';
+                document.getElementById('enrolledAtDisplay').textContent = new Date(enrollment.enrolledAt).toLocaleString();
+                
+                const progressDisplay = document.getElementById('progressDisplay');
+                if (enrollment.progress !== null) {
+                    progressDisplay.innerHTML = `
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar" role="progressbar" style="width: ${enrollment.progress}%" 
+                                 aria-valuenow="${enrollment.progress}" aria-valuemin="0" aria-valuemax="100">
+                                ${enrollment.progress}%
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    progressDisplay.textContent = 'Not set';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load enrollment details', 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadEnrollmentDetails);
+    </script>
+} 
