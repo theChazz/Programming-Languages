@@ -35,14 +35,14 @@ artifacts/
 secrets.json
 appsettings.*.local.json
 
-## Entity Framework migrations (snapshot files can be ignored if desired)
+## Entity Framework migrations designer files
 *Migrations/*Designer.cs
 
 ## Rider / JetBrains IDE
 .idea/
 *.iml
 
-## Frontend assets (if using LibMan or npm)
+## Frontend assets (LibMan or npm)
 wwwroot/lib/
 node_modules/
 dist/
@@ -55,7 +55,6 @@ dist/
 *.tmp
 *.bak
 *.swp
-*.exe
 
 ## OS-specific files
 .DS_Store
@@ -66,3 +65,14 @@ desktop.ini
 ## Publish outputs
 .publish/
 .publish_output/
+
+## Prevent accidental archive/binary commits
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.iso
+*.dll
+*.exe
+*.pdb
