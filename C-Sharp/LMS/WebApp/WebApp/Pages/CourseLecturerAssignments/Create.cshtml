@@ -1,0 +1,138 @@
+@page
+@model WebApp.Pages.CourseLecturerAssignments.CreateModel
+@{
+    ViewData["Title"] = "Create Course Lecturer Assignment";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Create New Course Lecturer Assignment</h3>
+                </div>
+                <div class="card-body">
+                    <form id="createCourseLecturerAssignmentForm">
+                        <div class="mb-3">
+                            <label for="courseId" class="form-label">Course</label>
+                            <select class="form-select" id="courseId" name="courseId" required>
+                                <option value="">Select a course...</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lecturerId" class="form-label">Lecturer</label>
+                            <select class="form-select" id="lecturerId" name="lecturerId" required>
+                                <option value="">Select a lecturer...</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="/CourseLecturerAssignments" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to List
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Create Assignment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="alert" class="alert mt-3" style="display: none;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        
+        async function loadCourses() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/Course`);
+                if (!response.ok) throw new Error('Failed to fetch courses');
+                
+                const courses = await response.json();
+                const courseSelect = document.getElementById('courseId');
+                
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id;
+                    option.textContent = course.courseName;
+                    courseSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load courses', 'danger');
+            }
+        }
+
+        async function loadLecturers() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/User`);
+                if (!response.ok) throw new Error('Failed to fetch users');
+                
+                const users = await response.json();
+                const lecturerSelect = document.getElementById('lecturerId');
+                
+                // Filter users with role "Lecturer"
+                const lecturers = users.filter(user => user.role === 'Lecturer');
+                
+                lecturers.forEach(lecturer => {
+                    const option = document.createElement('option');
+                    option.value = lecturer.id;
+                    option.textContent = lecturer.fullName;
+                    lecturerSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load lecturers', 'danger');
+            }
+        }
+        
+        document.getElementById('createCourseLecturerAssignmentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const assignmentData = {
+                courseId: parseInt(document.getElementById('courseId').value),
+                lecturerId: parseInt(document.getElementById('lecturerId').value)
+            };
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseLecturerAssignment`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(assignmentData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to create assignment');
+                }
+
+                showAlert('Course Lecturer Assignment created successfully!', 'success');
+                setTimeout(() => {
+                    window.location.href = '/CourseLecturerAssignments';
+                }, 1500);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert(error.message || 'Failed to create assignment', 'danger');
+            }
+        });
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        // Load courses and lecturers when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCourses();
+            loadLecturers();
+        });
+    </script>
+} 
