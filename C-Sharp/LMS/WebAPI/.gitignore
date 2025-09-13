@@ -1,0 +1,78 @@
+﻿## Ignore Visual Studio temporary files, build results, and user-specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+## Build results
+bin/
+obj/
+[Ll]ogs/
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+[Bb]uild[Ll]og.*
+
+## NuGet packages
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+.nuget/
+
+## .NET Core generated files
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## ASP.NET Core configuration secrets
+secrets.json
+appsettings.*.local.json
+
+## Entity Framework migrations designer files
+*Migrations/*Designer.cs
+
+## Rider / JetBrains IDE
+.idea/
+*.iml
+
+## Frontend assets (LibMan or npm)
+wwwroot/lib/
+node_modules/
+dist/
+
+## Logs and temp files
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+*.tmp
+*.bak
+*.swp
+
+## OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+## Publish outputs
+.publish/
+.publish_output/
+
+## Prevent accidental archive/binary commits
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.iso
+*.dll
+*.exe
+*.pdb
