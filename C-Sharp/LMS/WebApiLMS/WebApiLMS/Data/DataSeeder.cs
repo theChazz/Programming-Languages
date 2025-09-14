@@ -41,12 +41,7 @@ namespace WebApiLMS.Data
                     Difficulty = "Beginner",
                     Syllabus = "Week 1: Basics, Week 2: Control Flow, Week 3: OOP",
                     Prerequisites = "None",
-                    PdfUrl = "",
-                    WordUrl = "",
-                    PowerPointUrl = "",
-                    ExcelUrl = "",
-                    ZipUrl = "",
-                    TeamsJoinUrl = ""
+
                 };
 
                 var databaseSystems = new CourseModel
@@ -57,12 +52,7 @@ namespace WebApiLMS.Data
                     Difficulty = "Intermediate",
                     Syllabus = "Week 1: ER Modeling, Week 2: SQL, Week 3: Normalization",
                     Prerequisites = "Intro to Programming",
-                    PdfUrl = "",
-                    WordUrl = "",
-                    PowerPointUrl = "",
-                    ExcelUrl = "",
-                    ZipUrl = "",
-                    TeamsJoinUrl = ""
+
                 };
 
                 context.Courses.AddRange(introProgramming, databaseSystems);

@@ -60,12 +60,7 @@ namespace WebApiLMS.Services
             existingCourse.Difficulty = course.Difficulty;
             existingCourse.Syllabus = course.Syllabus;
             existingCourse.Prerequisites = course.Prerequisites;
-            existingCourse.PdfUrl = course.PdfUrl;
-            existingCourse.WordUrl = course.WordUrl;
-            existingCourse.PowerPointUrl = course.PowerPointUrl;
-            existingCourse.ExcelUrl = course.ExcelUrl;
-            existingCourse.ZipUrl = course.ZipUrl;
-            existingCourse.TeamsJoinUrl = course.TeamsJoinUrl;
+
 
             await _context.SaveChangesAsync();
             return true;

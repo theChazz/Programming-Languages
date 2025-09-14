@@ -1046,7 +1046,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[WebApiLMS.Models.UserProgramEnrollmentModel, WebApiLMS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[WebApiLMS.DTOs.UserProgramEnrollment.UserProgramEnrollmentDto, WebApiLMS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1070,7 +1070,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "WebApiLMS.DTOs.UserProgramEnrollment.UserProgramEnrollmentDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "WebApiLMS.Controllers.UserProgramEnrollmentController",
@@ -1088,7 +1098,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "WebApiLMS.Models.UserProgramEnrollmentModel",
+        "Type": "WebApiLMS.DTOs.UserProgramEnrollment.UserProgramEnrollmentDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -1113,7 +1123,7 @@
       },
       {
         "Name": "requestDto",
-        "Type": "WebApiLMS.DTOs.UserProgramEnrollment.UserProgramEnrollmentRequest",
+        "Type": "WebApiLMS.DTOs.UserProgramEnrollment.UpdateUserProgramEnrollmentRequest",
         "IsRequired": true
       }
     ],
