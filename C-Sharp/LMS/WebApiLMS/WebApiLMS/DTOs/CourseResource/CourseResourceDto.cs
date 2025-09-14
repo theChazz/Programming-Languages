@@ -1,9 +1,12 @@
+using WebApiLMS.Models;
+
 namespace WebApiLMS.DTOs.CourseResource
 {
     public class CourseResourceDto
     {
         public int Id { get; set; }
         public int CourseId { get; set; }
+        public string CourseName { get; set; }
         public string Type { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,5 +22,8 @@ namespace WebApiLMS.DTOs.CourseResource
         public int? SortOrder { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+
+        // Full Course model for complete information
+        public CourseModel Course { get; set; }
     }
 }

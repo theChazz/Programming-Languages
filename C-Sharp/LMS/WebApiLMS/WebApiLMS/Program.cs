@@ -16,11 +16,14 @@ builder.Services.AddDbContext<WebApiLMSDbContext>(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IProgramService, ProgramService>();
+builder.Services.AddScoped<IUserProgramEnrollmentService, UserProgramEnrollmentService>();
 builder.Services.AddScoped<ProgramCourseService>();
-builder.Services.AddScoped<UserProgramEnrollmentService>();
+builder.Services.AddScoped<ISetaBodyService, SetaBodyService>();
+builder.Services.AddScoped<IUserRoleService, UserRoleService>();
+builder.Services.AddScoped<IProgramTypeService, ProgramTypeService>();
 builder.Services.AddScoped<ICourseStudentEnrollmentService, CourseStudentEnrollmentService>();
 builder.Services.AddScoped<ICourseLecturerAssignmentService, CourseLecturerAssignmentService>();
-builder.Services.AddScoped<ICourseResourceService, CourseResourceService>();
+builder.Services.AddScoped<CourseResourceService>();
 
 // Add CORS policy
 builder.Services.AddCors(options =>

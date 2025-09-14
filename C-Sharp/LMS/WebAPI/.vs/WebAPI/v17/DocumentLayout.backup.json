@@ -1,33 +1,33 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\",
+  "WorkspaceRootPath": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\controllers\\valuescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\controllers\\valuescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\valuescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\models\\usermodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\webapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\lms\\webapi\\webapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|c:\\users\\chazz\\onedrive\\desktop\\programming-languages\\c-sharp\\lms\\webapi\\webapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7622AE78-69EB-4B35-8FB6-411DFD38841F}|WebAPI\\WebAPI.csproj|solutionrelative:webapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -44,9 +44,9 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ValuesController.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\ValuesController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\ValuesController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\ValuesController.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\ValuesController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\ValuesController.cs",
               "RelativeToolTip": "WebAPI\\Controllers\\ValuesController.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -57,22 +57,21 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Program.cs",
               "RelativeDocumentMoniker": "WebAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Program.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Program.cs",
               "RelativeToolTip": "WebAPI\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T17:23:37.486Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T17:23:37.486Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "CourseController.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\CourseController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\CourseController.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\CourseController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\CourseController.cs",
               "RelativeToolTip": "WebAPI\\Controllers\\CourseController.cs",
               "ViewState": "AgIAADAAAAAAAAAAAAAYwEIAAAB4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -82,9 +81,9 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "WebAPI.csproj",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\WebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\WebAPI.csproj",
               "RelativeDocumentMoniker": "WebAPI\\WebAPI.csproj",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\WebAPI.csproj",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\WebAPI.csproj",
               "RelativeToolTip": "WebAPI\\WebAPI.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
@@ -94,9 +93,9 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "UserModels.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Models\\UserModels.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Models\\UserModels.cs",
               "RelativeDocumentMoniker": "WebAPI\\Models\\UserModels.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Models\\UserModels.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Models\\UserModels.cs",
               "RelativeToolTip": "WebAPI\\Models\\UserModels.cs",
               "ViewState": "AgIAADgAAAAAAAAAAAAkwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -106,9 +105,9 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\AdminController.cs",
               "RelativeToolTip": "WebAPI\\Controllers\\AdminController.cs",
               "ViewState": "AgIAAM4AAAAAAAAAAAAowM0AAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -118,9 +117,9 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "WebAPI\\Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\LMS\\WebAPI\\WebAPI\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Chazz\\OneDrive\\Desktop\\Programming-Languages\\C-Sharp\\LMS\\WebAPI\\WebAPI\\Controllers\\UserController.cs",
               "RelativeToolTip": "WebAPI\\Controllers\\UserController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

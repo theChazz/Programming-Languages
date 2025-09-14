@@ -274,3 +274,14 @@ C:\Users\Chazz\OneDrive\Desktop\LMS\WebAPI\WebAPI\bin\Debug\net8.0\ru\Microsoft.
 C:\Users\Chazz\OneDrive\Desktop\LMS\WebAPI\WebAPI\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Chazz\OneDrive\Desktop\LMS\WebAPI\WebAPI\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Chazz\OneDrive\Desktop\LMS\WebAPI\WebAPI\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.csproj.AssemblyReference.cache
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.AssemblyInfoInputs.cache
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.AssemblyInfo.cs
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.csproj.CoreCompileInputs.cache
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.dll
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\refint\WebAPI.dll
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebAPI\WebAPI\obj\Debug\net8.0\WebAPI.pdb

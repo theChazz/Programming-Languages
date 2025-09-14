@@ -6,7 +6,7 @@ using WebApiLMS.Models;
 
 namespace WebApiLMS.Services
 {
-    public class UserProgramEnrollmentService
+    public class UserProgramEnrollmentService : IUserProgramEnrollmentService
     {
         // This would typically be injected via Dependency Injection
         private readonly WebApiLMSDbContext _context;
