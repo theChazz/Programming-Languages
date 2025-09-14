@@ -10,8 +10,8 @@ namespace WebApiLMS.Controllers
     [Route("api/[controller]")]
     public class CourseStudentEnrollmentController : ControllerBase
     {
-        private readonly ICourseStudentEnrollmentService _service;
-        public CourseStudentEnrollmentController(ICourseStudentEnrollmentService service)
+        private readonly CourseStudentEnrollmentService _service;
+        public CourseStudentEnrollmentController(CourseStudentEnrollmentService service)
         {
             _service = service;
         }

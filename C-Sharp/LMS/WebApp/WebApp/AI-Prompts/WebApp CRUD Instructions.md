@@ -40,16 +40,384 @@ await page.click('text=Lecturer Assignments');  // Should navigate to /CourseLec
 await page.waitForURL('**/CourseLecturerAssignments');
 ```
 
+## 🎯 **ENHANCED FEATURES FROM CONVERSATION**
+
+### ✅ **Standardized Index Pages with Advanced Features**
+
+#### **Stats Cards Dashboard**
+```html
+<!-- Stats Cards with Real-time Data -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card border-left-primary">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total [Entities]</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="total[Entities]"></div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-[icon] fa-2x text-primary"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Additional stats cards... -->
+</div>
+```
+
+#### **Advanced Filtering Section**
+```html
+<!-- Filter Section with Multiple Criteria -->
+<div class="card mb-4">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Search [Entities]</label>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search by name...">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Filter by [Category]</label>
+                <select class="form-select" id="[category]Filter">
+                    <option value="">All [Categories]</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                    <i class="fas fa-search"></i> Search & Filter
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+#### **Grid/List View Toggle**
+```html
+<!-- View Toggle with Sticky Positioning -->
+<div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+            <i class="fas fa-th"></i> Grid View
+        </button>
+        <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+            <i class="fas fa-list"></i> List View
+        </button>
+    </div>
+</div>
+```
+
+### ✅ **Grouped Table Structure (Advanced Feature)**
+
+#### **Grouped Table CSS**
+```css
+<style>
+    .course-header-row {
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    .course-header-row:hover {
+        background-color: #e3f2fd !important;
+    }
+    .course-resource-row {
+        background-color: #f8f9fa;
+    }
+    .course-resource-row:hover {
+        background-color: #e9ecef;
+    }
+    .course-resource-row td:first-child {
+        border-left: 3px solid #007bff;
+    }
+    .btn-group .btn {
+        margin-right: 2px;
+    }
+    .table-primary {
+        background-color: #e3f2fd;
+    }
+    .course-subheader-row {
+        background-color: #f8f9fa !important;
+        border-top: 2px solid #dee2e6;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .course-subheader-row td {
+        padding: 8px 12px;
+        font-weight: 600;
+        color: #495057;
+    }
+</style>
+```
+
+#### **Grouped Table HTML Structure**
+```html
+<!-- Grouped Table with Expandable Sections -->
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>Course</th>
+        </tr>
+    </thead>
+    <tbody id="[entity]TableBody">
+        <!-- Course Header Row -->
+        <tr class="table-primary course-header-row" onclick="toggleCourse[Entities]('[courseRowId]')">
+            <td>
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-graduation-cap text-primary me-2"></i>
+                    <strong>Course Name</strong>
+                    <small class="text-muted ms-2">(Category)</small>
+                    <span class="badge bg-primary ms-2">5 resources</span>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Subheader Row (Hidden initially) -->
+        <tr class="table-secondary course-subheader-row [courseRowId]" style="display: none;">
+            <td>
+                <div class="row">
+                    <div class="col-md-4"><strong>Title</strong></div>
+                    <div class="col-md-2"><strong>Type</strong></div>
+                    <div class="col-md-2"><strong>Status</strong></div>
+                    <div class="col-md-2"><strong>Actions</strong></div>
+                </div>
+            </td>
+        </tr>
+
+        <!-- Child Rows (Hidden initially) -->
+        <tr class="course-resource-row [courseRowId]" style="display: none;">
+            <td>
+                <div class="row align-items-center">
+                    <div class="col-md-4">Resource Title</div>
+                    <div class="col-md-2"><span class="badge bg-secondary">Document</span></div>
+                    <div class="col-md-2"><span class="badge bg-success">Published</span></div>
+                    <div class="col-md-2">
+                        <div class="btn-group" role="group">
+                            <a href="/[Entity]/Details/[id]" class="btn btn-info btn-sm"><i class="fas fa-eye"></i></a>
+                            <a href="/[Entity]/Edit/[id]" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEntity([id])"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+```
+
+#### **Grouped Table JavaScript**
+```javascript
+// Group data by parent entity (course)
+function displayTableView(entities) {
+    const tableBody = document.getElementById('[entity]TableBody');
+
+    // Group entities by course
+    const groupedByCourse = entities.reduce((groups, entity) => {
+        const courseId = entity.course?.id || entity.courseId || 'unknown';
+        const courseName = entity.course?.courseName || 'Unknown Course';
+
+        if (!groups[courseId]) {
+            groups[courseId] = {
+                course: entity.course || { id: courseId, courseName: courseName },
+                entities: []
+            };
+        }
+        groups[courseId].entities.push(entity);
+        return groups;
+    }, {});
+
+    // Create HTML for grouped display
+    const html = Object.values(groupedByCourse).map(courseGroup => {
+        const course = courseGroup.course;
+        const entities = courseGroup.entities;
+        const courseRowId = `course-${course.id}`;
+
+        // Main course row + subheader + child rows...
+        return courseHtml + subheaderHtml + entitiesHtml;
+    }).join('');
+
+    tableBody.innerHTML = html;
+}
+
+// Toggle grouped sections
+function toggleCourseEntities(courseRowId) {
+    const entityRows = document.querySelectorAll(`.course-entity-row.${courseRowId}`);
+    const subheaderRow = document.querySelector(`.course-subheader-row.${courseRowId}`);
+
+    const isVisible = entityRows.length > 0 && entityRows[0].style.display !== 'none';
+
+    // Toggle entity rows
+    entityRows.forEach(row => {
+        row.style.display = isVisible ? 'none' : 'table-row';
+    });
+
+    // Toggle subheader row
+    if (subheaderRow) {
+        subheaderRow.style.display = isVisible ? 'none' : 'table-row';
+    }
+}
+```
+
+### ✅ **Advanced JavaScript Features**
+
+#### **Real-time Statistics**
+```javascript
+function updateStatistics(entities) {
+    // Total entities
+    document.getElementById('totalEntities').textContent = entities.length;
+
+    // Active entities (custom logic)
+    const activeCount = entities.filter(e => e.isActive).length;
+    document.getElementById('activeEntities').textContent = activeCount;
+
+    // Categories count
+    const categories = [...new Set(entities.map(e => e.category).filter(Boolean))];
+    document.getElementById('categoriesCount').textContent = categories.length;
+
+    // Additional metrics...
+}
+```
+
+#### **Advanced Search with Autocomplete**
+```javascript
+async function searchCourses(term) {
+    const list = document.getElementById('courseSuggestions');
+    if (!term || term.length < 2) {
+        list.style.display = 'none';
+        list.innerHTML = '';
+        return;
+    }
+
+    try {
+        const res = await fetch(`${apiBaseUrl}/api/Course/search?q=${encodeURIComponent(term)}`);
+        if (!res.ok) return;
+
+        const items = await res.json();
+        list.innerHTML = items.map(c =>
+            `<button type="button" class="list-group-item list-group-item-action"
+                     data-id="${c.id}" data-name="${c.courseName}">${c.courseName}</button>`
+        ).join('');
+        list.style.display = items.length ? 'block' : 'none';
+
+        // Add click handlers
+        [...list.querySelectorAll('button')].forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('courseIdFilter').value = btn.getAttribute('data-id');
+                document.getElementById('courseSearch').value = btn.getAttribute('data-name');
+                list.style.display = 'none';
+                applyFilters();
+            });
+        });
+    } catch (error) {
+        console.error('Error searching courses:', error);
+    }
+}
+```
+
+#### **File Size Formatting**
+```javascript
+function formatFileSize(bytes) {
+    if (!bytes) return 'N/A';
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+}
+```
+
+### ✅ **Enhanced Progress Tracking**
+```html
+<!-- Progress Bar Display -->
+<div class="col-md-3">
+    <div class="d-flex align-items-center">
+        <div class="progress flex-grow-1 me-2" style="height: 15px;">
+            <div class="progress-bar ${enrollment.progress >= 100 ? 'bg-success' : enrollment.progress > 0 ? 'bg-warning' : 'bg-secondary'}"
+                 role="progressbar" style="width: ${enrollment.progress || 0}%"
+                 aria-valuenow="${enrollment.progress || 0}" aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+        <small class="text-nowrap">${enrollment.progress || 0}%</small>
+    </div>
+</div>
+```
+
+### ✅ **Enhanced Error Handling**
+```javascript
+async function deleteEntity(id) {
+    if (!confirm('Are you sure you want to delete this entity?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${apiBaseUrl}/api/Entity/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            let errorMsg = 'Failed to delete entity';
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorData.title || errorMsg;
+            } catch (e) {
+                // Ignore if response body is not JSON
+            }
+            throw new Error(errorMsg);
+        }
+
+        const responseText = await response.text();
+        if (response.status === 204 || !responseText) {
+            showAlert('Entity deleted successfully!', 'success');
+        } else {
+            try {
+                const result = JSON.parse(responseText);
+                showAlert(result.message || 'Entity deleted successfully!', 'success');
+            } catch (e) {
+                showAlert('Entity deleted successfully! (non-JSON response)', 'success');
+            }
+        }
+
+        loadEntities(); // Reload data
+    } catch (error) {
+        console.error('Error deleting entity:', error);
+        showAlert(error.message || 'Failed to delete entity', 'danger');
+    }
+}
+```
+
 ## 🎯 Overview
 This document provides standardized instructions for generating complete CRUD functionality for new entities in the ASP.NET Core Razor Pages Learning Management System (LMS). The application uses modern UI patterns with Bootstrap 5, FontAwesome icons, and client-side JavaScript for API communication.
 
 ## 📚 Base Templates (UPDATED)
 Use these enhanced templates for each CRUD operation:
-- **Programs** (`/Pages/Programs/`) - Card-based layout with stats dashboard
+- **Programs** (`/Pages/Programs/`) - Card-based layout with stats dashboard, filtering, and grid/list views
 - **Courses** (`/Pages/Courses/`) - Grid layout with filtering and search
-- **ProgramCourses** (`/Pages/ProgramCourses/`) - Relationship management with filters
-- **CourseLecturerAssignments** (`/Pages/CourseLecturerAssignments/`) - Assignment management
-- **CourseStudentEnrollments** (`/Pages/CourseStudentEnrollments/`) - Enrollment tracking
+- **ProgramCourses** (`/Pages/ProgramCourses/`) - Relationship management with grouped tables and filters
+- **CourseLecturerAssignments** (`/Pages/CourseLecturerAssignments/`) - Assignment management with grouped tables by course
+- **CourseStudentEnrollments** (`/Pages/CourseStudentEnrollments/`) - Enrollment tracking with progress bars and grouped tables by course
+- **CourseResources** (`/Pages/CourseResources/`) - Resource management with grouped tables by course and file handling
+
+## 🔄 **KEY IMPLEMENTATIONS FROM CONVERSATION**
+
+### ✅ **Standardized Index Pages**
+All index pages now include:
+- **Real-time Statistics Cards**: Dynamic counts and metrics with icons
+- **Advanced Filtering**: Multi-field search with autocomplete dropdowns
+- **Grid/List View Toggle**: Switch between card and table layouts
+- **Consistent Styling**: Bootstrap 5 components with professional appearance
+- **Responsive Design**: Mobile-friendly layouts
+
+### ✅ **Grouped Table Structure**
+Implemented across CourseResources, CourseLecturerAssignments, and CourseStudentEnrollments:
+- **Course Header Rows**: Clickable rows showing course name and item count
+- **Expandable Sections**: Toggle visibility of child rows
+- **Subheader Rows**: Column headers that appear when expanded
+- **Child Rows**: Individual items with proper indentation and styling
+- **Smooth Transitions**: CSS animations for expand/collapse actions
+
+### ✅ **Enhanced Features**
+- **Autocomplete Search**: Real-time course/user search with suggestions
+- **File Size Formatting**: Human-readable file sizes for resources
+- **Progress Tracking**: Visual progress bars for enrollments
+- **Advanced Error Handling**: Comprehensive error messages and user feedback
+- **API Integration**: Proper fetch API usage with authentication
+- **Real-time Updates**: Statistics update automatically after operations
 
 ## 🎨 **STANDARDIZED UI COMPONENTS**
 
@@ -935,6 +1303,10 @@ The layout includes JavaScript for:
 
 After generating CRUD pages, verify:
 - [ ] List page loads and displays data correctly
+- [ ] Statistics cards show real-time data and update properly
+- [ ] Filtering and search functionality works (including autocomplete)
+- [ ] Grid/List view toggle functions correctly
+- [ ] Grouped table structure (if implemented) expands/collapses properly
 - [ ] Create form submits data successfully
 - [ ] Details page shows all entity properties
 - [ ] Edit form loads existing data and updates successfully
@@ -945,6 +1317,10 @@ After generating CRUD pages, verify:
 - [ ] Navigation menu includes the new entity link
 - [ ] Authentication and authorization work properly
 - [ ] Layout is consistent with existing pages
+- [ ] Progress bars display correctly (for enrollment pages)
+- [ ] File size formatting works (for resource pages)
+- [ ] Autocomplete search provides relevant suggestions
+- [ ] Real-time statistics update after CRUD operations
 
 ## Example Entity: Student
 

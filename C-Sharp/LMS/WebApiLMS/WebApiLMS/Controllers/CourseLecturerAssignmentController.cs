@@ -10,8 +10,8 @@ namespace WebApiLMS.Controllers
     [Route("api/[controller]")]
     public class CourseLecturerAssignmentController : ControllerBase
     {
-        private readonly ICourseLecturerAssignmentService _service;
-        public CourseLecturerAssignmentController(ICourseLecturerAssignmentService service)
+        private readonly CourseLecturerAssignmentService _service;
+        public CourseLecturerAssignmentController(CourseLecturerAssignmentService service)
         {
             _service = service;
         }
