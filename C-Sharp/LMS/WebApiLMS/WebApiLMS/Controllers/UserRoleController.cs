@@ -8,8 +8,8 @@ namespace WebApiLMS.Controllers
 	[Route("api/[controller]")]
 	public class UserRoleController : ControllerBase
 	{
-		private readonly IUserRoleService _service;
-		public UserRoleController(IUserRoleService service)
+		private readonly UserRoleService _service;
+		public UserRoleController(UserRoleService service)
 		{
 			_service = service;
 		}

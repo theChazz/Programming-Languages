@@ -8,9 +8,9 @@ namespace WebApiLMS.Controllers
     [Route("api/[controller]")]
     public class ProgramController : ControllerBase
     {
-        private readonly IProgramService _programService;
+        private readonly ProgramService _programService;
 
-        public ProgramController(IProgramService programService)
+        public ProgramController(ProgramService programService)
         {
             _programService = programService;
         }

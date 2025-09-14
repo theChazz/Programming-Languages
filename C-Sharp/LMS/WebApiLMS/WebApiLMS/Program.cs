@@ -13,16 +13,16 @@ builder.Services.AddDbContext<WebApiLMSDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Services
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<IProgramService, ProgramService>();
-builder.Services.AddScoped<IUserProgramEnrollmentService, UserProgramEnrollmentService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<ProgramService>();
+builder.Services.AddScoped<UserProgramEnrollmentService>();
 builder.Services.AddScoped<ProgramCourseService>();
-builder.Services.AddScoped<ISetaBodyService, SetaBodyService>();
-builder.Services.AddScoped<IUserRoleService, UserRoleService>();
-builder.Services.AddScoped<IProgramTypeService, ProgramTypeService>();
-builder.Services.AddScoped<ICourseStudentEnrollmentService, CourseStudentEnrollmentService>();
-builder.Services.AddScoped<ICourseLecturerAssignmentService, CourseLecturerAssignmentService>();
+builder.Services.AddScoped<SetaBodyService>();
+builder.Services.AddScoped<UserRoleService>();
+builder.Services.AddScoped<ProgramTypeService>();
+builder.Services.AddScoped<CourseStudentEnrollmentService>();
+builder.Services.AddScoped<CourseLecturerAssignmentService>();
 builder.Services.AddScoped<CourseResourceService>();
 
 // Add CORS policy

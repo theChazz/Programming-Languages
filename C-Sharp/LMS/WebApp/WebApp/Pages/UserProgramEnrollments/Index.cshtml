@@ -5,31 +5,141 @@
 }
 
 <div class="container mt-4">
+    <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>User Program Enrollments</h2>
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-user-graduate text-primary me-2"></i>User Program Enrollments
+            </h2>
+            <p class="text-muted mb-0">Manage user enrollments in academic programs</p>
+        </div>
         <a href="/UserProgramEnrollments/Create" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Create New Enrollment
+            <i class="fas fa-plus"></i> Enroll User
         </a>
     </div>
 
-    <div class="card">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Enrollments</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalEnrollments">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-graduate fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Enrollments</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeEnrollments">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Programs</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="programsCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-graduation-cap fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Users</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="usersCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Search Enrollments</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by user or program...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Program</label>
+                    <input type="text" class="form-control" id="programSearch" placeholder="Search program...">
+                    <input type="hidden" id="programIdFilter">
+                    <div id="programSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">User</label>
+                    <input type="text" class="form-control" id="userSearch" placeholder="Search user...">
+                    <input type="hidden" id="userIdFilter">
+                    <div id="userSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search & Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table View Toggle -->
+    <div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+                <i class="fas fa-th"></i> Grid View
+            </button>
+            <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+                <i class="fas fa-list"></i> List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Enrollments Grid (Hidden by default) -->
+    <div class="row d-none" id="enrollmentsGrid">
+        <!-- Enrollments will be loaded here as cards -->
+    </div>
+
+    <!-- List View (Default view - shown first) -->
+    <div class="card" id="tableView">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table">
+                    <thead class="table-dark">
                         <tr>
-                            <th>User ID</th>
-                            <th>User Name</th>
-                            <th>Program ID</th>
-                            <th>Program Name</th>
-                            <th>Status</th>
-                            <th>Enrolled At</th>
-                            <th>Expected Completion</th>
-                            <th>Actions</th>
+                            <th>Program</th>
                         </tr>
                     </thead>
-                    <tbody id="enrollmentTableBody">
-                        <!-- User Program Enrollments will be loaded here -->
+                    <tbody id="enrollmentsTableBody">
+                        <!-- Enrollments will be loaded here grouped by program -->
                     </tbody>
                 </table>
             </div>
@@ -39,44 +149,301 @@
 </div>
 
 @section Scripts {
+    <style>
+        .program-header-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .program-header-row:hover {
+            background-color: #e3f2fd !important;
+        }
+        .program-enrollment-row {
+            background-color: #f8f9fa;
+        }
+        .program-enrollment-row:hover {
+            background-color: #e9ecef;
+        }
+        .program-enrollment-row td:first-child {
+            border-left: 3px solid #007bff;
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .table-primary {
+            background-color: #e3f2fd;
+        }
+        .program-subheader-row {
+            background-color: #f8f9fa !important;
+            border-top: 2px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .program-subheader-row td {
+            padding: 8px 12px;
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
+
     <script>
         const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
-        
+        let allEnrollments = [];
+        let filteredEnrollments = [];
+        let currentView = 'list';
+        let searchTimeout;
+
         async function loadUserProgramEnrollments() {
             try {
                 const response = await fetch(`${apiBaseUrl}/api/UserProgramEnrollment`);
                 if (!response.ok) throw new Error('Failed to fetch enrollments');
-                
-                const enrollments = await response.json();
-                const enrollmentTableBody = document.getElementById('enrollmentTableBody');
-                
-                enrollmentTableBody.innerHTML = enrollments.map(enrollment => `
-                    <tr>
-                        <td>${escapeHtml(enrollment.userId)}</td>
-                        <td>${escapeHtml(enrollment.user?.fullName || 'N/A')}</td>
-                        <td>${escapeHtml(enrollment.programId)}</td>
-                        <td>${escapeHtml(enrollment.program?.name || 'N/A')}</td>
-                        <td>${escapeHtml(enrollment.status)}</td>
-                        <td>${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString() : 'N/A'}</td>
-                        <td>${enrollment.expectedCompletionDate ? new Date(enrollment.expectedCompletionDate).toLocaleDateString() : 'N/A'}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="/UserProgramEnrollments/Details/${enrollment.id}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                                <a href="/UserProgramEnrollments/Edit/${enrollment.id}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <button class="btn btn-danger btn-sm" onclick="deleteEnrollment(${enrollment.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
+
+                allEnrollments = await response.json();
+                filteredEnrollments = [...allEnrollments];
+
+                // Update statistics
+                updateStatistics(allEnrollments);
+
+                // Display enrollments in current view
+                displayEnrollments(filteredEnrollments);
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('Failed to load enrollments', 'danger');
+            }
+        }
+
+        function updateStatistics(enrollments) {
+            // Total enrollments
+            document.getElementById('totalEnrollments').textContent = enrollments.length;
+
+            // Active enrollments
+            const activeCount = enrollments.filter(e => e.status === 'Active').length;
+            document.getElementById('activeEnrollments').textContent = activeCount;
+
+            // Programs count
+            const programs = [...new Set(enrollments.map(e => e.program?.name).filter(Boolean))];
+            document.getElementById('programsCount').textContent = programs.length;
+
+            // Users count
+            const users = [...new Set(enrollments.map(e => e.user?.fullName).filter(Boolean))];
+            document.getElementById('usersCount').textContent = users.length;
+        }
+
+        function displayEnrollments(enrollments) {
+            // Display grid view
+            displayGridView(enrollments);
+
+            // Display table view
+            displayTableView(enrollments);
+        }
+
+        function displayGridView(enrollments) {
+            const enrollmentsGrid = document.getElementById('enrollmentsGrid');
+            enrollmentsGrid.innerHTML = enrollments.map(enrollment => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title">${escapeHtml(enrollment.program?.name || 'No Program')}</h5>
+                                    <span class="badge bg-primary">${escapeHtml(enrollment.status)}</span>
+                                </div>
+                                <span class="badge ${enrollment.status === 'Active' ? 'bg-success' : 'bg-secondary'}">
+                                    ${enrollment.status}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="text-primary mb-2">${escapeHtml(enrollment.user?.fullName || 'No User')}</h6>
+                                <small class="text-muted">
+                                    <i class="fas fa-envelope me-1"></i>${escapeHtml(enrollment.user?.email || 'No Email')}
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small class="text-muted">Enrolled</small><br>
+                                        <small class="fw-bold">${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString() : 'N/A'}</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Expected Completion</small><br>
+                                        <small class="fw-bold">${enrollment.expectedCompletionDate ? new Date(enrollment.expectedCompletionDate).toLocaleDateString() : 'N/A'}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">ID: ${enrollment.id}</small>
+                                <div class="btn-group" role="group">
+                                    <a href="/UserProgramEnrollments/Details/${enrollment.id}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/UserProgramEnrollments/Edit/${enrollment.id}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteEnrollment(${enrollment.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayTableView(enrollments) {
+            const tableBody = document.getElementById('enrollmentsTableBody');
+
+            // Group enrollments by program
+            const groupedByProgram = enrollments.reduce((groups, enrollment) => {
+                const programId = enrollment.program?.id || enrollment.programId || 'unknown';
+                const programName = enrollment.program?.name || 'Unknown Program';
+
+                if (!groups[programId]) {
+                    groups[programId] = {
+                        program: enrollment.program || { id: programId, name: programName },
+                        enrollments: []
+                    };
+                }
+                groups[programId].enrollments.push(enrollment);
+                return groups;
+            }, {});
+
+            // Create HTML for grouped display
+            const html = Object.values(groupedByProgram).map(programGroup => {
+                const program = programGroup.program;
+                const enrollments = programGroup.enrollments;
+                const programRowId = `program-${program.id}`;
+
+                // Main program row
+                let programHtml = `
+                    <tr class="table-primary program-header-row" onclick="toggleProgramEnrollments('${programRowId}')">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                <strong>${escapeHtml(program.name)}</strong>
+                                <small class="text-muted ms-2">(${escapeHtml(program.code || 'No Code')})</small>
+                                <span class="badge bg-primary ms-2">${enrollments.length} enrollment${enrollments.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="table-secondary program-subheader-row ${programRowId}" style="display: none;">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-3"><strong>User</strong></div>
+                                <div class="col-md-2"><strong>Email</strong></div>
+                                <div class="col-md-2"><strong>Status</strong></div>
+                                <div class="col-md-3"><strong>Enrollment Dates</strong></div>
+                                <div class="col-md-2"><strong>Actions</strong></div>
+                            </div>
+                        </td>
+                    </tr>`;
+
+                // Enrollment rows (initially hidden)
+                const enrollmentRows = enrollments.map(enrollment => `
+                    <tr class="program-enrollment-row ${programRowId}" style="display: none;">
+                        <td>
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user text-muted me-2"></i>
+                                        ${escapeHtml(enrollment.user?.fullName || 'No User')}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">${escapeHtml(enrollment.user?.email || 'No Email')}</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="badge ${enrollment.status === 'Active' ? 'bg-success' : 'bg-secondary'}">
+                                        ${escapeHtml(enrollment.status)}
+                                    </span>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <small class="text-muted">Enrolled:</small><br>
+                                            <small class="fw-bold">${enrollment.enrolledAt ? new Date(enrollment.enrolledAt).toLocaleDateString() : 'N/A'}</small>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted">Expected:</small><br>
+                                            <small class="fw-bold">${enrollment.expectedCompletionDate ? new Date(enrollment.expectedCompletionDate).toLocaleDateString() : 'N/A'}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="btn-group" role="group">
+                                        <a href="/UserProgramEnrollments/Details/${enrollment.id}" class="btn btn-info btn-sm" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/UserProgramEnrollments/Edit/${enrollment.id}" class="btn btn-primary btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteEnrollment(${enrollment.id})" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>`).join('');
+
+                return programHtml + enrollmentRows;
+            }).join('');
+
+            tableBody.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const programId = document.getElementById('programIdFilter').value;
+            const userId = document.getElementById('userIdFilter').value;
+
+            filteredEnrollments = allEnrollments.filter(enrollment => {
+                const matchesSearch = enrollment.user?.fullName?.toLowerCase().includes(searchTerm) ||
+                                    enrollment.program?.name?.toLowerCase().includes(searchTerm) ||
+                                    enrollment.user?.email?.toLowerCase().includes(searchTerm);
+
+                const matchesProgram = !programId || enrollment.programId.toString() === programId;
+                const matchesUser = !userId || enrollment.userId.toString() === userId;
+
+                return matchesSearch && matchesProgram && matchesUser;
+            });
+
+            displayEnrollments(filteredEnrollments);
+            updateStatistics(filteredEnrollments);
+        }
+
+        function toggleProgramEnrollments(programRowId) {
+            const enrollmentRows = document.querySelectorAll(`.program-enrollment-row.${programRowId}`);
+            const subheaderRow = document.querySelector(`.program-subheader-row.${programRowId}`);
+
+            const isVisible = enrollmentRows.length > 0 && enrollmentRows[0].style.display !== 'none';
+
+            // Toggle enrollment rows
+            enrollmentRows.forEach(row => {
+                row.style.display = isVisible ? 'none' : 'table-row';
+            });
+
+            // Toggle subheader row
+            if (subheaderRow) {
+                subheaderRow.style.display = isVisible ? 'none' : 'table-row';
+            }
+        }
+
+        function toggleView(viewType) {
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const enrollmentsGrid = document.getElementById('enrollmentsGrid');
+            const tableView = document.getElementById('tableView');
+
+            if (viewType === 'grid') {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                enrollmentsGrid.classList.remove('d-none');
+                tableView.classList.add('d-none');
+            } else {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                enrollmentsGrid.classList.add('d-none');
+                tableView.classList.remove('d-none');
             }
         }
 
@@ -136,6 +503,77 @@
                 .replace(/'/g, "&#039;");
         }
 
-        document.addEventListener('DOMContentLoaded', loadUserProgramEnrollments);
+        async function searchPrograms(term) {
+            const list = document.getElementById('programSuggestions');
+            if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/Program/search?q=${encodeURIComponent(term)}`);
+                if (!res.ok) return;
+                const items = await res.json();
+                list.innerHTML = items.map(p => `<button type="button" class="list-group-item list-group-item-action" data-id="${p.id}" data-name="${p.name}">${p.name}</button>`).join('');
+                list.style.display = items.length ? 'block' : 'none';
+                [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+                    document.getElementById('programIdFilter').value = btn.getAttribute('data-id');
+                    document.getElementById('programSearch').value = btn.getAttribute('data-name');
+                    list.style.display = 'none';
+                    applyFilters();
+                }));
+            } catch (error) {
+                console.error('Error searching programs:', error);
+            }
+        }
+
+        async function searchUsers(term) {
+            const list = document.getElementById('userSuggestions');
+            if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/User/search?q=${encodeURIComponent(term)}`);
+                if (!res.ok) return;
+                const items = await res.json();
+                list.innerHTML = items.map(u => `<button type="button" class="list-group-item list-group-item-action" data-id="${u.id}" data-name="${u.fullName}">${u.fullName} (${u.email})</button>`).join('');
+                list.style.display = items.length ? 'block' : 'none';
+                [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+                    document.getElementById('userIdFilter').value = btn.getAttribute('data-id');
+                    document.getElementById('userSearch').value = btn.getAttribute('data-name');
+                    list.style.display = 'none';
+                    applyFilters();
+                }));
+            } catch (error) {
+                console.error('Error searching users:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserProgramEnrollments();
+
+            // Set default view to List view
+            toggleView('list');
+
+            // Search input events
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(applyFilters, 300);
+            });
+
+            document.getElementById('programSearch').addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => searchPrograms(e.target.value), 300);
+            });
+
+            document.getElementById('userSearch').addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => searchUsers(e.target.value), 300);
+            });
+
+            // View toggle events
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                toggleView('grid');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                toggleView('list');
+            });
+        });
     </script>
 }

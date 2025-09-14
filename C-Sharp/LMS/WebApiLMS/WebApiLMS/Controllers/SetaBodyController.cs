@@ -8,8 +8,8 @@ namespace WebApiLMS.Controllers
 	[Route("api/[controller]")]
 	public class SetaBodyController : ControllerBase
 	{
-		private readonly ISetaBodyService _service;
-		public SetaBodyController(ISetaBodyService service)
+		private readonly SetaBodyService _service;
+		public SetaBodyController(SetaBodyService service)
 		{
 			_service = service;
 		}

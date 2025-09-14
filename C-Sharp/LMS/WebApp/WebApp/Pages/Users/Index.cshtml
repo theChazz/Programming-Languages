@@ -5,18 +5,136 @@
 }
 
 <div class="container mt-4">
+    <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Users</h2>
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-users text-primary me-2"></i>Users
+            </h2>
+            <p class="text-muted mb-0">Manage system users and their roles</p>
+        </div>
         <a href="/Users/Create" class="btn btn-primary">
             <i class="fas fa-plus"></i> Create New User
         </a>
     </div>
 
-    <div class="card">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Users</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalUsers">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Users</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeUsers">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Roles</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="rolesCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-tag fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Inactive Users</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="inactiveUsers">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-times-circle fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Search Users</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by name or email...">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" id="roleFilter">
+                        <option value="">All Roles</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Lecturer">Lecturer</option>
+                        <option value="Student">Student</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Suspended">Suspended</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table View Toggle -->
+    <div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+                <i class="fas fa-th"></i> Grid View
+            </button>
+            <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+                <i class="fas fa-list"></i> List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Users Grid (Hidden by default) -->
+    <div class="row d-none" id="usersGrid">
+        <!-- Users will be loaded here as cards -->
+    </div>
+
+    <!-- List View (Default view - shown first) -->
+    <div class="card" id="tableView">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table">
+                    <thead class="table-dark">
                         <tr>
                             <th>Full Name</th>
                             <th>Email</th>
@@ -40,41 +158,185 @@
 @section Scripts {
     <script>
         const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
-        
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentView = 'list';
+
         async function loadUsers() {
             try {
                 const response = await fetch(`${apiBaseUrl}/api/User`);
                 if (!response.ok) throw new Error('Failed to fetch users');
-                
-                const users = await response.json();
-                const userTableBody = document.getElementById('userTableBody');
-                
-                userTableBody.innerHTML = users.map(user => `
-                    <tr>
-                        <td>${escapeHtml(user.fullName)}</td>
-                        <td>${escapeHtml(user.email)}</td>
-                        <td>${escapeHtml(user.role)}</td>
-                        <td>${escapeHtml(user.accountStatus || 'N/A')}</td>
-                        <td>${user.createdAt ? new Date(user.createdAt).toLocaleString() : 'N/A'}</td>
-                        <td>${user.updatedAt ? new Date(user.updatedAt).toLocaleString() : 'N/A'}</td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a href="/Users/Details/${user.id}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                                <a href="/Users/Edit/${user.id}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
+
+                allUsers = await response.json();
+                filteredUsers = [...allUsers];
+
+                // Update statistics
+                updateStatistics(allUsers);
+
+                // Display users in current view
+                displayUsers(filteredUsers);
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('Failed to load users', 'danger');
+            }
+        }
+
+        function updateStatistics(users) {
+            // Total users
+            document.getElementById('totalUsers').textContent = users.length;
+
+            // Active users
+            const activeCount = users.filter(u => u.accountStatus === 'Active').length;
+            document.getElementById('activeUsers').textContent = activeCount;
+
+            // Roles count
+            const roles = [...new Set(users.map(u => u.userRole?.name).filter(Boolean))];
+            document.getElementById('rolesCount').textContent = roles.length;
+
+            // Inactive users
+            const inactiveCount = users.filter(u => u.accountStatus !== 'Active').length;
+            document.getElementById('inactiveUsers').textContent = inactiveCount;
+        }
+
+        function displayUsers(users) {
+            // Display grid view
+            displayGridView(users);
+
+            // Display table view
+            displayTableView(users);
+        }
+
+        function displayGridView(users) {
+            const usersGrid = document.getElementById('usersGrid');
+            usersGrid.innerHTML = users.map(user => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title">${escapeHtml(user.fullName)}</h5>
+                                    <span class="badge bg-primary">${escapeHtml(user.userRole?.name || 'No Role')}</span>
+                                </div>
+                                <span class="badge ${user.accountStatus === 'Active' ? 'bg-success' : 'bg-secondary'}">
+                                    ${user.accountStatus || 'Unknown'}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-envelope me-1"></i>${escapeHtml(user.email)}
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small class="text-muted">Created</small><br>
+                                        <small class="fw-bold">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</small>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">Updated</small><br>
+                                        <small class="fw-bold">${user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'N/A'}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">ID: ${user.id}</small>
+                                <div class="btn-group" role="group">
+                                    <a href="/Users/Details/${user.id}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/Users/Edit/${user.id}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteUser(${user.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayTableView(users) {
+            const userTableBody = document.getElementById('userTableBody');
+
+            userTableBody.innerHTML = users.map(user => `
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user text-muted me-2"></i>
+                            ${escapeHtml(user.fullName)}
+                        </div>
+                    </td>
+                    <td>
+                        <small class="text-muted">${escapeHtml(user.email)}</small>
+                    </td>
+                    <td>
+                        <span class="badge bg-secondary">${escapeHtml(user.userRole?.name || 'No Role')}</span>
+                    </td>
+                    <td>
+                        <span class="badge ${user.accountStatus === 'Active' ? 'bg-success' : 'bg-secondary'}">
+                            ${escapeHtml(user.accountStatus || 'N/A')}
+                        </span>
+                    </td>
+                    <td>
+                        <small class="text-muted">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</small>
+                    </td>
+                    <td>
+                        <small class="text-muted">${user.updatedAt ? new Date(user.updatedAt).toLocaleDateString() : 'N/A'}</small>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="/Users/Details/${user.id}" class="btn btn-info btn-sm" title="View">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="/Users/Edit/${user.id}" class="btn btn-primary btn-sm" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const roleFilter = document.getElementById('roleFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredUsers = allUsers.filter(user => {
+                const matchesSearch = user.fullName?.toLowerCase().includes(searchTerm) ||
+                                    user.email?.toLowerCase().includes(searchTerm);
+                const matchesRole = !roleFilter || user.userRole?.name === roleFilter;
+                const matchesStatus = !statusFilter || user.accountStatus === statusFilter;
+
+                return matchesSearch && matchesRole && matchesStatus;
+            });
+
+            displayUsers(filteredUsers);
+            updateStatistics(filteredUsers);
+        }
+
+        function toggleView(viewType) {
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const usersGrid = document.getElementById('usersGrid');
+            const tableView = document.getElementById('tableView');
+
+            if (viewType === 'grid') {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                usersGrid.classList.remove('d-none');
+                tableView.classList.add('d-none');
+            } else {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                usersGrid.classList.add('d-none');
+                tableView.classList.remove('d-none');
             }
         }
 
@@ -134,6 +396,26 @@
                 .replace(/\'/g, "&#039;");
         }
 
-        document.addEventListener('DOMContentLoaded', loadUsers);
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+
+            // Set default view to List view
+            toggleView('list');
+
+            // Filter events
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('roleFilter').addEventListener('change', applyFilters);
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+            // View toggle events
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                toggleView('grid');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                toggleView('list');
+            });
+        });
     </script>
 } 
