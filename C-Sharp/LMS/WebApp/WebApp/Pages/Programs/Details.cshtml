@@ -25,8 +25,8 @@
                 <div class="col-md-9" id="departmentDisplay"></div>
             </div>
             <div class="row mb-3">
-                <div class="col-md-3">Type:</div>
-                <div class="col-md-9" id="typeDisplay"></div>
+                <div class="col-md-3">Program Type:</div>
+                <div class="col-md-9" id="programTypeDisplay"></div>
             </div>
             <div class="row mb-3">
                 <div class="col-md-3">Description:</div>
@@ -64,7 +64,8 @@
                 document.getElementById('codeDisplay').textContent = program.code;
                 document.getElementById('levelDisplay').textContent = program.level;
                 document.getElementById('departmentDisplay').textContent = program.department;
-                document.getElementById('typeDisplay').textContent = program.type;
+                const pt = program.programType || {};
+                document.getElementById('programTypeDisplay').textContent = (pt.name || pt.code || '');
                 document.getElementById('descriptionDisplay').textContent = program.description;
                 document.getElementById('durationMonthsDisplay').textContent = program.durationMonths;
                 document.getElementById('statusDisplay').textContent = program.status;

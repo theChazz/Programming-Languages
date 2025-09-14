@@ -31,6 +31,21 @@ namespace WebApiLMS.Data
                 await context.SaveChangesAsync();
             }
 
+            if (!context.ProgramTypes.Any())
+            {
+                var programTypes = new List<ProgramTypeModel>
+                {
+                    new ProgramTypeModel { Code = "Degree", Name = "Degree Programme" },
+                    new ProgramTypeModel { Code = "Diploma", Name = "Diploma Programme" },
+                    new ProgramTypeModel { Code = "Certificate", Name = "Certificate Programme" },
+                    new ProgramTypeModel { Code = "Learnership", Name = "Learnership Programme" },
+                    new ProgramTypeModel { Code = "Skills", Name = "Skills Programme" },
+                    new ProgramTypeModel { Code = "Apprenticeship", Name = "Apprenticeship Programme" }
+                };
+                context.ProgramTypes.AddRange(programTypes);
+                await context.SaveChangesAsync();
+            }
+
             if (!context.Courses.Any())
             {
                 var introProgramming = new CourseModel
@@ -40,8 +55,7 @@ namespace WebApiLMS.Data
                     Category = "Computer Science",
                     Difficulty = "Beginner",
                     Syllabus = "Week 1: Basics, Week 2: Control Flow, Week 3: OOP",
-                    Prerequisites = "None",
-
+                    Prerequisites = "None"
                 };
 
                 var databaseSystems = new CourseModel
@@ -51,8 +65,7 @@ namespace WebApiLMS.Data
                     Category = "Information Systems",
                     Difficulty = "Intermediate",
                     Syllabus = "Week 1: ER Modeling, Week 2: SQL, Week 3: Normalization",
-                    Prerequisites = "Intro to Programming",
-
+                    Prerequisites = "Intro to Programming"
                 };
 
                 context.Courses.AddRange(introProgramming, databaseSystems);
@@ -181,6 +194,24 @@ namespace WebApiLMS.Data
                 };
 
                 context.CourseResources.AddRange(resources);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Programs.Any())
+            {
+                var computerScienceDegree = new ProgramModel
+                {
+                    Name = "Computer Science",
+                    Code = "BSc",
+                    Level = "7",
+                    Department = "Dept of Computer Science",
+                    Status = "Active",
+                    Description = "The suggested second-choice programmes for BSc (Computer Science) are BSc (Information and Knowledge Systems) and BCom (Informatics).",
+                    ProgramTypeId = 1, // Degree Programme
+                    DurationMonths = 40
+                };
+
+                context.Programs.Add(computerScienceDegree);
                 await context.SaveChangesAsync();
             }
         }

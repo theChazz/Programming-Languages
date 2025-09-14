@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiLMS.Data;
 using WebApiLMS.Models;
+using System;
 
 namespace WebApiLMS.Services
 {
@@ -25,6 +26,19 @@ namespace WebApiLMS.Services
 
         public async Task<ProgramModel> CreateProgramAsync(ProgramModel program)
         {
+            // Require a valid ProgramTypeId
+            if (program.ProgramTypeId <= 0)
+            {
+                throw new ArgumentException("ProgramTypeId must be provided and greater than zero.");
+            }
+
+            // Validate ProgramTypeId exists
+            var programTypeExists = await _context.ProgramTypes.AnyAsync(pt => pt.Id == program.ProgramTypeId);
+            if (!programTypeExists)
+            {
+                throw new ArgumentException($"ProgramType with ID {program.ProgramTypeId} does not exist.");
+            }
+
             _context.Programs.Add(program);
             await _context.SaveChangesAsync();
             return program;
@@ -36,13 +50,25 @@ namespace WebApiLMS.Services
             if (existingProgram == null)
                 return false;
 
+            // Require a valid ProgramTypeId
+            if (program.ProgramTypeId <= 0)
+            {
+                throw new ArgumentException("ProgramTypeId must be provided and greater than zero.");
+            }
+
+            // Validate ProgramTypeId exists
+            var programTypeExists = await _context.ProgramTypes.AnyAsync(pt => pt.Id == program.ProgramTypeId);
+            if (!programTypeExists)
+            {
+                throw new ArgumentException($"ProgramType with ID {program.ProgramTypeId} does not exist.");
+            }
+
             existingProgram.Name = program.Name;
             existingProgram.Code = program.Code;
             existingProgram.Level = program.Level;
             existingProgram.Department = program.Department;
             existingProgram.Status = program.Status;
             existingProgram.Description = program.Description;
-            existingProgram.Type = program.Type;
             existingProgram.ProgramTypeId = program.ProgramTypeId;
             existingProgram.DurationMonths = program.DurationMonths;
 

@@ -267,10 +267,10 @@ C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebA
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.build.json.cache
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.development.json
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\WebApiLMS.csproj.Up2Date
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\WebApiLMS.dll
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\refint\WebApiLMS.dll
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\WebApiLMS.pdb
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\WebApiLMS.genruntimeconfig.cache
 C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\ref\WebApiLMS.dll
+C:\Users\Chazz\OneDrive\Desktop\Programming-Languages\C-Sharp\LMS\WebApiLMS\WebApiLMS\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

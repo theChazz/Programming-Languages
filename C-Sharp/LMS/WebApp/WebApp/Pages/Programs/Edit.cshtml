@@ -8,6 +8,7 @@
     <h2>Edit Program</h2>
     <form id="editProgramForm" class="card">
         <div class="card-body">
+            <input type="hidden" id="programTypeId" value="0">
             <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" required>
@@ -25,8 +26,10 @@
                 <input type="text" class="form-control" id="department" required>
             </div>
             <div class="mb-3">
-                <label for="type" class="form-label">Type</label>
-                <input type="text" class="form-control" id="type" required>
+                <label for="programTypeSelect" class="form-label">Program Type</label>
+                <select class="form-select" id="programTypeSelect" required>
+                    <option value="">Select Program Type</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label">Description</label>
@@ -55,12 +58,15 @@
             '@Configuration["ApiSettings:BaseUrl"]';
 
         const programId = '@Model.Id';
+        let currentProgramTypeId = 0;
+        let currentProgramType = null;
+        let programTypes = [];
 
         console.log('API Base URL:', apiBaseUrl);
         console.log('Program ID:', programId);
 
         // Debug checks
-        window.LMSDebug.checkElements(['name', 'code', 'level', 'department', 'type', 'description', 'durationMonths']);
+        window.LMSDebug.checkElements(['name', 'code', 'level', 'department', 'description', 'durationMonths']);
         window.LMSDebug.log('Program edit page initialized');
 
         async function loadProgramDetails() {
@@ -78,7 +84,7 @@
                 console.log('Program data received:', program);
 
                 // Ensure all required elements exist before setting values
-                const fields = ['name', 'code', 'level', 'department', 'type', 'description', 'durationMonths'];
+                const fields = ['name', 'code', 'level', 'department', 'description', 'durationMonths'];
                 fields.forEach(field => {
                     const element = document.getElementById(field);
                     if (!element) {
@@ -86,13 +92,32 @@
                     }
                 });
 
-                document.getElementById('name').value = program.name || '';
-                document.getElementById('code').value = program.code || '';
-                document.getElementById('level').value = program.level || '';
-                document.getElementById('department').value = program.department || '';
-                document.getElementById('type').value = program.type || '';
-                document.getElementById('description').value = program.description || '';
-                document.getElementById('durationMonths').value = program.durationMonths || '';
+                // Use camelCase (default) but fall back to PascalCase if present
+                const name = program.name ?? program.Name;
+                const code = program.code ?? program.Code;
+                const level = program.level ?? program.Level;
+                const department = program.department ?? program.Department;
+                const description = program.description ?? program.Description;
+                const durationMonths = program.durationMonths ?? program.DurationMonths;
+                currentProgramTypeId = (program.programTypeId ?? program.ProgramTypeId) || 0;
+                currentProgramType = program.programType ?? program.ProgramType ?? null;
+
+                document.getElementById('name').value = name || '';
+                document.getElementById('code').value = code || '';
+                document.getElementById('level').value = level || '';
+                document.getElementById('department').value = department || '';
+                document.getElementById('description').value = description || '';
+                document.getElementById('durationMonths').value = durationMonths || '';
+                document.getElementById('programTypeId').value = currentProgramTypeId || 0;
+
+                // Load program types and set the select
+                await loadProgramTypes();
+                const programTypeSelect = document.getElementById('programTypeSelect');
+                if (currentProgramTypeId && currentProgramTypeId > 0) {
+                    programTypeSelect.value = String(currentProgramTypeId);
+                }
+
+                // No textual Type fallback; ProgramTypeId must be selected
 
                 console.log('Program form populated successfully');
             } catch (error) {
@@ -107,17 +132,33 @@
         document.getElementById('editProgramForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
+            // No fallback resolution; enforce select value
+
+            // Final guard: require selection in dropdown
+            const selectedProgramTypeId = parseInt(document.getElementById('programTypeSelect').value);
+            if (!selectedProgramTypeId || selectedProgramTypeId === 0) {
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger';
+                alert.textContent = 'Please select a valid Program Type.';
+                alert.style.display = 'block';
+                document.getElementById('programTypeSelect').focus();
+                return;
+            }
+            currentProgramTypeId = selectedProgramTypeId;
+            document.getElementById('programTypeId').value = currentProgramTypeId;
+
             const programData = {
                 id: parseInt(programId) || 0,
                 name: document.getElementById('name').value.trim(),
                 code: document.getElementById('code').value.trim(),
                 level: document.getElementById('level').value.trim(),
                 department: document.getElementById('department').value.trim(),
-                type: document.getElementById('type').value.trim(),
                 description: document.getElementById('description').value.trim(),
                 durationMonths: parseInt(document.getElementById('durationMonths').value) || 0,
-                status: 'Active'
+                status: 'Active',
+                programTypeId: parseInt(document.getElementById('programTypeId').value) || currentProgramTypeId || 0
             };
+            console.log('Final programTypeId sent:', programData.programTypeId);
 
             console.log('Submitting program data:', programData);
 
@@ -135,10 +176,20 @@
                 if (!response.ok) {
                     let errorMessage = 'Failed to update program';
                     try {
-                        const errorData = await response.json();
-                        errorMessage = errorData.message || errorMessage;
+                        const contentType = response.headers.get('content-type') || '';
+                        if (contentType.includes('application/json')) {
+                            const errorData = await response.json();
+                            errorMessage = errorData.message || errorData.title || JSON.stringify(errorData);
+                        } else {
+                            const errorText = await response.text();
+                            errorMessage = errorText || errorMessage;
+                        }
                     } catch (parseError) {
                         console.error('Error parsing error response:', parseError);
+                        try {
+                            const fallbackText = await response.text();
+                            if (fallbackText) errorMessage = fallbackText;
+                        } catch {}
                     }
                     throw new Error(errorMessage);
                 }
@@ -164,5 +215,26 @@
         });
 
         document.addEventListener('DOMContentLoaded', loadProgramDetails);
+
+        // Removed textual Type resolution
+
+        async function loadProgramTypes() {
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/ProgramType`);
+                if (!res.ok) throw new Error(`Failed to load Program Types (${res.status})`);
+                programTypes = await res.json();
+                const sel = document.getElementById('programTypeSelect');
+                // Clear and add placeholder
+                sel.innerHTML = '<option value="">Select Program Type</option>';
+                programTypes.forEach(pt => {
+                    const opt = document.createElement('option');
+                    opt.value = String(pt.id ?? pt.Id);
+                    opt.textContent = `${pt.code ?? pt.Code} - ${pt.name ?? pt.Name}`;
+                    sel.appendChild(opt);
+                });
+            } catch (e) {
+                console.error('Error loading program types:', e);
+            }
+        }
     </script>
-} 
+}
