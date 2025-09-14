@@ -5,159 +5,562 @@
 }
 
 <div class="container mt-4">
+    <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Course Resources</h2>
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-file-alt text-primary me-2"></i>Course Resources
+            </h2>
+            <p class="text-muted mb-0">Manage learning materials and resources for courses</p>
+        </div>
         <a href="/CourseResources/Create" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Create New Resource
+            <i class="fas fa-plus"></i> Add New Resource
         </a>
     </div>
 
-    <div class="card">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Resources</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalResources">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-file-alt fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Published Resources</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="publishedResources">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Resource Types</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="resourceTypesCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-tags fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Courses</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="coursesCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-graduation-cap fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4">
         <div class="card-body">
-            <div class="row g-3 mb-3">
-                <div class="col-md-5 position-relative">
-                    <input type="text" class="form-control" id="courseSearch" placeholder="Search course by name...">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Search Resources</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by title...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Course</label>
+                    <input type="text" class="form-control" id="courseSearch" placeholder="Search course...">
                     <input type="hidden" id="courseIdFilter">
                     <div id="courseSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
                 </div>
-                <div class="col-md-3">
-                    <input type="text" class="form-control" id="moduleFilter" placeholder="Module (e.g., Week 1)">
-                </div>
                 <div class="col-md-2">
+                    <label class="form-label">Type</label>
                     <select class="form-select" id="typeFilter">
                         <option value="">All Types</option>
                         <option value="Document">Document</option>
                         <option value="Video">Video</option>
                         <option value="LiveSession">Live Session</option>
+                        <option value="Assignment">Assignment</option>
+                        <option value="Quiz">Quiz</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-secondary w-100" onclick="loadResources()">Filter</button>
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="published">Published</option>
+                        <option value="draft">Draft</option>
+                    </select>
                 </div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>CourseId</th>
-                            <th>Type</th>
-                            <th>Title</th>
-                            <th>Module</th>
-                            <th>Published</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resourcesTableBody"></tbody>
-                </table>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search & Filter
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Table View Toggle -->
+    <div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+                <i class="fas fa-th"></i> Grid View
+            </button>
+            <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+                <i class="fas fa-list"></i> List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Resources Grid (Hidden by default) -->
+    <div class="row d-none" id="resourcesGrid">
+        <!-- Resources will be loaded here as cards -->
+    </div>
+
+    <!-- List View (Default view - shown first) -->
+    <div class="card" id="tableView">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Course</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resourcesTableBody">
+                        <!-- Resources will be loaded here grouped by course -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
     <div id="alert" class="alert mt-3" style="display: none;"></div>
 </div>
 
 @section Scripts {
-<script>
-const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+    <style>
+        .course-header-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .course-header-row:hover {
+            background-color: #e3f2fd !important;
+        }
+        .course-resource-row {
+            background-color: #f8f9fa;
+        }
+        .course-resource-row:hover {
+            background-color: #e9ecef;
+        }
+        .course-resource-row td:first-child {
+            border-left: 3px solid #007bff;
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .table-primary {
+            background-color: #e3f2fd;
+        }
+        .course-subheader-row {
+            background-color: #f8f9fa !important;
+            border-top: 2px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .course-subheader-row td {
+            padding: 8px 12px;
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
 
-let searchTimeout;
+    <script>
+        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        let allResources = [];
+        let filteredResources = [];
+        let currentView = 'list';
+        let searchTimeout;
 
-async function loadResources() {
-  const courseId = document.getElementById('courseIdFilter').value;
-  const type = document.getElementById('typeFilter').value;
-  const module = document.getElementById('moduleFilter').value;
-  if (!courseId) {
-    showAlert('Select a course to load resources', 'warning');
-    return;
-  }
-  const params = new URLSearchParams();
-  if (type) params.append('type', type);
-  if (module) params.append('module', module);
-  let url = `${apiBaseUrl}/api/courses/${courseId}/resources`;
-  const qs = params.toString();
-  if (qs) url += `?${qs}`;
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('Failed to fetch resources');
-    const items = await res.json();
-    const body = document.getElementById('resourcesTableBody');
-    body.innerHTML = items.map(r => `
-      <tr>
-        <td>${r.id}</td>
-        <td>${r.courseId}</td>
-        <td>${r.type}</td>
-        <td>${escapeHtml(r.title)}</td>
-        <td>${escapeHtml(r.module || '')}</td>
-        <td><span class="badge ${r.isPublished ? 'bg-success' : 'bg-secondary'}">${r.isPublished ? 'Yes' : 'No'}</span></td>
-        <td>
-          <div class="btn-group" role="group">
-            <a href="/CourseResources/Details/${r.courseId}?id=${r.id}" class="btn btn-info btn-sm">View</a>
-            <a href="/CourseResources/Edit/${r.courseId}?id=${r.id}" class="btn btn-primary btn-sm">Edit</a>
-            <button class="btn btn-danger btn-sm" onclick="deleteResource(${r.courseId}, ${r.id})">Delete</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
-  } catch (err) {
-    console.error(err);
-    showAlert('Failed to load resources', 'danger');
-  }
-}
+        async function loadResources() {
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/CourseResource`);
+                if (!response.ok) throw new Error('Failed to fetch resources');
 
-async function deleteResource(courseId, id) {
-  if (!confirm('Are you sure you want to delete this resource?')) return;
-  try {
-    const res = await fetch(`${apiBaseUrl}/api/courses/${courseId}/resources/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error('Failed to delete');
-    showAlert('Deleted successfully', 'success');
-    loadResources();
-  } catch (e) {
-    console.error(e);
-    showAlert('Failed to delete resource', 'danger');
-  }
-}
+                allResources = await response.json();
+                filteredResources = [...allResources];
 
-function showAlert(message, type) {
-  const alert = document.getElementById('alert');
-  alert.className = `alert alert-${type} mt-3`;
-  alert.textContent = message;
-  alert.style.display = 'block';
-}
+                // Update statistics
+                updateStatistics(allResources);
 
-function escapeHtml(unsafe) {
-  if (!unsafe) return '';
-  return unsafe.toString()
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+                // Display resources in current view
+                displayResources(filteredResources);
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Failed to load resources', 'danger');
+            }
+        }
 
-async function searchCourses(term) {
-  const list = document.getElementById('courseSuggestions');
-  if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
-  const res = await fetch(`${apiBaseUrl}/api/Course/search?q=${encodeURIComponent(term)}`);
-  if (!res.ok) return;
-  const items = await res.json();
-  list.innerHTML = items.map(c => `<button type="button" class="list-group-item list-group-item-action" data-id="${c.id}" data-name="${c.courseName}">${c.courseName}</button>`).join('');
-  list.style.display = items.length ? 'block' : 'none';
-  [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
-    document.getElementById('courseIdFilter').value = btn.getAttribute('data-id');
-    document.getElementById('courseSearch').value = btn.getAttribute('data-name');
-    list.style.display = 'none';
-    loadResources();
-  }));
-}
+        function updateStatistics(resources) {
+            // Total resources
+            document.getElementById('totalResources').textContent = resources.length;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('courseSearch');
-  input.addEventListener('input', (e) => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => searchCourses(e.target.value), 300);
-  });
-});
-</script>
+            // Published resources
+            const publishedCount = resources.filter(r => r.isPublished).length;
+            document.getElementById('publishedResources').textContent = publishedCount;
+
+            // Resource types count
+            const types = [...new Set(resources.map(r => r.type).filter(Boolean))];
+            document.getElementById('resourceTypesCount').textContent = types.length;
+
+            // Courses count
+            const courses = [...new Set(resources.map(r => r.course?.courseName).filter(Boolean))];
+            document.getElementById('coursesCount').textContent = courses.length;
+        }
+
+        function displayResources(resources) {
+            // Display grid view
+            displayGridView(resources);
+
+            // Display table view
+            displayTableView(resources);
+        }
+
+        function displayGridView(resources) {
+            const resourcesGrid = document.getElementById('resourcesGrid');
+            resourcesGrid.innerHTML = resources.map(resource => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title">${escapeHtml(resource.title)}</h5>
+                                    <span class="badge bg-primary">${escapeHtml(resource.type)}</span>
+                                </div>
+                                <span class="badge ${resource.isPublished ? 'bg-success' : 'bg-secondary'}">
+                                    ${resource.isPublished ? 'Published' : 'Draft'}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-info me-2">${escapeHtml(resource.course?.courseName || 'No Course')}</span>
+                                <small class="text-muted">
+                                    <i class="fas fa-folder me-1"></i>${escapeHtml(resource.module || 'No Module')}
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-warning">
+                                    <i class="fas fa-weight me-1"></i>${formatFileSize(resource.sizeBytes)}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">ID: ${resource.id}</small>
+                                <div class="btn-group" role="group">
+                                    <a href="/CourseResources/Details/${resource.courseId}?id=${resource.id}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/CourseResources/Edit/${resource.courseId}?id=${resource.id}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteResource(${resource.courseId}, ${resource.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayTableView(resources) {
+            const tableBody = document.getElementById('resourcesTableBody');
+
+            // Group resources by course
+            const groupedByCourse = resources.reduce((groups, resource) => {
+                const courseId = resource.course?.id || resource.courseId || 'unknown';
+                const courseName = resource.course?.courseName || 'Unknown Course';
+
+                if (!groups[courseId]) {
+                    groups[courseId] = {
+                        course: resource.course || { id: courseId, courseName: courseName },
+                        resources: []
+                    };
+                }
+                groups[courseId].resources.push(resource);
+                return groups;
+            }, {});
+
+            // Create HTML for grouped display
+            const html = Object.values(groupedByCourse).map(courseGroup => {
+                const course = courseGroup.course;
+                const resources = courseGroup.resources;
+                const courseRowId = `course-${course.id}`;
+
+                // Main course row
+                let courseHtml = `
+                    <tr class="table-primary course-header-row" onclick="toggleCourseResources('${courseRowId}')">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                <strong>${escapeHtml(course.courseName)}</strong>
+                                <small class="text-muted ms-2">(${escapeHtml(course.category || 'Uncategorized')})</small>
+                                <span class="badge bg-primary ms-2">${resources.length} resource${resources.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="table-secondary course-subheader-row ${courseRowId}" style="display: none;">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-4"><strong>Title</strong></div>
+                                <div class="col-md-2"><strong>Type</strong></div>
+                                <div class="col-md-2"><strong>Module</strong></div>
+                                <div class="col-md-2"><strong>Status</strong></div>
+                                <div class="col-md-2"><strong>Actions</strong></div>
+                            </div>
+                        </td>
+                    </tr>`;
+
+                // Resource rows (initially hidden)
+                const resourceRows = resources.map(resource => `
+                    <tr class="course-resource-row ${courseRowId}" style="display: none;">
+                        <td>
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-file-alt text-muted me-2"></i>
+                                        ${escapeHtml(resource.title)}
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="badge bg-secondary">${escapeHtml(resource.type)}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <small class="text-muted">${escapeHtml(resource.module || 'No Module')}</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <span class="badge ${resource.isPublished ? 'bg-success' : 'bg-secondary'}">
+                                        ${resource.isPublished ? 'Published' : 'Draft'}
+                                    </span>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="btn-group" role="group">
+                                        <a href="/CourseResources/Details/${resource.courseId}?id=${resource.id}" class="btn btn-info btn-sm" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/CourseResources/Edit/${resource.courseId}?id=${resource.id}" class="btn btn-primary btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteResource(${resource.courseId}, ${resource.id})" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>`).join('');
+
+                return courseHtml + resourceRows;
+            }).join('');
+
+            tableBody.innerHTML = html;
+        }
+
+        function formatFileSize(bytes) {
+            if (!bytes) return 'N/A';
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const courseId = document.getElementById('courseIdFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredResources = allResources.filter(resource => {
+                const matchesSearch = resource.title.toLowerCase().includes(searchTerm) ||
+                                    resource.description?.toLowerCase().includes(searchTerm) ||
+                                    resource.course?.courseName?.toLowerCase().includes(searchTerm);
+
+                const matchesCourse = !courseId || resource.courseId.toString() === courseId;
+                const matchesType = !typeFilter || resource.type === typeFilter;
+                const matchesStatus = !statusFilter ||
+                    (statusFilter === 'published' && resource.isPublished) ||
+                    (statusFilter === 'draft' && !resource.isPublished);
+
+                return matchesSearch && matchesCourse && matchesType && matchesStatus;
+            });
+
+            displayResources(filteredResources);
+            updateStatistics(filteredResources);
+        }
+
+        function toggleCourseResources(courseRowId) {
+            const resourceRows = document.querySelectorAll(`.course-resource-row.${courseRowId}`);
+            const subheaderRow = document.querySelector(`.course-subheader-row.${courseRowId}`);
+
+            const isVisible = resourceRows.length > 0 && resourceRows[0].style.display !== 'none';
+
+            // Toggle resource rows
+            resourceRows.forEach(row => {
+                row.style.display = isVisible ? 'none' : 'table-row';
+            });
+
+            // Toggle subheader row
+            if (subheaderRow) {
+                subheaderRow.style.display = isVisible ? 'none' : 'table-row';
+            }
+        }
+
+        function toggleView(viewType) {
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const resourcesGrid = document.getElementById('resourcesGrid');
+            const tableView = document.getElementById('tableView');
+
+            if (viewType === 'grid') {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                resourcesGrid.classList.remove('d-none');
+                tableView.classList.add('d-none');
+            } else {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                resourcesGrid.classList.add('d-none');
+                tableView.classList.remove('d-none');
+            }
+        }
+
+        async function deleteResource(courseId, id) {
+            if (!confirm('Are you sure you want to delete this resource?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/courses/${courseId}/resources/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Failed to delete resource';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorData.title || errorMsg;
+                    } catch (e) { /* Ignore if response body is not JSON */ }
+                    throw new Error(errorMsg);
+                }
+
+                const responseText = await response.text();
+                if (response.status === 204 || !responseText) {
+                    showAlert('Resource deleted successfully!', 'success');
+                } else {
+                    try {
+                        const result = JSON.parse(responseText);
+                        showAlert(result.message || 'Resource deleted successfully!', 'success');
+                    } catch (e) {
+                        showAlert('Resource deleted successfully! (non-JSON response)', 'success');
+                    }
+                }
+
+                loadResources();
+            } catch (error) {
+                console.error('Error deleting resource:', error);
+                showAlert(error.message || 'Failed to delete resource', 'danger');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.className = `alert alert-${type} mt-3`;
+            alert.textContent = message;
+            alert.style.display = 'block';
+        }
+
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .toString()
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function searchCourses(term) {
+            const list = document.getElementById('courseSuggestions');
+            if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/Course/search?q=${encodeURIComponent(term)}`);
+                if (!res.ok) return;
+                const items = await res.json();
+                list.innerHTML = items.map(c => `<button type="button" class="list-group-item list-group-item-action" data-id="${c.id}" data-name="${c.courseName}">${c.courseName}</button>`).join('');
+                list.style.display = items.length ? 'block' : 'none';
+                [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+                    document.getElementById('courseIdFilter').value = btn.getAttribute('data-id');
+                    document.getElementById('courseSearch').value = btn.getAttribute('data-name');
+                    list.style.display = 'none';
+                    applyFilters();
+                }));
+            } catch (error) {
+                console.error('Error searching courses:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadResources();
+
+            // Set default view to List view
+            toggleView('list');
+
+            // Search input events
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(applyFilters, 300);
+            });
+
+            document.getElementById('courseSearch').addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => searchCourses(e.target.value), 300);
+            });
+
+            // Filter events
+            document.getElementById('typeFilter').addEventListener('change', applyFilters);
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+            // View toggle events
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                toggleView('grid');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                toggleView('list');
+            });
+        });
+    </script>
 }

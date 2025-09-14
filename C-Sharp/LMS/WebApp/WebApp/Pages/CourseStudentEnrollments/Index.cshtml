@@ -5,28 +5,141 @@
 }
 
 <div class="container mt-4">
+    <!-- Page Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Course Student Enrollments</h2>
+        <div>
+            <h2 class="mb-1">
+                <i class="fas fa-user-graduate text-primary me-2"></i>Course Student Enrollments
+            </h2>
+            <p class="text-muted mb-0">Manage student enrollments in courses</p>
+        </div>
         <a href="/CourseStudentEnrollments/Create" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Create New Enrollment
+            <i class="fas fa-plus"></i> Enroll Student
         </a>
     </div>
 
-    <div class="card">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-left-primary">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Enrollments</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalEnrollments">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-user-graduate fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-success">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Enrollments</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="activeEnrollments">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-warning">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Courses</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="coursesCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-graduation-cap fa-2x text-warning"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-left-danger">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Students</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="studentsCount">-</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-users fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Search Enrollments</label>
+                    <input type="text" class="form-control" id="searchInput" placeholder="Search by course or student...">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Course</label>
+                    <input type="text" class="form-control" id="courseSearch" placeholder="Search course...">
+                    <input type="hidden" id="courseIdFilter">
+                    <div id="courseSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Student</label>
+                    <input type="text" class="form-control" id="studentSearch" placeholder="Search student...">
+                    <input type="hidden" id="studentIdFilter">
+                    <div id="studentSuggestions" class="list-group position-absolute w-100" style="z-index: 1000; display:none;"></div>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                        <i class="fas fa-search"></i> Search & Filter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table View Toggle -->
+    <div class="d-flex justify-content-end mb-3" style="position: sticky; top: 20px; z-index: 100;">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-info" id="gridViewBtn">
+                <i class="fas fa-th"></i> Grid View
+            </button>
+            <button type="button" class="btn btn-outline-info active" id="listViewBtn">
+                <i class="fas fa-list"></i> List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Enrollments Grid (Hidden by default) -->
+    <div class="row d-none" id="enrollmentsGrid">
+        <!-- Enrollments will be loaded here as cards -->
+    </div>
+
+    <!-- List View (Default view - shown first) -->
+    <div class="card" id="tableView">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
+                <table class="table">
+                    <thead class="table-dark">
                         <tr>
                             <th>Course</th>
-                            <th>Student</th>
-                            <th>Enrolled At</th>
-                            <th>Progress</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="courseStudentEnrollmentTableBody">
-                        <!-- Data will be loaded dynamically -->
+                    <tbody id="enrollmentsTableBody">
+                        <!-- Enrollments will be loaded here grouped by course -->
                     </tbody>
                 </table>
             </div>
@@ -36,51 +149,302 @@
 </div>
 
 @section Scripts {
+    <style>
+        .course-header-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .course-header-row:hover {
+            background-color: #e3f2fd !important;
+        }
+        .course-enrollment-row {
+            background-color: #f8f9fa;
+        }
+        .course-enrollment-row:hover {
+            background-color: #e9ecef;
+        }
+        .course-enrollment-row td:first-child {
+            border-left: 3px solid #007bff;
+        }
+        .btn-group .btn {
+            margin-right: 2px;
+        }
+        .table-primary {
+            background-color: #e3f2fd;
+        }
+        .course-subheader-row {
+            background-color: #f8f9fa !important;
+            border-top: 2px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .course-subheader-row td {
+            padding: 8px 12px;
+            font-weight: 600;
+            color: #495057;
+        }
+    </style>
+
     <script>
         const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
-        
+        let allEnrollments = [];
+        let filteredEnrollments = [];
+        let currentView = 'list';
+        let searchTimeout;
+
         async function loadCourseStudentEnrollments() {
             try {
                 const response = await fetch(`${apiBaseUrl}/api/CourseStudentEnrollment`);
                 if (!response.ok) throw new Error('Failed to fetch course student enrollments');
-                
-                const enrollments = await response.json();
-                const tableBody = document.getElementById('courseStudentEnrollmentTableBody');
-                
-                tableBody.innerHTML = enrollments.map(enrollment => `
-                    <tr>
-                        <td>${escapeHtml(enrollment.course?.courseName || 'N/A')}</td>
-                        <td>${escapeHtml(enrollment.student?.fullName || 'N/A')}</td>
-                        <td>${new Date(enrollment.enrolledAt).toLocaleDateString()}</td>
-                        <td>
-                            ${enrollment.progress !== null ? 
-                                `<div class="progress" style="height: 20px;">
-                                    <div class="progress-bar" role="progressbar" style="width: ${enrollment.progress}%" 
-                                         aria-valuenow="${enrollment.progress}" aria-valuemin="0" aria-valuemax="100">
-                                        ${enrollment.progress}%
-                                    </div>
-                                </div>` : 
-                                '<span class="text-muted">Not set</span>'
-                            }
-                        </td>
-                        <td>
-<div class="btn-group" role="group">
-                                <a href="/CourseStudentEnrollments/Details/${enrollment.id}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i> View
-                                </a>
-                                <a href="/CourseStudentEnrollments/Edit/${enrollment.id}" class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                                <button class="btn btn-danger btn-sm" onclick="deleteCourseStudentEnrollment(${enrollment.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
+
+                allEnrollments = await response.json();
+                filteredEnrollments = [...allEnrollments];
+
+                // Update statistics
+                updateStatistics(allEnrollments);
+
+                // Display enrollments in current view
+                displayEnrollments(filteredEnrollments);
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('Failed to load course student enrollments', 'danger');
+            }
+        }
+
+        function updateStatistics(enrollments) {
+            // Total enrollments
+            document.getElementById('totalEnrollments').textContent = enrollments.length;
+
+            // Active enrollments (assuming all are active for now)
+            document.getElementById('activeEnrollments').textContent = enrollments.length;
+
+            // Courses count
+            const courses = [...new Set(enrollments.map(e => e.course?.courseName).filter(Boolean))];
+            document.getElementById('coursesCount').textContent = courses.length;
+
+            // Students count
+            const students = [...new Set(enrollments.map(e => e.student?.fullName).filter(Boolean))];
+            document.getElementById('studentsCount').textContent = students.length;
+        }
+
+        function displayEnrollments(enrollments) {
+            // Display grid view
+            displayGridView(enrollments);
+
+            // Display table view
+            displayTableView(enrollments);
+        }
+
+        function displayGridView(enrollments) {
+            const enrollmentsGrid = document.getElementById('enrollmentsGrid');
+            enrollmentsGrid.innerHTML = enrollments.map(enrollment => `
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title">${escapeHtml(enrollment.course?.courseName || 'No Course')}</h5>
+                                    <span class="badge bg-primary">Student</span>
+                                </div>
+                                <span class="badge ${enrollment.progress >= 100 ? 'bg-success' : enrollment.progress > 0 ? 'bg-warning' : 'bg-secondary'}">
+                                    ${enrollment.progress >= 100 ? 'Completed' : enrollment.progress > 0 ? 'In Progress' : 'Not Started'}
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <h6 class="text-primary mb-2">${escapeHtml(enrollment.student?.fullName || 'No Student')}</h6>
+                                <small class="text-muted">
+                                    <i class="fas fa-envelope me-1"></i>${escapeHtml(enrollment.student?.email || 'No Email')}
+                                </small>
+                            </div>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <small class="text-muted">Progress</small>
+                                    <small class="text-muted">${enrollment.progress || 0}%</small>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar ${enrollment.progress >= 100 ? 'bg-success' : enrollment.progress > 0 ? 'bg-warning' : 'bg-secondary'}"
+                                         role="progressbar" style="width: ${enrollment.progress || 0}%"
+                                         aria-valuenow="${enrollment.progress || 0}" aria-valuemin="0" aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <span class="badge bg-info">
+                                    <i class="fas fa-calendar me-1"></i>${new Date(enrollment.enrolledAt).toLocaleDateString()}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">ID: ${enrollment.id}</small>
+                                <div class="btn-group" role="group">
+                                    <a href="/CourseStudentEnrollments/Details/${enrollment.id}" class="btn btn-outline-info btn-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="/CourseStudentEnrollments/Edit/${enrollment.id}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteCourseStudentEnrollment(${enrollment.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function displayTableView(enrollments) {
+            const tableBody = document.getElementById('enrollmentsTableBody');
+
+            // Group enrollments by course
+            const groupedByCourse = enrollments.reduce((groups, enrollment) => {
+                const courseId = enrollment.course?.id || enrollment.courseId || 'unknown';
+                const courseName = enrollment.course?.courseName || 'Unknown Course';
+
+                if (!groups[courseId]) {
+                    groups[courseId] = {
+                        course: enrollment.course || { id: courseId, courseName: courseName },
+                        enrollments: []
+                    };
+                }
+                groups[courseId].enrollments.push(enrollment);
+                return groups;
+            }, {});
+
+            // Create HTML for grouped display
+            const html = Object.values(groupedByCourse).map(courseGroup => {
+                const course = courseGroup.course;
+                const enrollments = courseGroup.enrollments;
+                const courseRowId = `course-${course.id}`;
+
+                // Main course row
+                let courseHtml = `
+                    <tr class="table-primary course-header-row" onclick="toggleCourseEnrollments('${courseRowId}')">
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                <strong>${escapeHtml(course.courseName)}</strong>
+                                <small class="text-muted ms-2">(${escapeHtml(course.category || 'Uncategorized')})</small>
+                                <span class="badge bg-primary ms-2">${enrollments.length} student${enrollments.length !== 1 ? 's' : ''}</span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr class="table-secondary course-subheader-row ${courseRowId}" style="display: none;">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-3"><strong>Student</strong></div>
+                                <div class="col-md-3"><strong>Email</strong></div>
+                                <div class="col-md-2"><strong>Enrolled At</strong></div>
+                                <div class="col-md-3"><strong>Progress</strong></div>
+                                <div class="col-md-1"><strong>Actions</strong></div>
+                            </div>
+                        </td>
+                    </tr>`;
+
+                // Enrollment rows (initially hidden)
+                const enrollmentRows = enrollments.map(enrollment => `
+                    <tr class="course-enrollment-row ${courseRowId}" style="display: none;">
+                        <td>
+                            <div class="row align-items-center">
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user-graduate text-muted me-2"></i>
+                                        ${escapeHtml(enrollment.student?.fullName || 'No Student')}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <small class="text-muted">${escapeHtml(enrollment.student?.email || 'No Email')}</small>
+                                </div>
+                                <div class="col-md-2">
+                                    <small class="text-muted">${new Date(enrollment.enrolledAt).toLocaleDateString()}</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="progress flex-grow-1 me-2" style="height: 15px;">
+                                            <div class="progress-bar ${enrollment.progress >= 100 ? 'bg-success' : enrollment.progress > 0 ? 'bg-warning' : 'bg-secondary'}"
+                                                 role="progressbar" style="width: ${enrollment.progress || 0}%"
+                                                 aria-valuenow="${enrollment.progress || 0}" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                        <small class="text-nowrap">${enrollment.progress || 0}%</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="btn-group" role="group">
+                                        <a href="/CourseStudentEnrollments/Details/${enrollment.id}" class="btn btn-info btn-sm" title="View">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="/CourseStudentEnrollments/Edit/${enrollment.id}" class="btn btn-primary btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteCourseStudentEnrollment(${enrollment.id})" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>`).join('');
+
+                return courseHtml + enrollmentRows;
+            }).join('');
+
+            tableBody.innerHTML = html;
+        }
+
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const courseId = document.getElementById('courseIdFilter').value;
+            const studentId = document.getElementById('studentIdFilter').value;
+
+            filteredEnrollments = allEnrollments.filter(enrollment => {
+                const matchesSearch = enrollment.course?.courseName?.toLowerCase().includes(searchTerm) ||
+                                    enrollment.student?.fullName?.toLowerCase().includes(searchTerm) ||
+                                    enrollment.student?.email?.toLowerCase().includes(searchTerm);
+
+                const matchesCourse = !courseId || enrollment.courseId.toString() === courseId;
+                const matchesStudent = !studentId || enrollment.studentId.toString() === studentId;
+
+                return matchesSearch && matchesCourse && matchesStudent;
+            });
+
+            displayEnrollments(filteredEnrollments);
+            updateStatistics(filteredEnrollments);
+        }
+
+        function toggleCourseEnrollments(courseRowId) {
+            const enrollmentRows = document.querySelectorAll(`.course-enrollment-row.${courseRowId}`);
+            const subheaderRow = document.querySelector(`.course-subheader-row.${courseRowId}`);
+
+            const isVisible = enrollmentRows.length > 0 && enrollmentRows[0].style.display !== 'none';
+
+            // Toggle enrollment rows
+            enrollmentRows.forEach(row => {
+                row.style.display = isVisible ? 'none' : 'table-row';
+            });
+
+            // Toggle subheader row
+            if (subheaderRow) {
+                subheaderRow.style.display = isVisible ? 'none' : 'table-row';
+            }
+        }
+
+        function toggleView(viewType) {
+            const gridViewBtn = document.getElementById('gridViewBtn');
+            const listViewBtn = document.getElementById('listViewBtn');
+            const enrollmentsGrid = document.getElementById('enrollmentsGrid');
+            const tableView = document.getElementById('tableView');
+
+            if (viewType === 'grid') {
+                gridViewBtn.classList.add('active');
+                listViewBtn.classList.remove('active');
+                enrollmentsGrid.classList.remove('d-none');
+                tableView.classList.add('d-none');
+            } else {
+                listViewBtn.classList.add('active');
+                gridViewBtn.classList.remove('active');
+                enrollmentsGrid.classList.add('d-none');
+                tableView.classList.remove('d-none');
             }
         }
 
@@ -140,6 +504,77 @@
                 .replace(/'/g, "&#039;");
         }
 
-        document.addEventListener('DOMContentLoaded', loadCourseStudentEnrollments);
+        async function searchCourses(term) {
+            const list = document.getElementById('courseSuggestions');
+            if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/Course/search?q=${encodeURIComponent(term)}`);
+                if (!res.ok) return;
+                const items = await res.json();
+                list.innerHTML = items.map(c => `<button type="button" class="list-group-item list-group-item-action" data-id="${c.id}" data-name="${c.courseName}">${c.courseName}</button>`).join('');
+                list.style.display = items.length ? 'block' : 'none';
+                [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+                    document.getElementById('courseIdFilter').value = btn.getAttribute('data-id');
+                    document.getElementById('courseSearch').value = btn.getAttribute('data-name');
+                    list.style.display = 'none';
+                    applyFilters();
+                }));
+            } catch (error) {
+                console.error('Error searching courses:', error);
+            }
+        }
+
+        async function searchStudents(term) {
+            const list = document.getElementById('studentSuggestions');
+            if (!term || term.length < 2) { list.style.display = 'none'; list.innerHTML=''; return; }
+            try {
+                const res = await fetch(`${apiBaseUrl}/api/User/search?q=${encodeURIComponent(term)}&role=Student`);
+                if (!res.ok) return;
+                const items = await res.json();
+                list.innerHTML = items.map(u => `<button type="button" class="list-group-item list-group-item-action" data-id="${u.id}" data-name="${u.fullName}">${u.fullName} (${u.email})</button>`).join('');
+                list.style.display = items.length ? 'block' : 'none';
+                [...list.querySelectorAll('button')].forEach(btn => btn.addEventListener('click', () => {
+                    document.getElementById('studentIdFilter').value = btn.getAttribute('data-id');
+                    document.getElementById('studentSearch').value = btn.getAttribute('data-name');
+                    list.style.display = 'none';
+                    applyFilters();
+                }));
+            } catch (error) {
+                console.error('Error searching students:', error);
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCourseStudentEnrollments();
+
+            // Set default view to List view
+            toggleView('list');
+
+            // Search input events
+            document.getElementById('searchInput').addEventListener('input', function() {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(applyFilters, 300);
+            });
+
+            document.getElementById('courseSearch').addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => searchCourses(e.target.value), 300);
+            });
+
+            document.getElementById('studentSearch').addEventListener('input', function(e) {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => searchStudents(e.target.value), 300);
+            });
+
+            // View toggle events
+            document.getElementById('gridViewBtn').addEventListener('click', function() {
+                toggleView('grid');
+            });
+
+            document.getElementById('listViewBtn').addEventListener('click', function() {
+                toggleView('list');
+            });
+        });
     </script>
 } 

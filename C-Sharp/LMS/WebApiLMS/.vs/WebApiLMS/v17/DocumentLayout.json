@@ -47,8 +47,7 @@
               "RelativeToolTip": "WebApiLMS\\Services\\CourseResourceService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T08:30:37.893Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-14T08:30:37.893Z"
             },
             {
               "$type": "Document",
@@ -60,8 +59,7 @@
               "RelativeToolTip": "WebApiLMS\\Controllers\\CourseResourceController.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAMwCoAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-14T08:25:26.326Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-14T08:25:26.326Z"
             }
           ]
         }
