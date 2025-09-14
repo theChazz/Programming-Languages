@@ -61,7 +61,6 @@ namespace WebApiLMS.Services
             existingCourse.Syllabus = course.Syllabus;
             existingCourse.Prerequisites = course.Prerequisites;
 
-
             await _context.SaveChangesAsync();
             return true;
         }

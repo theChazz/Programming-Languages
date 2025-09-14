@@ -28,8 +28,10 @@
         </div>
         
         <div class="mb-3">
-            <label for="type" class="form-label">Type</label>
-            <input type="text" class="form-control" id="type" required>
+            <label for="programTypeSelect" class="form-label">Program Type</label>
+            <select class="form-select" id="programTypeSelect" required>
+                <option value="">Select Program Type</option>
+            </select>
         </div>
         
         <div class="mb-3">
@@ -53,19 +55,45 @@
 @section Scripts {
     <script>
         const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        let programTypes = [];
+
+        async function loadProgramTypes() {
+            const res = await fetch(`${apiBaseUrl}/api/ProgramType`);
+            if (!res.ok) throw new Error(`Failed to load Program Types (${res.status})`);
+            programTypes = await res.json();
+            const sel = document.getElementById('programTypeSelect');
+            sel.innerHTML = '<option value="">Select Program Type</option>';
+            programTypes.forEach(pt => {
+                const opt = document.createElement('option');
+                opt.value = String(pt.id ?? pt.Id);
+                opt.textContent = `${pt.code ?? pt.Code} - ${pt.name ?? pt.Name}`;
+                sel.appendChild(opt);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadProgramTypes);
         
         document.getElementById('createProgramForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const programTypeId = parseInt(document.getElementById('programTypeSelect').value);
+            if (!programTypeId || programTypeId === 0) {
+                const alert = document.getElementById('alert');
+                alert.className = 'alert alert-danger mt-3';
+                alert.textContent = 'Please select a valid Program Type.';
+                alert.style.display = 'block';
+                return;
+            }
+
             const programData = {
                 name: document.getElementById('name').value,
                 code: document.getElementById('code').value,
                 level: document.getElementById('level').value,
                 department: document.getElementById('department').value,
-                type: document.getElementById('type').value,
                 description: document.getElementById('description').value,
                 durationMonths: parseInt(document.getElementById('durationMonths').value),
-                status: 'Active' // Default value
+                status: 'Active',
+                programTypeId: programTypeId
             };
 
             try {
