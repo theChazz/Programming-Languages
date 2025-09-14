@@ -19,81 +19,109 @@ namespace WebApiLMS.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserProgramEnrollmentModel>>> GetEnrollments()
+        public async Task<ActionResult<List<UserProgramEnrollmentDto>>> GetEnrollments()
         {
             var enrollments = await _service.GetAllEnrollmentsAsync();
-            return Ok(enrollments);
+            var dtos = enrollments.Select(e => new UserProgramEnrollmentDto
+            {
+                Id = e.Id,
+                UserId = e.UserId,
+                UserName = e.User?.FullName ?? "N/A",
+                ProgramId = e.ProgramId,
+                ProgramName = e.Program?.Name ?? "N/A",
+                Status = e.Status,
+                EnrolledAt = e.EnrolledAt,
+                ExpectedCompletionDate = e.ExpectedCompletionDate,
+                User = e.User,
+                Program = e.Program
+            });
+            return Ok(dtos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserProgramEnrollmentModel>> GetEnrollment(int id)
+        public async Task<ActionResult<UserProgramEnrollmentDto>> GetEnrollment(int id)
         {
             var enrollment = await _service.GetEnrollmentByIdAsync(id);
             if (enrollment == null) return NotFound();
-            return Ok(enrollment);
+
+            var dto = new UserProgramEnrollmentDto
+            {
+                Id = enrollment.Id,
+                UserId = enrollment.UserId,
+                UserName = enrollment.User?.FullName ?? "N/A",
+                ProgramId = enrollment.ProgramId,
+                ProgramName = enrollment.Program?.Name ?? "N/A",
+                Status = enrollment.Status,
+                EnrolledAt = enrollment.EnrolledAt,
+                ExpectedCompletionDate = enrollment.ExpectedCompletionDate,
+                User = enrollment.User,
+                Program = enrollment.Program
+            };
+            return Ok(dto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateEnrollment([FromBody] UserProgramEnrollmentRequest requestDto)
+        public async Task<ActionResult<UserProgramEnrollmentDto>> CreateEnrollment([FromBody] UserProgramEnrollmentRequest requestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
+            var enrollment = new UserProgramEnrollmentModel
             {
-                var enrollment = new UserProgramEnrollmentModel
-                {
-                    UserId = requestDto.UserId,
-                    ProgramId = requestDto.ProgramId,
-                    Status = requestDto.Status,
-                    EnrolledAt = DateTime.UtcNow,
-                    ExpectedCompletionDate = requestDto.ExpectedCompletionDate
-                };
+                UserId = requestDto.UserId,
+                ProgramId = requestDto.ProgramId,
+                Status = requestDto.Status,
+                EnrolledAt = DateTime.UtcNow,
+                ExpectedCompletionDate = requestDto.ExpectedCompletionDate
+            };
 
-                var createdEnrollment = await _service.AddEnrollmentAsync(enrollment);
-                return CreatedAtAction(nameof(GetEnrollment), new { id = createdEnrollment.Id }, createdEnrollment);
-            }
-            catch (Exception)
+            var createdEnrollment = await _service.AddEnrollmentAsync(enrollment);
+
+            var dto = new UserProgramEnrollmentDto
             {
-                return StatusCode(500, "An error occurred while creating the enrollment.");
-            }
+                Id = createdEnrollment.Id,
+                UserId = createdEnrollment.UserId,
+                UserName = createdEnrollment.User?.FullName ?? "N/A",
+                ProgramId = createdEnrollment.ProgramId,
+                ProgramName = createdEnrollment.Program?.Name ?? "N/A",
+                Status = createdEnrollment.Status,
+                EnrolledAt = createdEnrollment.EnrolledAt,
+                ExpectedCompletionDate = createdEnrollment.ExpectedCompletionDate,
+                User = createdEnrollment.User,
+                Program = createdEnrollment.Program
+            };
+
+            return CreatedAtAction(nameof(GetEnrollment), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEnrollment(int id, [FromBody] UserProgramEnrollmentRequest requestDto)
+        public async Task<IActionResult> UpdateEnrollment(int id, [FromBody] UpdateUserProgramEnrollmentRequest requestDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
+            var existingEnrollment = await _service.GetEnrollmentByIdAsync(id);
+
+            if (existingEnrollment == null)
             {
-                var existingEnrollment = await _service.GetEnrollmentByIdAsync(id);
-
-                if (existingEnrollment == null)
-                {
-                    return NotFound($"Enrollment with ID {id} not found.");
-                }
-
-                existingEnrollment.Status = requestDto.Status;
-                existingEnrollment.ExpectedCompletionDate = requestDto.ExpectedCompletionDate;
-
-                var updatedResult = await _service.UpdateEnrollmentAsync(id, existingEnrollment);
-
-                if (updatedResult == null)
-                {
-                    return NotFound($"Failed to update enrollment with ID {id}. It might have been deleted.");
-                }
-
-                return NoContent();
+                return NotFound($"Enrollment with ID {id} not found.");
             }
-            catch (Exception)
+
+            existingEnrollment.Status = requestDto.Status;
+            existingEnrollment.ExpectedCompletionDate = requestDto.ExpectedCompletionDate;
+
+            var updatedResult = await _service.UpdateEnrollmentAsync(id, existingEnrollment);
+
+            if (updatedResult == null)
             {
-                return StatusCode(500, "An error occurred while updating the enrollment.");
+                return NotFound($"Failed to update enrollment with ID {id}. It might have been deleted.");
             }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

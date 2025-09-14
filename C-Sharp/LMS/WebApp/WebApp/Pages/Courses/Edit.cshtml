@@ -67,43 +67,75 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/apiConfig.js"></script>
+    <script src="~/js/debug.js"></script>
     <script>
-        const apiBaseUrl = '@Configuration["ApiSettings:BaseUrl"]';
+        // Use consistent API base URL configuration
+        const apiBaseUrl = (typeof apiConfig !== 'undefined' && apiConfig.baseUrl) ?
+            apiConfig.baseUrl :
+            '@Configuration["ApiSettings:BaseUrl"]';
+
         const courseId = '@Model.Id';
-        
+
+        console.log('API Base URL:', apiBaseUrl);
+        console.log('Course ID:', courseId);
+
+        // Debug checks
+        window.LMSDebug.checkElements(['courseId', 'courseName', 'description', 'category', 'difficulty', 'syllabus', 'prerequisites']);
+        window.LMSDebug.log('Course edit page initialized');
+
         async function loadCourse() {
             try {
+                console.log('Loading course from:', `${apiBaseUrl}/api/Course/${courseId}`);
+
                 const response = await fetch(`${apiBaseUrl}/api/Course/${courseId}`);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch course details');
+                    const errorText = await response.text();
+                    console.error('Response status:', response.status, 'Response:', errorText);
+                    throw new Error(`Failed to fetch course details: ${response.status} ${response.statusText}`);
                 }
-                
+
                 const course = await response.json();
-                document.getElementById('courseId').value = course.id;
+                console.log('Course data received:', course);
+
+                // Ensure all required elements exist before setting values
+                const fields = ['courseId', 'courseName', 'description', 'category', 'difficulty', 'syllabus', 'prerequisites'];
+                fields.forEach(field => {
+                    const element = document.getElementById(field);
+                    if (!element) {
+                        console.warn(`Element with ID '${field}' not found`);
+                    }
+                });
+
+                document.getElementById('courseId').value = course.id || '';
                 document.getElementById('courseName').value = course.courseName || '';
                 document.getElementById('description').value = course.description || '';
                 document.getElementById('category').value = course.category || '';
                 document.getElementById('difficulty').value = course.difficulty || '';
                 document.getElementById('syllabus').value = course.syllabus || '';
                 document.getElementById('prerequisites').value = course.prerequisites || '';
+
+                console.log('Course form populated successfully');
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading course:', error);
                 showAlert(error.message || 'Failed to load course details', 'danger');
             }
         }
 
         document.getElementById('editCourseForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const courseData = {
-                id: document.getElementById('courseId').value,
-                courseName: document.getElementById('courseName').value,
-                description: document.getElementById('description').value,
-                category: document.getElementById('category').value,
+                id: parseInt(document.getElementById('courseId').value) || 0,
+                courseName: document.getElementById('courseName').value.trim(),
+                description: document.getElementById('description').value.trim(),
+                category: document.getElementById('category').value.trim(),
                 difficulty: document.getElementById('difficulty').value,
-                syllabus: document.getElementById('syllabus').value,
-                prerequisites: document.getElementById('prerequisites').value
+                syllabus: document.getElementById('syllabus').value.trim(),
+                prerequisites: document.getElementById('prerequisites').value.trim()
             };
+
+            console.log('Submitting course data:', courseData);
 
             try {
                 const response = await fetch(`${apiBaseUrl}/api/Course/${courseId}`, {
@@ -114,17 +146,28 @@
                     body: JSON.stringify(courseData)
                 });
 
+                console.log('Update response status:', response.status);
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to update course');
+                    let errorMessage = 'Failed to update course';
+                    try {
+                        const errorData = await response.json();
+                        errorMessage = errorData.message || errorMessage;
+                    } catch (parseError) {
+                        console.error('Error parsing error response:', parseError);
+                    }
+                    throw new Error(errorMessage);
                 }
+
+                const result = await response.json();
+                console.log('Update successful:', result);
 
                 showAlert('Course updated successfully!', 'success');
                 setTimeout(() => {
                     window.location.href = '/Courses';
                 }, 1500);
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error updating course:', error);
                 showAlert(error.message || 'Failed to update course', 'danger');
             }
         });
